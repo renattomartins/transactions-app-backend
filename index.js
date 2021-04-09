@@ -90,8 +90,19 @@ app.post("/accounts", (req, res) => {
   });
 });
 
-app.put("/user", (req, res) => {
-  res.send("Got a PUT request at /user");
+app.put("/accounts/3544", (req, res) => {
+  res.json({
+    id: 3544,
+    name: "Banco Intermedium, C/C",
+    icon: "icon-inter",
+    description: "Banco para investimentos e reserva de emergência",
+    type: 1,
+    current_amount: 10000.0,
+    activated: true,
+    created: "2021-04-09 08:13:15",
+    modified: "2021-04-09 08:37:36",
+    account_url: `http://localhost:${port}/accounts/3544`,
+  });
 });
 
 app.delete("/user", (req, res) => {
