@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 // Initial end point:
 app.get("/", (req, res) => {
   res.json({
@@ -70,8 +72,22 @@ app.get("/accounts/3541", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
-  res.send("Got a POST request");
+app.post("/accounts", (req, res) => {
+  let location = `http://localhost:${port}/accounts/3544`;
+
+  res.set("Location", location);
+  res.status(201).json({
+    id: 3544,
+    name: "Banco Inter, C/C",
+    icon: "icon-inter",
+    description: "",
+    type: 1,
+    current_amount: 0.0,
+    activated: true,
+    created: "2021-04-09 08:13:15",
+    modified: "2021-04-09 08:13:15",
+    account_url: location,
+  });
 });
 
 app.put("/user", (req, res) => {
