@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 
 // Accounts end points:
 app.get("/accounts", (req, res) => {
-  // X-Total-Count: 3
+  res.set("X-Total-Count", 3);
   res.json([
     {
       id: 3541,
