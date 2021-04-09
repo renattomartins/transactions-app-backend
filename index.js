@@ -3,7 +3,13 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.json({
+    "code": 0,
+    "message": "success",
+    "resources": {
+      "account_url": `http://localhost:${port}/accounts`
+    }
+  })
 })
 
 app.post('/', (req, res) => {
