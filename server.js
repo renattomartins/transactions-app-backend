@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 
@@ -10,7 +9,7 @@ app.get("/", (req, res) => {
     code: 0,
     message: "success",
     resources: {
-      account_url: `http://localhost:${port}/accounts`,
+      account_url: `${req.protocol}://${req.get('host')}/accounts`,
     },
   });
 });
@@ -29,7 +28,7 @@ app.get("/accounts", (req, res) => {
       activated: true,
       created: "2012-06-13 19:05:15",
       modified: "2015-01-16 18:49:26",
-      account_url: `http://localhost:${port}/accounts/3541`,
+      account_url: `${req.protocol}://${req.get('host')}/accounts/3541`,
     },
     {
       id: 3542,
@@ -41,7 +40,7 @@ app.get("/accounts", (req, res) => {
       activated: true,
       created: "2012-06-13 19:08:04",
       modified: "2015-01-16 18:49:29",
-      account_url: `http://localhost:${port}/accounts/3542`,
+      account_url: `${req.protocol}://${req.get('host')}/accounts/3542`,
     },
     {
       id: 3543,
@@ -52,7 +51,7 @@ app.get("/accounts", (req, res) => {
       current_amount: 34.0,
       created: "2012-06-13 19:08:08",
       modified: "2014-03-15 11:25:31",
-      account_url: `http://localhost:${port}/accounts/3543`,
+      account_url: `${req.protocol}://${req.get('host')}/accounts/3543`,
     },
   ]);
 });
@@ -68,12 +67,12 @@ app.get("/accounts/3541", (req, res) => {
     activated: true,
     created: "2012-06-13 19:05:15",
     modified: "2015-01-16 18:49:26",
-    account_url: `http://localhost:${port}/accounts/3541`,
+    account_url: `${req.protocol}://${req.get('host')}/accounts/3541`,
   });
 });
 
 app.post("/accounts", (req, res) => {
-  let location = `http://localhost:${port}/accounts/3544`;
+  let location = `${req.protocol}://${req.get('host')}/accounts/3544`;
 
   res.set("Location", location);
   res.status(201).json({
@@ -101,7 +100,7 @@ app.put("/accounts/3544", (req, res) => {
     activated: true,
     created: "2021-04-09 08:13:15",
     modified: "2021-04-09 08:37:36",
-    account_url: `http://localhost:${port}/accounts/3544`,
+    account_url: `${req.protocol}://${req.get('host')}/accounts/3544`,
   });
 });
 
@@ -116,7 +115,7 @@ app.patch("/accounts/3544", (req, res) => {
     activated: false,
     created: "2021-04-09 08:13:15",
     modified: "2021-04-09 08:37:36",
-    account_url: `http://localhost:${port}/accounts/3544`,
+    account_url:`${req.protocol}://${req.get('host')}/accounts/3544`,
   });
 });
 
@@ -124,6 +123,4 @@ app.delete("/accounts/3544", (req, res) => {
   res.sendStatus(204);
 });
 
-app.listen(port, () => {
-  console.log(`Transactions App listening at http://localhost:${port}`);
-});
+module.exports = app;
