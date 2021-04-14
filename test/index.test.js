@@ -19,6 +19,8 @@ describe("Supertest sample to test endpoints", () => {
     const res = await request.get("/accounts");
 
     expect(res.status).toBe(200);
+    expect(res.headers.hasOwnProperty("content-type")).toBe(true);
+    expect(res.headers["content-type"]).toMatch(/application\/json/);
     done();
   });
 });

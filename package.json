@@ -4,7 +4,7 @@
   "description": "A financial transactions tracking.",
   "main": "start.js",
   "scripts": {
-    "start": "nodemon start.js",
+    "start": "nodemon",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
