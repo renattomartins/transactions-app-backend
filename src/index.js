@@ -1,19 +1,11 @@
 const express = require("express");
+const healthCheckRoutes = require("./infrastructure/rest/healthCheck/index.js");
+const initialRoutes = require("./infrastructure/rest/initialRoute/index.js");
+
 const app = express();
 
 app.use(express.json());
-
-// Initial end point:
-app.get("/", (req, res) => {
-  res.json({
-    code: 0,
-    message: "success",
-    resources: {
-      account_url: `${req.protocol}://${req.get('host')}/accounts`,
-    },
-  });
-});
-
-
+app.use(healthCheckRoutes);
+app.use(initialRoutes);
 
 module.exports = app;

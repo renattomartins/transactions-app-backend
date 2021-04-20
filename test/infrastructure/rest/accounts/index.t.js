@@ -8,25 +8,19 @@ describe("Jest sample", () => {
   });
 
   it("Async test", async (done) => {
+    // Do your async tests here
+
     done();
   });
 });
 
-describe("Initial endpoints", () => {
-  it("GET /", async (done) => {
-    const res = await request.get("/");
+describe("Supertest sample to test endpoints", () => {
+  it("Gets the test endpoint", async (done) => {
+    const res = await request.get("/accounts");
 
     expect(res.status).toBe(200);
     expect(res.headers.hasOwnProperty("content-type")).toBe(true);
     expect(res.headers["content-type"]).toMatch(/application\/json/);
-    done();
-  });
-
-  it("GET /health", async (done) => {
-    const res = await request.get("/health");
-
-    expect(res.status).toBe(200);
-    expect(res.text).toEqual("All good!");
     done();
   });
 });
