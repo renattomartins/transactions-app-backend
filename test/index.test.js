@@ -8,15 +8,13 @@ describe("Jest sample", () => {
   });
 
   it("Async test", async (done) => {
-    // Do your async tests here
-
     done();
   });
 });
 
 describe("Supertest sample to test endpoints", () => {
-  it("Gets the test endpoint", async (done) => {
-    const res = await request.get("/accounts");
+  it("Gets the main endpoint", async (done) => {
+    const res = await request.get("/");
 
     expect(res.status).toBe(200);
     expect(res.headers.hasOwnProperty("content-type")).toBe(true);
