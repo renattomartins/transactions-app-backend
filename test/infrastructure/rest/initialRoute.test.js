@@ -1,9 +1,10 @@
-const app = require("express")();
-const healthCheckRoutes = require("../../../src/infrastructure/rest/initialRoute/index");
+const express = require("express");
 const supertest = require("supertest");
-const request = supertest(app);
 
-app.use(healthCheckRoutes);
+const app = express();
+const request = supertest(app);
+const initialRouteIndex = require("../../../src/infrastructure/rest/initialRoute/index.js");
+app.use(initialRouteIndex);
 
 describe("Proper functioning of API entry point route", () => {
   it("GET /", async (done) => {

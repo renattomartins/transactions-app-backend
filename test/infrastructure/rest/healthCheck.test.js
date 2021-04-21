@@ -1,9 +1,10 @@
-const app = require("express")();
-const healthCheckRoutes = require("../../../src/infrastructure/rest/healthCheck/index");
+const express = require("express");
 const supertest = require("supertest");
-const request = supertest(app);
 
-app.use(healthCheckRoutes);
+const app = express();
+const request = supertest(app);
+const healthCheckIndex = require("../../../src/infrastructure/rest/healthCheck/index.js");
+app.use(healthCheckIndex);
 
 describe("Proper functioning of HealthCheck endpoints", () => {
   it("GET /health", async (done) => {
