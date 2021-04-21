@@ -1,13 +1,19 @@
 const express = require("express");
 const supertest = require("supertest");
+const initialRouteRouter = require("../../../src/infrastructure/rest/initialRoute/initialRoute.js");
 
-const app = express();
-const request = supertest(app);
-const initialRouteIndex = require("../../../src/infrastructure/rest/initialRoute/index.js");
-app.use(initialRouteIndex);
+const prepareTestScenario = () => {
+  const app = express();
+  const router = express.Router();
+  const routes = initialRouteRouter(router);
+  app.use(routes);
+
+  return supertest(app);
+};
 
 describe("Proper functioning of API entry point route", () => {
   it("GET /", async (done) => {
+    const request = prepareTestScenario();
     const res = await request.get("/");
 
     expect(res.status).toBe(200);
