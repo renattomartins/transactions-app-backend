@@ -18,6 +18,7 @@ describe("Accounts end points", () => {
 
     expect(res.status).toBe(200);
     expect(res.headers.hasOwnProperty("content-type")).toBe(true);
+    expect(res.headers.hasOwnProperty("x-total-count")).toBe(true);
     expect(res.headers["content-type"]).toMatch(/application\/json/);
     done();
   });

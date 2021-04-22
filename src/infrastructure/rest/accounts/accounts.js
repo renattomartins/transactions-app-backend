@@ -1,6 +1,6 @@
 const routes = (router) => {
   router.get("/accounts", (req, res) => {
-    res.set("X-Total-Count", 3);
+    res.set("x-total-count", 3);
     res.json([
       {
         id: 3541,
