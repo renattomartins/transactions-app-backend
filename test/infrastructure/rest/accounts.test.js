@@ -23,23 +23,23 @@ describe("Accounts end points", () => {
     done();
   });
 
-  it("GET /accounts/:id should return a valid response with an account resource", async (done) => {
-    const request = prepareTestScenario();
-    const res = await request.get("/accounts/3541");
-
-    expect(res.status).toBe(200);
-    expect(res.headers.hasOwnProperty("content-type")).toBe(true);
-    expect(res.headers["content-type"]).toMatch(/application\/json/);
-    done();
-  });
-
-  it("POST /accounts/:id should return a valid response with a new account resource", async (done) => {
+  it("POST /accounts should return a valid response with a new account resource", async (done) => {
     const request = prepareTestScenario();
     const res = await request.post("/accounts");
 
     expect(res.status).toBe(201);
     expect(res.headers.hasOwnProperty("content-type")).toBe(true);
     expect(res.headers.hasOwnProperty("location")).toBe(true);
+    expect(res.headers["content-type"]).toMatch(/application\/json/);
+    done();
+  });
+
+  it("GET /accounts/:id should return a valid response with an account resource", async (done) => {
+    const request = prepareTestScenario();
+    const res = await request.get("/accounts/3541");
+
+    expect(res.status).toBe(200);
+    expect(res.headers.hasOwnProperty("content-type")).toBe(true);
     expect(res.headers["content-type"]).toMatch(/application\/json/);
     done();
   });

@@ -57,22 +57,6 @@ const routes = (router) => {
     ]);
   });
 
-  router.get("/accounts/3544/transactions/12944", (req, res) => {
-    res.json({
-      id: 12944,
-      description: "Lazer",
-      amount: -27.0,
-      date: "2013-08-02",
-      notes: "",
-      is_income: false,
-      is_transfer: false,
-      account_id: 3544,
-      related_transfer_id: null,
-      created: "2013-08-02 07:48:37",
-      modified: "2013-08-02 07:48:37",
-    });
-  });
-
   router.post("/accounts/3544/transactions", (req, res) => {
     let location = `${req.protocol}://${req.get(
       "host"
@@ -91,6 +75,22 @@ const routes = (router) => {
       related_transfer_id: null,
       created: "2021-04-23 08:27:37",
       modified: "2021-04-23 08:27:37",
+    });
+  });
+
+  router.get("/accounts/3544/transactions/12944", (req, res) => {
+    res.json({
+      id: 12944,
+      description: "Lazer",
+      amount: -27.0,
+      date: "2013-08-02",
+      notes: "",
+      is_income: false,
+      is_transfer: false,
+      account_id: 3544,
+      related_transfer_id: null,
+      created: "2013-08-02 07:48:37",
+      modified: "2013-08-02 07:48:37",
     });
   });
 

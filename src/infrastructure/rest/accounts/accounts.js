@@ -40,21 +40,6 @@ const routes = (router) => {
     ]);
   });
 
-  router.get("/accounts/3541", (req, res) => {
-    res.json({
-      id: 3541,
-      name: "Bradesco, C/C",
-      icon: "icon-bradesco",
-      description: "",
-      type: 1,
-      current_amount: 2349.89,
-      activated: true,
-      created: "2012-06-13 19:05:15",
-      modified: "2015-01-16 18:49:26",
-      account_url: `${req.protocol}://${req.get("host")}/accounts/3541`,
-    });
-  });
-
   router.post("/accounts", (req, res) => {
     let location = `${req.protocol}://${req.get("host")}/accounts/3544`;
 
@@ -70,6 +55,21 @@ const routes = (router) => {
       created: "2021-04-09 08:13:15",
       modified: "2021-04-09 08:13:15",
       account_url: location,
+    });
+  });
+
+  router.get("/accounts/3541", (req, res) => {
+    res.json({
+      id: 3541,
+      name: "Bradesco, C/C",
+      icon: "icon-bradesco",
+      description: "",
+      type: 1,
+      current_amount: 2349.89,
+      activated: true,
+      created: "2012-06-13 19:05:15",
+      modified: "2015-01-16 18:49:26",
+      account_url: `${req.protocol}://${req.get("host")}/accounts/3541`,
     });
   });
 

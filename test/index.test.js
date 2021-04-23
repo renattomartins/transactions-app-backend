@@ -18,7 +18,7 @@ const countRegisteredRoutes = (expressApp) => {
 };
 
 describe("Express initial configuration", () => {
-  it("Should have exactly 8 configured routes", () => {
-    expect(countRegisteredRoutes(app)).toBe(8);
+  it("Should have exactly 11 configured routes", () => {
+    expect(countRegisteredRoutes(app)).toBe(11);
   });
 });
