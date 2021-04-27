@@ -148,6 +148,10 @@ const routes = (router) => {
     });
   });
 
+  router.delete("/accounts/3544/transactions/12944", (req, res) => {
+    res.sendStatus(204);
+  });
+
   return router;
 };
 

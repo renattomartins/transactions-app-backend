@@ -64,11 +64,11 @@ describe("Transactions end points", () => {
     done();
   });
 
-  //   it("DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource", async (done) => {
-  //     const request = prepareTestScenario();
-  //     const res = await request.delete("/accounts/3544/transactions/3544");
+  it("DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource", async (done) => {
+    const request = prepareTestScenario();
+    const res = await request.delete("/accounts/3544/transactions/12944");
 
-  //     expect(res.status).toBe(204);
-  //     done();
-  //   });
+    expect(res.status).toBe(204);
+    done();
+  });
 });
