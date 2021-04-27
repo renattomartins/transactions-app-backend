@@ -14,6 +14,9 @@ const routes = (router) => {
         related_transfer_id: 12947,
         created: "2013-08-02 07:48:37",
         modified: "2013-08-02 07:48:37",
+        transaction_url: `${req.protocol}://${req.get(
+          "host"
+        )}/accounts/3541/transactions/12943`,
       },
       {
         id: 12944,
@@ -27,6 +30,9 @@ const routes = (router) => {
         related_transfer_id: null,
         created: "2013-08-02 07:48:37",
         modified: "2013-08-02 07:48:37",
+        transaction_url: `${req.protocol}://${req.get(
+          "host"
+        )}/accounts/3541/transactions/12944`,
       },
       {
         id: 12945,
@@ -40,6 +46,9 @@ const routes = (router) => {
         related_transfer_id: null,
         created: "2013-08-02 07:48:37",
         modified: "2013-08-02 07:48:37",
+        transaction_url: `${req.protocol}://${req.get(
+          "host"
+        )}/accounts/3541/transactions/12945`,
       },
       {
         id: 12946,
@@ -53,6 +62,9 @@ const routes = (router) => {
         related_transfer_id: null,
         created: "2013-08-02 07:48:37",
         modified: "2013-08-02 07:48:37",
+        transaction_url: `${req.protocol}://${req.get(
+          "host"
+        )}/accounts/3541/transactions/12946`,
       },
     ]);
   });
@@ -75,6 +87,7 @@ const routes = (router) => {
       related_transfer_id: null,
       created: "2021-04-23 08:27:37",
       modified: "2021-04-23 08:27:37",
+      transaction_url: location,
     });
   });
 
@@ -91,6 +104,47 @@ const routes = (router) => {
       related_transfer_id: null,
       created: "2013-08-02 07:48:37",
       modified: "2013-08-02 07:48:37",
+      transaction_url: `${req.protocol}://${req.get(
+        "host"
+      )}/accounts/3541/transactions/12944`,
+    });
+  });
+
+  router.put("/accounts/3544/transactions/12944", (req, res) => {
+    res.json({
+      id: 12944,
+      description: "Lazer",
+      amount: -207.0,
+      date: "2013-08-02",
+      notes: "",
+      is_income: false,
+      is_transfer: false,
+      account_id: 3544,
+      related_transfer_id: null,
+      created: "2013-08-02 07:48:37",
+      modified: "2021-04-27 07:27:56",
+      transaction_url: `${req.protocol}://${req.get(
+        "host"
+      )}/accounts/3541/transactions/12944`,
+    });
+  });
+
+  router.patch("/accounts/3544/transactions/12944", (req, res) => {
+    res.json({
+      id: 12944,
+      description: "Lazer",
+      amount: -207.0,
+      date: "2013-08-02",
+      notes: "Uma nota sobre esse gasto",
+      is_income: false,
+      is_transfer: false,
+      account_id: 3544,
+      related_transfer_id: null,
+      created: "2013-08-02 07:48:37",
+      modified: "2021-04-27 07:35:43",
+      transaction_url: `${req.protocol}://${req.get(
+        "host"
+      )}/accounts/3541/transactions/12944`,
     });
   });
 

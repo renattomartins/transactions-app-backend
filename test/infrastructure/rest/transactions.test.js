@@ -44,25 +44,25 @@ describe("Transactions end points", () => {
     done();
   });
 
-  //   it("PUT /accounts/:id/transactions/:id should return a valid response with a changed transaction resource", async (done) => {
-  //     const request = prepareTestScenario();
-  //     const res = await request.put("/accounts/3544/transactions/3544");
+  it("PUT /accounts/:id/transactions/:id should return a valid response with a changed transaction resource", async (done) => {
+    const request = prepareTestScenario();
+    const res = await request.put("/accounts/3544/transactions/12944");
 
-  //     expect(res.status).toBe(200);
-  //     expect(res.headers.hasOwnProperty("content-type")).toBe(true);
-  //     expect(res.headers["content-type"]).toMatch(/application\/json/);
-  //     done();
-  //   });
+    expect(res.status).toBe(200);
+    expect(res.headers.hasOwnProperty("content-type")).toBe(true);
+    expect(res.headers["content-type"]).toMatch(/application\/json/);
+    done();
+  });
 
-  //   it("PATCH /accounts/:id/transactions/:id should return a valid response with a parcially changed transaction resource", async (done) => {
-  //     const request = prepareTestScenario();
-  //     const res = await request.patch("/accounts/3544/transactions/3544");
+  it("PATCH /accounts/:id/transactions/:id should return a valid response with a parcially changed transaction resource", async (done) => {
+    const request = prepareTestScenario();
+    const res = await request.patch("/accounts/3544/transactions/12944");
 
-  //     expect(res.status).toBe(200);
-  //     expect(res.headers.hasOwnProperty("content-type")).toBe(true);
-  //     expect(res.headers["content-type"]).toMatch(/application\/json/);
-  //     done();
-  //   });
+    expect(res.status).toBe(200);
+    expect(res.headers.hasOwnProperty("content-type")).toBe(true);
+    expect(res.headers["content-type"]).toMatch(/application\/json/);
+    done();
+  });
 
   //   it("DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource", async (done) => {
   //     const request = prepareTestScenario();
