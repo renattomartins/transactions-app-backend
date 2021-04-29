@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
-const routes = require("./accounts.js");
+const routes = require('./accounts.js');
 
 module.exports = routes(router);

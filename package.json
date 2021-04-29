@@ -8,7 +8,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src/*.js"
+    "lint": "npx eslint start.js ./src",
+    "lint:fix": "npx eslint --fix start.js ./src"
   },
   "author": "Renato Martins",
   "license": "ISC",

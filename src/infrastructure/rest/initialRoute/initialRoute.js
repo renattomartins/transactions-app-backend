@@ -1,10 +1,10 @@
 const routes = (router) => {
-  router.get("/", (req, res) => {
+  router.get('/', (req, res) => {
     res.json({
       code: 0,
-      message: "success",
+      message: 'success',
       resources: {
-        account_url: `${req.protocol}://${req.get("host")}/accounts`,
+        account_url: `${req.protocol}://${req.get('host')}/accounts`,
       },
     });
   });
