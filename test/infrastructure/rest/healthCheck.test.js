@@ -1,6 +1,6 @@
-const express = require("express");
-const supertest = require("supertest");
-const healthCheckRouter = require("../../../src/infrastructure/rest/healthCheck/healthCheck.js");
+const express = require('express');
+const supertest = require('supertest');
+const healthCheckRouter = require('../../../src/infrastructure/rest/healthCheck/healthCheck.js');
 
 const prepareTestScenario = () => {
   const app = express();
@@ -11,13 +11,13 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
-describe("Proper functioning of HealthCheck endpoints", () => {
-  it("GET /health", async (done) => {
+describe('Proper functioning of HealthCheck endpoints', () => {
+  it('GET /health', async (done) => {
     const request = prepareTestScenario();
-    const res = await request.get("/health");
+    const res = await request.get('/health');
 
     expect(res.status).toBe(200);
-    expect(res.text).toEqual("All good!");
+    expect(res.text).toEqual('All good!');
     done();
   });
 });

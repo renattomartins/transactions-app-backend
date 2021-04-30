@@ -1,6 +1,6 @@
-const express = require("express");
-const supertest = require("supertest");
-const initialRouteRouter = require("../../../src/infrastructure/rest/initialRoute/initialRoute.js");
+const express = require('express');
+const supertest = require('supertest');
+const initialRouteRouter = require('../../../src/infrastructure/rest/initialRoute/initialRoute.js');
 
 const prepareTestScenario = () => {
   const app = express();
@@ -11,14 +11,14 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
-describe("Proper functioning of API entry point route", () => {
-  it("GET /", async (done) => {
+describe('Proper functioning of API entry point route', () => {
+  it('GET /', async (done) => {
     const request = prepareTestScenario();
-    const res = await request.get("/");
+    const res = await request.get('/');
 
     expect(res.status).toBe(200);
-    expect(res.headers.hasOwnProperty("content-type")).toBe(true);
-    expect(res.headers["content-type"]).toMatch(/application\/json/);
+    expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
+    expect(res.headers['content-type']).toMatch(/application\/json/);
     done();
   });
 });
