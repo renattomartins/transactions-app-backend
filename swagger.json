@@ -1,0 +1,105 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This document describe the API for transactions App. A financial transactions tracking.",
+    "version": "1.0.0",
+    "title": "Swagger Transactions App",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "renatto.martins@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "transações.io",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "account",
+      "description": "All your financial accounts"
+    },
+    {
+      "name": "transaction",
+      "description": "All your financial transaction tracking"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/accounts": {
+      "post": {
+        "tags": ["account"],
+        "summary": "Add a new financial account",
+        "description": "",
+        "operationId": "addAccount",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Account object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Account": {
+      "type": "object",
+      "required": ["name", "icon", "type", "initial_amount"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "Banco Inter"
+        },
+        "icon": {
+          "type": "string",
+          "example": "icon-banco-inter",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "Account type",
+          "enum": [
+            "Checking account",
+            "Saving account",
+            "Investment account",
+            "Credit card",
+            "Wallet",
+            "Other"
+          ]
+        },
+        "initial_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "The initial balance"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Transactions App",
+    "url": "https://transações.io"
+  }
+}
