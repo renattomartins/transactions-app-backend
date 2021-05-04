@@ -17,6 +17,10 @@
   "basePath": "/v1",
   "tags": [
     {
+      "name": "base",
+      "description": "Initial endpoints"
+    },
+    {
       "name": "account",
       "description": "All your financial accounts"
     },
@@ -30,15 +34,50 @@
     }
   ],
   "schemes": ["https", "http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
+    "/": {
+      "get": {
+        "summary": "API Entry point",
+        "tags": ["base"],
+        "operationId": "entryPoint",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Healthcheck endpoint",
+        "tags": ["base"],
+        "operationId": "health",
+        "produces": ["text/plain"],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
     "/accounts": {
+      "get": {
+        "summary": "Get a list of accounts",
+        "tags": ["account"],
+        "operationId": "getAccounts",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      },
       "post": {
         "tags": ["account"],
         "summary": "Add a new financial account",
         "description": "",
         "operationId": "addAccount",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -51,8 +90,157 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Ok",
+            "headers": {
+              "X-Total-Count": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Number of accounts in response"
+              }
+            }
+          },
           "405": {
             "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}": {
+      "get": {
+        "tags": ["account"],
+        "summary": "Get a financial account",
+        "operationId": "getAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of account to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Account not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["account"],
+        "summary": "Update an existing financial account",
+        "operationId": "updateAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of account to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Account object that needs to be uptaded",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Account not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["account"],
+        "summary": "Update parcially an existing financial account",
+        "operationId": "patchAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of account to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Account object that needs to be uptaded",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Account not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["account"],
+        "summary": "Delete an existing financial account",
+        "operationId": "deleteAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "ID of account to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Account not found"
           }
         }
       }
@@ -61,7 +249,7 @@
   "definitions": {
     "Account": {
       "type": "object",
-      "required": ["name", "icon", "type", "initial_amount"],
+      "required": ["name", "icon", "type", "initial_amount", "activated"],
       "properties": {
         "id": {
           "type": "integer",
@@ -73,27 +261,26 @@
         },
         "icon": {
           "type": "string",
-          "example": "icon-banco-inter",
-          "items": {
-            "type": "string"
-          }
+          "example": "icon-banco-inter"
         },
         "type": {
           "type": "string",
-          "description": "Account type",
           "enum": [
-            "Checking account",
-            "Saving account",
-            "Investment account",
-            "Credit card",
-            "Wallet",
+            "CheckingAccount",
+            "SavingAccount",
+            "InvestmentAccount",
+            "CreditCard",
+            "Money",
             "Other"
           ]
         },
         "initial_amount": {
           "type": "number",
-          "format": "double",
-          "description": "The initial balance"
+          "format": "double"
+        },
+        "activated": {
+          "type": "boolean",
+          "example": true
         }
       }
     }
