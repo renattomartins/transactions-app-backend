@@ -1,6 +1,6 @@
 const express = require('express');
 const supertest = require('supertest');
-const transactionsRouter = require('../../../src/infrastructure/rest/transactions/transactions.js');
+const transactionsRouter = require('../../../src/infrastructure/rest/transactions.js');
 
 const prepareTestScenario = () => {
   const app = express();

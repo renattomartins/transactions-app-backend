@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const healthCheckRoutes = require('./healthCheck/healthCheck.js');
-const initialRoutes = require('./initialRoute/initialRoute.js');
-const accountsRoutes = require('./accounts/accounts.js');
-const transactionsRoutes = require('./transactions/transactions.js');
+const healthCheckRoutes = require('./healthCheck.js');
+const initialRoutes = require('./initialRoute.js');
+const accountsRoutes = require('./accounts.js');
+const transactionsRoutes = require('./transactions.js');
 
 healthCheckRoutes(router);
 initialRoutes(router);
