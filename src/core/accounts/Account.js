@@ -1,5 +1,15 @@
 const { Sequelize } = require('sequelize');
 
+// Commands:
+// $ brew install mysql
+// $ brew services start mysql (Mac will re-start it at reboot)
+// $ mysql_secure_installation
+// $ brew services stop mysql
+// $ mysql.server start (Mac will not re-start it at reboot)
+// $ mysql.server stop
+// $ mysql -u root -p
+// $ mysql -uroot
+
 const testConnection = async (sequelize) => {
   try {
     await sequelize.authenticate();
@@ -12,7 +22,7 @@ const testConnection = async (sequelize) => {
 };
 
 const Account = () => {
-  const sequelize = new Sequelize('transactions-app', 'root', null, {
+  const sequelize = new Sequelize('transactions_app', 'root', null, {
     host: 'localhost',
     dialect: 'mysql',
   });
