@@ -23,8 +23,8 @@ const testConnection = async (sequelize) => {
 };
 
 const Account = () => {
-  const sequelize = new Sequelize('transactions_app', 'root', process.env.DB_PASS, {
-    host: 'localhost',
+  const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+    host: process.env.DB_HOST,
     dialect: 'mysql',
   });
 
