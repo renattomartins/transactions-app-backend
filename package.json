@@ -2,14 +2,14 @@
   "name": "transactions-app",
   "version": "0.0.0",
   "description": "A financial transactions tracking.",
-  "main": "start.js",
+  "main": "src/server.js",
   "scripts": {
     "start:local": "nodemon",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "npx eslint start.js ./src ./test",
-    "lint:fix": "npx eslint --fix start.js ./src ./test",
+    "lint": "npx eslint ./src/server.js ./src ./test",
+    "lint:fix": "npx eslint --fix ./src/server.js ./src ./test",
     "format": "prettier --write ."
   },
   "author": "Renato Martins",
