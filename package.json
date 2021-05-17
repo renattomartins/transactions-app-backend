@@ -4,7 +4,7 @@
   "description": "A financial transactions tracking.",
   "main": "start.js",
   "scripts": {
-    "start": "nodemon",
+    "start:local": "nodemon",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -20,6 +20,7 @@
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
+    "dotenv": "^9.0.2",
     "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",

@@ -1,5 +1,5 @@
 const express = require('express');
-
+require('dotenv').config();
 const Account = require('./core/accounts/Account.js');
 
 const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
