@@ -5,9 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start:local": "nodemon",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "jest --detectOpenHandles",
+    "test:watch": "jest --watch --detectOpenHandles",
+    "test:coverage": "jest --coverage --detectOpenHandles",
     "lint": "npx eslint ./src/server.js ./src ./test",
     "lint:fix": "npx eslint --fix ./src/server.js ./src ./test",
     "format": "prettier --write ."
