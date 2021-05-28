@@ -1,19 +1,19 @@
-const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
-const Account = require('./core/accounts/Account.js');
 
+const express = require('express');
+const Account = require('./core/accounts/Account.js');
 const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
 const initialRoutes = require('./infrastructure/rest/initialRoute.js');
 const accountsRoutes = require('./infrastructure/rest/accounts.js');
 const transactionsRoutes = require('./infrastructure/rest/transactions.js');
 
-Account();
-
 const app = express();
 const port = process.env.APP_PORT || 3000;
-let router = express.Router();
 
+Account();
+
+let router = express.Router();
 router = healthCheckRoutes(router);
 router = initialRoutes(router);
 router = accountsRoutes(router);
