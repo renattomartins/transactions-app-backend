@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const AccountProvider = require('./infrastructure/providers/AccountProvider.js');
 const Account = require('./core/accounts/Account.js');
 const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
 const initialRoutes = require('./infrastructure/rest/initialRoute.js');
@@ -11,7 +12,7 @@ const transactionsRoutes = require('./infrastructure/rest/transactions.js');
 const app = express();
 const port = process.env.APP_PORT || 3000;
 
-Account();
+Account(AccountProvider);
 
 let router = express.Router();
 router = healthCheckRoutes(router);
