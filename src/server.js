@@ -6,6 +6,7 @@ const AccountProvider = require('./infrastructure/providers/AccountProvider.js')
 const Account = require('./core/accounts/Account.js');
 const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
 const initialRoutes = require('./infrastructure/rest/initialRoute.js');
+const usersRoutes = require('./infrastructure/rest/users.js');
 const accountsRoutes = require('./infrastructure/rest/accounts.js');
 const transactionsRoutes = require('./infrastructure/rest/transactions.js');
 
@@ -17,6 +18,7 @@ Account(AccountProvider);
 let router = express.Router();
 router = healthCheckRoutes(router);
 router = initialRoutes(router);
+router = usersRoutes(router);
 router = accountsRoutes(router);
 router = transactionsRoutes(router);
 
