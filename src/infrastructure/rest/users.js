@@ -9,7 +9,6 @@ const routes = (router) => {
       password: 'f94a4f94a4f94a4f94a4f94a4f94a4f94a4',
       created: '2011-08-09 08:14:34',
       modified: '2015-07-05 22:40:17',
-      account_url: location,
     });
   });
 

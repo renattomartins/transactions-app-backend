@@ -82,6 +82,12 @@
         "responses": {
           "201": {
             "description": "Created",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The location of the new User"
+              }
+            },
             "schema": {
               "$ref": "#/definitions/User"
             }
