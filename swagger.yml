@@ -14,11 +14,11 @@ basePath: /v1
 tags:
   - name: base
     description: Initial endpoints
-  - name: account
+  - name: accounts
     description: All your financial accounts
-  - name: transaction
+  - name: transactions
     description: All your financial transaction tracking
-  - name: user
+  - name: users
     description: Operations about user
 schemes:
   - https
@@ -75,14 +75,14 @@ paths:
     get:
       summary: Get a list of accounts
       tags:
-        - account
+        - accounts
       operationId: getAccounts
       responses:
         '200':
           description: Ok
     post:
       tags:
-        - account
+        - accounts
       summary: Add a new financial account
       description: ''
       operationId: addAccount
@@ -106,7 +106,7 @@ paths:
   '/accounts/{accountId}':
     get:
       tags:
-        - account
+        - accounts
       summary: Get a financial account
       operationId: getAccount
       parameters:
@@ -127,7 +127,7 @@ paths:
           description: Account not found
     put:
       tags:
-        - account
+        - accounts
       summary: Update an existing financial account
       operationId: updateAccount
       parameters:
@@ -156,7 +156,7 @@ paths:
           description: Validation exception
     patch:
       tags:
-        - account
+        - accounts
       summary: Update parcially an existing financial account
       operationId: patchAccount
       parameters:
@@ -185,7 +185,7 @@ paths:
           description: Validation exception
     delete:
       tags:
-        - account
+        - accounts
       summary: Delete an existing financial account
       operationId: deleteAccount
       parameters:
@@ -206,7 +206,7 @@ paths:
     get:
       summary: Get a list of transactions
       tags:
-        - transaction
+        - transactions
       operationId: getTransactions
       parameters:
         - name: accountId
@@ -220,7 +220,7 @@ paths:
           description: Ok
     post:
       tags:
-        - transaction
+        - transactions
       summary: Add a new transaction
       description: ''
       operationId: addTransaction
@@ -250,7 +250,7 @@ paths:
   '/accounts/{accountId}/transactions/{transactionId}':
     get:
       tags:
-        - transaction
+        - transactions
       summary: Get a transaction
       operationId: getTransaction
       parameters:
@@ -277,7 +277,7 @@ paths:
           description: Transaction not found
     put:
       tags:
-        - transaction
+        - transactions
       summary: Update an existing transaction
       operationId: updateTransaction
       parameters:
@@ -312,7 +312,7 @@ paths:
           description: Validation exception
     patch:
       tags:
-        - transaction
+        - transactions
       summary: Update parcially an existing transaction
       operationId: patchTransaction
       parameters:
@@ -347,7 +347,7 @@ paths:
           description: Validation exception
     delete:
       tags:
-        - transaction
+        - transactions
       summary: Delete an existing transaction
       operationId: deleteTransaction
       parameters:
