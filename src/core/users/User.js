@@ -6,6 +6,10 @@ class User {
     this.created = created;
     this.modified = modified;
   }
+
+  // store() {}
+  // delete() {}
+  // load() {}
 }
 
 module.exports = User;
