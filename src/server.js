@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const User = require('./core/users/User');
 const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
 const initialRoutes = require('./infrastructure/rest/initialRoute.js');
@@ -10,6 +11,8 @@ const accountsRoutes = require('./infrastructure/rest/accounts.js');
 const transactionsRoutes = require('./infrastructure/rest/transactions.js');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.APP_PORT || 3000;
 
 let router = express.Router();

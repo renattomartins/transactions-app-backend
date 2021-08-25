@@ -1,15 +1,12 @@
-const routes = (router) => {
-  router.post('/users', (req, res) => {
-    const location = `${req.protocol}://${req.get('host')}/users/1`;
+const routes = (router, User) => {
+  const buildLocation = (req, resourceId) =>
+    `${req.protocol}://${req.get('host')}/users/${resourceId}`;
 
-    res.set('Location', location);
-    res.status(201).json({
-      id: 144,
-      email: 'renatto.martins@gmail.com',
-      password: 'f94a4f94a4f94a4f94a4f94a4f94a4f94a4',
-      created: '2011-08-09 08:14:34',
-      modified: '2015-07-05 22:40:17',
-    });
+  router.post('/users', (req, res) => {
+    const user = new User(req.body.email, req.body.password);
+    user.store();
+    res.set('Location', buildLocation(req, user.getId()));
+    res.status(201).json(user.toJson());
   });
 
   return router;
