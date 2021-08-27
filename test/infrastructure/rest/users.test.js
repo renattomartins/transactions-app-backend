@@ -15,9 +15,13 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
+let request;
+beforeAll(() => {
+  request = prepareTestScenario();
+});
+
 describe('Users endpoints', () => {
   it('POST /users should return a valid response with a new user resource', async (done) => {
-    const request = prepareTestScenario();
     const res = await request.post('/users').set('Accept', 'application/json').send({
       email: 'renato@transactions.com',
       password: '1234',
