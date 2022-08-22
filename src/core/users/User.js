@@ -20,7 +20,6 @@ class User {
     return {
       id: this.id,
       email: this.email,
-      password: this.password,
       created: this.created,
       modified: this.modified,
     };
