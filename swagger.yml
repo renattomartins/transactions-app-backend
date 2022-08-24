@@ -37,6 +37,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            $ref: '#/definitions/WelcomeResponsePayload'
   /health:
     get:
       summary: Healthcheck endpoint
@@ -371,6 +373,30 @@ paths:
         '404':
           description: Transaction not found
 definitions:
+  WelcomeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      version:
+        type: string
+        example: 1.0.0
+      resources:
+        $ref: '#/definitions/WelcomeResponseResources'
+  WelcomeResponseResources:
+    type: object
+    properties:
+      account_url:
+        type: string
+        example: http://api.transações.io/accounts
+      transaction_url:
+        type: string
+        example: http://api.transações.io/transactions
+      user_url:
+        type: string
+        example: http://api.transações.io/users
   UserRequestPayload:
     type: object
     required:
