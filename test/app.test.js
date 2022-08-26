@@ -1,4 +1,4 @@
-const app = require('../src/server.js');
+const app = require('../src/app.js');
 
 const countRegisteredRoutes = (expressApp) => {
   let registeredRoutesDirectilyViaApp = 0;
