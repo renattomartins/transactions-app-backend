@@ -1,4 +1,4 @@
-const User = require('../../../src/domain/users/User');
+const User = require('../../src/models/User');
 
 describe('User', () => {
   let instance;

@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Domain/models definitions
-const User = require('./domain/users/User');
+const User = require('./models/User');
 
 // Routes definitions
 const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
