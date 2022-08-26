@@ -11,7 +11,7 @@ const prepareTestScenario = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   const router = express.Router();
-  const routes = usersRoutes(router, User);
+  const routes = usersRoutes(router);
   app.use(routes);
 
   return supertest(app);
