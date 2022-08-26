@@ -1,6 +1,6 @@
 const express = require('express');
 const supertest = require('supertest');
-const initialRouteRouter = require('../../../src/infrastructure/rest/initialRoute.js');
+const initialRouteRouter = require('../../src/routes/initialRoute.js');
 
 const prepareTestScenario = () => {
   const app = express();

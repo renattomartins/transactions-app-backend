@@ -8,11 +8,11 @@ const bodyParser = require('body-parser');
 const User = require('./models/User');
 
 // Routes definitions
-const healthCheckRoutes = require('./infrastructure/rest/healthCheck.js');
-const initialRoutes = require('./infrastructure/rest/initialRoute.js');
-const usersRoutes = require('./infrastructure/rest/users.js');
-const accountsRoutes = require('./infrastructure/rest/accounts.js');
-const transactionsRoutes = require('./infrastructure/rest/transactions.js');
+const healthCheckRoutes = require('./routes/healthCheck.js');
+const initialRoutes = require('./routes/initialRoute.js');
+const usersRoutes = require('./routes/users.js');
+const accountsRoutes = require('./routes/accounts.js');
+const transactionsRoutes = require('./routes/transactions.js');
 
 // Server initial config
 const app = express();
