@@ -19,12 +19,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let router = express.Router();
 router = healthCheckRoutes(router);
 router = initialRoutes(router);
-router = usersRoutes(router);
 router = accountsRoutes(router);
 router = transactionsRoutes(router);
 
 // Router startup
 app.use(express.json()); //@todo verify
+app.use(usersRoutes);
 app.use(router);
 
 // Server startup

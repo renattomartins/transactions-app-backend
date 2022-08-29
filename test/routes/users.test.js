@@ -10,9 +10,7 @@ const prepareTestScenario = () => {
   const app = express();
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  const router = express.Router();
-  const routes = usersRoutes(router);
-  app.use(routes);
+  app.use(usersRoutes);
 
   return supertest(app);
 };
