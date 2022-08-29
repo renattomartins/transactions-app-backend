@@ -16,7 +16,6 @@ const port = process.env.APP_PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Routes definition and Model injection
 let router = express.Router();
 router = healthCheckRoutes(router);
 router = initialRoutes(router);
