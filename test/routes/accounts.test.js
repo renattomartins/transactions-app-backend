@@ -4,9 +4,7 @@ const accountsRouter = require('../../src/routes/accounts.js');
 
 const prepareTestScenario = () => {
   const app = express();
-  const router = express.Router();
-  const routes = accountsRouter(router);
-  app.use(routes);
+  app.use(accountsRouter);
 
   return supertest(app);
 };

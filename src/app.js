@@ -17,7 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let router = express.Router();
-router = accountsRoutes(router);
 router = transactionsRoutes(router);
 
 // Router startup
@@ -25,6 +24,7 @@ app.use(express.json()); //@todo verify
 app.use(healthRoutes);
 app.use(initialRoutes);
 app.use(usersRoutes);
+app.use(accountsRoutes);
 app.use(router);
 
 // Server startup
