@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const healthRoutes = require('./routes/health.js');
-const initialRoutes = require('./routes/initialRoute.js');
+const initialRoutes = require('./routes/initial.js');
 const usersRoutes = require('./routes/users.js');
 const accountsRoutes = require('./routes/accounts.js');
 const transactionsRoutes = require('./routes/transactions.js');
@@ -17,13 +17,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let router = express.Router();
-router = initialRoutes(router);
 router = accountsRoutes(router);
 router = transactionsRoutes(router);
 
 // Router startup
 app.use(express.json()); //@todo verify
 app.use(healthRoutes);
+app.use(initialRoutes);
 app.use(usersRoutes);
 app.use(router);
 
