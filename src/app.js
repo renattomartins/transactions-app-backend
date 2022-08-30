@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const healthCheckRoutes = require('./routes/healthCheck.js');
+const healthRoutes = require('./routes/health.js');
 const initialRoutes = require('./routes/initialRoute.js');
 const usersRoutes = require('./routes/users.js');
 const accountsRoutes = require('./routes/accounts.js');
@@ -17,13 +17,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let router = express.Router();
-router = healthCheckRoutes(router);
 router = initialRoutes(router);
 router = accountsRoutes(router);
 router = transactionsRoutes(router);
 
 // Router startup
 app.use(express.json()); //@todo verify
+app.use(healthRoutes);
 app.use(usersRoutes);
 app.use(router);
 
