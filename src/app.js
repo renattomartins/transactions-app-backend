@@ -15,19 +15,14 @@ const port = process.env.APP_PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-let router = express.Router();
-router = transactionsRoutes(router);
-
-// Router startup
 app.use(express.json()); //@todo verify
+
 app.use(healthRoutes);
 app.use(initialRoutes);
 app.use(usersRoutes);
 app.use(accountsRoutes);
-app.use(router);
+app.use(transactionsRoutes);
 
-// Server startup
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port);
   // eslint-disable-next-line no-console

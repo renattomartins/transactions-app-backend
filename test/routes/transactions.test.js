@@ -4,9 +4,7 @@ const transactionsRouter = require('../../src/routes/transactions.js');
 
 const prepareTestScenario = () => {
   const app = express();
-  const router = express.Router();
-  const routes = transactionsRouter(router);
-  app.use(routes);
+  app.use(transactionsRouter);
 
   return supertest(app);
 };
