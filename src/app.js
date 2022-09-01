@@ -14,8 +14,6 @@ const app = express();
 const port = process.env.APP_PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); //@todo verify
 
 app.use(healthRoutes);
 app.use(initialRoutes);
