@@ -9,7 +9,7 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
-describe('Transactions end points', () => {
+describe.skip('Transactions end points', () => {
   it('GET /accounts/:id/transactions should return a valid response with an collection of transaction resources', async (done) => {
     const request = prepareTestScenario();
     const res = await request.get('/accounts/3544/transactions');

@@ -9,7 +9,7 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
-describe('Proper functioning of HealthCheck endpoints', () => {
+describe.skip('Proper functioning of HealthCheck endpoints', () => {
   it('GET /health', async (done) => {
     const request = prepareTestScenario();
     const res = await request.get('/health');
