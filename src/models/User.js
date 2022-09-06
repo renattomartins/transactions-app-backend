@@ -3,8 +3,8 @@ class User {
     this.id = undefined;
     this.email = email;
     this.password = password;
-    this.created = '2021-08-23 21:33:00';
-    this.modified = '2021-08-23 21:33:00';
+    this.created = new Date().toISOString();
+    this.modified = this.created;
   }
 
   getId() {
