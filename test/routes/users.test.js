@@ -9,7 +9,6 @@ jest.mock('../../src/models/User');
 const prepareTestScenario = () => {
   const app = express();
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(usersRoutes);
 
   return supertest(app);
