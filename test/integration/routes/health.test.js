@@ -1,6 +1,6 @@
 const express = require('express');
 const supertest = require('supertest');
-const healthRouter = require('../../src/routes/health.js');
+const healthRouter = require('../../../src/routes/health.js');
 
 const prepareTestScenario = () => {
   const app = express();
