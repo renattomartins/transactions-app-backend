@@ -5,19 +5,23 @@ jest.mock('../../src/models/User');
 describe('Users controllers', () => {
   describe('When createUser is called', () => {
 
-    const req = {
-      protocol: 'http',
-      body: {
-        email: 'renato@transactions.com',
-        password: '1234'
-      },
-      get: jest.fn().mockReturnValue('localhost')
-    };
-    const res = {
-      set: jest.fn(),
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn()
-    };
+    let req, res;
+
+    beforeAll(() => {
+      req = {
+        protocol: 'http',
+        body: {
+          email: 'renato@transactions.com',
+          password: '1234'
+        },
+        get: jest.fn().mockReturnValue('localhost')
+      };
+      const res = {
+        set: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn()
+      };
+    });
 
     beforeEach(() => {
       User.mockClear();
