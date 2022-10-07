@@ -16,7 +16,7 @@ describe('Users controllers', () => {
         },
         get: jest.fn().mockReturnValue('localhost')
       };
-      const res = {
+      res = {
         set: jest.fn(),
         status: jest.fn().mockReturnThis(),
         json: jest.fn()
