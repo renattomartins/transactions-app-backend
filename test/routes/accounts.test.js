@@ -9,7 +9,7 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
-describe.skip('Accounts end points', () => {
+describe('Accounts end points', () => {
   it('GET /accounts should return a valid response with an collection of account resources', async (done) => {
     const request = prepareTestScenario();
     const res = await request.get('/accounts');

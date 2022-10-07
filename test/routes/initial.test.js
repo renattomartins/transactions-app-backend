@@ -9,7 +9,7 @@ const prepareTestScenario = () => {
   return supertest(app);
 };
 
-describe.skip('Proper functioning of API entry point route', () => {
+describe('Proper functioning of API entry point route', () => {
   it('GET /', async (done) => {
     const request = prepareTestScenario();
     const res = await request.get('/');
