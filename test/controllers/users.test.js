@@ -1,22 +1,59 @@
+const User = require('../../src/models/User');
 const usersController = require('../../src/controllers/users.js');
+jest.mock('../../src/models/User');
 
 describe('Users controllers', () => {
-  it('Should build location correctly', () => {
-    const expectedProtocol = 'https';
-    const expectedHost = 'localhost';
-    const controllerName = 'users';
+  describe('When createUser is called', () => {
 
     const req = {
-      protocol: 'https',
-      get: jest.fn(() => ('localhost')) // @todo mock the function with parameter
+      protocol: 'http',
+      body: {
+        email: 'renato@transactions.com',
+        password: '1234'
+      },
+      get: jest.fn().mockReturnValue('localhost')
     };
-    const resourceId = '123';
+    const res = {
+      set: jest.fn(),
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn()
+    };
 
-    const location = usersController.buildLocation(req, resourceId);
+    beforeEach(() => {
+      User.mockClear();
+      req.get.mockClear();
+      res.set.mockClear();
+      res.status.mockClear();
+      res.json.mockClear();
+    })
 
-    const expectedLocation = `${expectedProtocol}://${expectedHost}/${controllerName}/${resourceId}`;
+    it('Should instantiate a new User', () => {
+      usersController.createUser(req, res, null);
+      expect(User).toHaveBeenCalledTimes(1);
+    });
 
-    expect(req.get).toBeCalledWith('host'); // @todo and so remove this
-    expect(location).toBe(expectedLocation);
+    it('Should store a new User', () => {
+      usersController.createUser(req, res, null);
+
+      const mockUserInstance = User.mock.instances[0];
+      const mockUserStore = mockUserInstance.store;
+      expect(mockUserStore).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should set a proper response with location and json format', () => {
+      User.mockImplementationOnce(() => {
+        return {
+          store: jest.fn(),
+          getId: () => 123,
+          toJson: jest.fn(),
+        };
+      });
+
+      usersController.createUser(req, res, null);
+
+      expect(res.set).toHaveBeenCalledWith('Location', "http://localhost/users/123");
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledTimes(1);
+    });
   });
 });

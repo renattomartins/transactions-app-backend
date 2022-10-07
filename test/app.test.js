@@ -22,4 +22,8 @@ describe('Express initial configuration', () => {
   it('Should have exactly 15 configured routes', () => {
     expect(countRegisteredRoutes(app)).toBe(15);
   });
+
+  it('Should have CORS configurated', () => {
+    // @todo
+  });
 });
