@@ -11,7 +11,8 @@ class User {
     return this.id;
   }
 
-  store(provider) {
+  // store(provider) {
+  store() {
     // provider.save(this);
     this.id = 123;
   }

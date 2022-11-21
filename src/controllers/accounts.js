@@ -1,4 +1,4 @@
-exports.getAccounts = (req, res, next) => {
+exports.getAccounts = (req, res) => {
   res.set('X-Total-Count', 3);
   res.json([
     {
@@ -39,7 +39,7 @@ exports.getAccounts = (req, res, next) => {
   ]);
 };
 
-exports.createAccount = (req, res, next) => {
+exports.createAccount = (req, res) => {
   const location = `${req.protocol}://${req.get('host')}/accounts/3544`;
 
   res.set('Location', location);
@@ -57,7 +57,7 @@ exports.createAccount = (req, res, next) => {
   });
 };
 
-exports.getAccount = (req, res, next) => {
+exports.getAccount = (req, res) => {
   res.json({
     id: 3541,
     name: 'Bradesco, C/C',
@@ -72,7 +72,7 @@ exports.getAccount = (req, res, next) => {
   });
 };
 
-exports.updateAccount = (req, res, next) => {
+exports.updateAccount = (req, res) => {
   res.json({
     id: 3544,
     name: 'Banco Intermedium, C/C',
@@ -87,7 +87,7 @@ exports.updateAccount = (req, res, next) => {
   });
 };
 
-exports.partiallyUpdateAccount = (req, res, next) => {
+exports.partiallyUpdateAccount = (req, res) => {
   res.json({
     id: 3544,
     name: 'Banco Intermedium, C/C',
@@ -102,6 +102,6 @@ exports.partiallyUpdateAccount = (req, res, next) => {
   });
 };
 
-exports.deleteAccount = (req, res, next) => {
+exports.deleteAccount = (req, res) => {
   res.sendStatus(204);
 };

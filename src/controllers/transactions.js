@@ -1,4 +1,4 @@
-exports.getTransactions = (req, res, next) => {
+exports.getTransactions = (req, res) => {
   res.set('X-Total-Count', 4);
   res.json([
     {
@@ -60,7 +60,7 @@ exports.getTransactions = (req, res, next) => {
   ]);
 };
 
-exports.createTransaction = (req, res, next) => {
+exports.createTransaction = (req, res) => {
   const location = `${req.protocol}://${req.get('host')}/accounts//3544/transactions/13004`;
 
   res.set('Location', location);
@@ -80,7 +80,7 @@ exports.createTransaction = (req, res, next) => {
   });
 };
 
-exports.getTransaction = (req, res, next) => {
+exports.getTransaction = (req, res) => {
   res.json({
     id: 12944,
     description: 'Lazer',
@@ -97,7 +97,7 @@ exports.getTransaction = (req, res, next) => {
   });
 };
 
-exports.updateTransaction = (req, res, next) => {
+exports.updateTransaction = (req, res) => {
   res.json({
     id: 12944,
     description: 'Lazer',
@@ -114,7 +114,7 @@ exports.updateTransaction = (req, res, next) => {
   });
 };
 
-exports.partiallyUpdateTransaction = (req, res, next) => {
+exports.partiallyUpdateTransaction = (req, res) => {
   res.json({
     id: 12944,
     description: 'Lazer',
@@ -131,6 +131,6 @@ exports.partiallyUpdateTransaction = (req, res, next) => {
   });
 };
 
-exports.deleteTransaction = (req, res, next) => {
+exports.deleteTransaction = (req, res) => {
   res.sendStatus(204);
 };

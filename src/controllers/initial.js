@@ -1,4 +1,4 @@
-exports.getInitial = (req, res, next) => {
+exports.getInitial = (req, res) => {
   res.json({
     code: 0,
     message: 'Welcome to Transaction API',
