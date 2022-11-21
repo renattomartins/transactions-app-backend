@@ -1,11 +1,12 @@
 const User = require('../../../src/models/User');
 const usersController = require('../../../src/controllers/users.js');
+
 jest.mock('../../../src/models/User');
 
 describe('Users controllers', () => {
   describe('When createUser is called', () => {
-
-    let req, res;
+    let req;
+    let res;
 
     beforeAll(() => {
       // setup
@@ -13,14 +14,14 @@ describe('Users controllers', () => {
         protocol: 'http',
         body: {
           email: 'renato@transactions.com',
-          password: '1234'
+          password: '1234',
         },
-        get: jest.fn().mockReturnValue('localhost')
+        get: jest.fn().mockReturnValue('localhost'),
       };
       res = {
         set: jest.fn(),
         status: jest.fn().mockReturnThis(),
-        json: jest.fn()
+        json: jest.fn(),
       };
     });
 
@@ -31,7 +32,7 @@ describe('Users controllers', () => {
       res.set.mockClear();
       res.status.mockClear();
       res.json.mockClear();
-    })
+    });
 
     it('Should instantiate a new User', () => {
       // exercise
@@ -52,19 +53,17 @@ describe('Users controllers', () => {
 
     it('Should set a proper response with location and json format', () => {
       // setup
-      User.mockImplementationOnce(() => {
-        return {
-          store: jest.fn(),
-          getId: () => 123,
-          toJson: jest.fn(),
-        };
-      });
+      User.mockImplementationOnce(() => ({
+        store: jest.fn(),
+        getId: () => 123,
+        toJson: jest.fn(),
+      }));
 
       // exercise
       usersController.createUser(req, res, null);
 
       // verify
-      expect(res.set).toHaveBeenCalledWith('Location', "http://localhost/users/123");
+      expect(res.set).toHaveBeenCalledWith('Location', 'http://localhost/users/123');
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledTimes(1);
     });
