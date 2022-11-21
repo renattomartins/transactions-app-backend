@@ -8,6 +8,7 @@ describe('Users controllers', () => {
     let req, res;
 
     beforeAll(() => {
+      // setup
       req = {
         protocol: 'http',
         body: {
@@ -24,6 +25,7 @@ describe('Users controllers', () => {
     });
 
     beforeEach(() => {
+      // setup, but should be teardown?
       User.mockClear();
       req.get.mockClear();
       res.set.mockClear();
@@ -32,19 +34,24 @@ describe('Users controllers', () => {
     })
 
     it('Should instantiate a new User', () => {
+      // exercise
       usersController.createUser(req, res, null);
+      // verify
       expect(User).toHaveBeenCalledTimes(1);
     });
 
     it('Should store a new User', () => {
+      // exercise
       usersController.createUser(req, res, null);
 
+      // verify
       const mockUserInstance = User.mock.instances[0];
       const mockUserStore = mockUserInstance.store;
       expect(mockUserStore).toHaveBeenCalledTimes(1);
     });
 
     it('Should set a proper response with location and json format', () => {
+      // setup
       User.mockImplementationOnce(() => {
         return {
           store: jest.fn(),
@@ -53,8 +60,10 @@ describe('Users controllers', () => {
         };
       });
 
+      // exercise
       usersController.createUser(req, res, null);
 
+      // verify
       expect(res.set).toHaveBeenCalledWith('Location', "http://localhost/users/123");
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledTimes(1);

@@ -16,16 +16,20 @@ const prepareTestScenario = () => {
 
 let request;
 beforeAll(() => {
+  // setup
   request = prepareTestScenario();
 });
 
 describe('Users endpoints', () => {
   it('POST /users should return a valid response with a new user resource', async (done) => {
+    // exercise
     const res = await request.post('/users').set('Accept', 'application/json').send({
       email: 'renato@transactions.com',
       password: '1234',
       passwordVerification: '1234',
     });
+
+    // verify
     const mockUserInstance = User.mock.instances[0];
     const mockStore = mockUserInstance.store;
     const mockGetId = mockUserInstance.getId;
@@ -39,6 +43,8 @@ describe('Users endpoints', () => {
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'location')).toBe(true);
     expect(res.headers['content-type']).toMatch(/application\/json/);
+
+    // teardown
     done();
   });
 });
