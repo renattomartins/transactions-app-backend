@@ -25,8 +25,8 @@ describe('Users controllers', () => {
       };
     });
 
-    beforeEach(() => {
-      // setup, but should be teardown?
+    afterEach(() => {
+      // teardown
       User.mockClear();
       req.get.mockClear();
       res.set.mockClear();
