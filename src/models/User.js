@@ -11,9 +11,13 @@ class User {
     return this.id;
   }
 
-  // store(provider) {
-  store() {
-    // provider.save(this);
+  store(provider) {
+    provider.create({
+      email: this.email,
+      password: this.password,
+      created: this.created,
+      modified: this.modified,
+    });
     this.id = 123;
   }
 

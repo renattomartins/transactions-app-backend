@@ -4,7 +4,7 @@ describe('User', () => {
   describe('intanciation', () => {
     let instance;
 
-    beforeEach(() => {
+    beforeAll(() => {
       // exercise
       instance = new User('renato@transactions.app', '123');
     });
@@ -57,8 +57,13 @@ describe('User', () => {
     });
 
     it('should return an id after store', () => {
+      // setup
+      const mockProvider = {
+        create: jest.fn(),
+      };
+
       // exercise
-      instance.store();
+      instance.store(mockProvider);
       const id = instance.getId();
 
       // verify
