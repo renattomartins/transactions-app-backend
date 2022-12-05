@@ -1,4 +1,4 @@
-const User = require('../../../src/models/User');
+const User = require('../../../src/models/user');
 
 describe('User', () => {
   describe('intanciation', () => {
@@ -37,60 +37,6 @@ describe('User', () => {
     it('should have the property modified', () => {
       // verify
       expect(instance).toHaveProperty('modified');
-    });
-  });
-
-  describe('operations', () => {
-    let instance;
-
-    beforeEach(() => {
-      // setup
-      instance = new User('renato@transactions.app', '123');
-    });
-
-    it('should return an undefined id after new instance', () => {
-      // exercise
-      const id = instance.getId();
-
-      // verify
-      expect(id).toBeUndefined();
-    });
-
-    it('should return an id after store', () => {
-      // setup
-      const mockProvider = {
-        create: jest.fn(),
-      };
-
-      // exercise
-      instance.store(mockProvider);
-      const id = instance.getId();
-
-      // verify
-      expect(id).not.toBeUndefined();
-    });
-
-    it('should return a formatted User json when toJson is called', () => {
-      // setup
-      const mockedDate = new Date(2022, 10, 29, 8, 13, 27, 374);
-      const newDateSpy = jest.spyOn(global, 'Date').mockImplementation(() => mockedDate);
-
-      const expectedUserJson = {
-        id: undefined,
-        email: 'renato@transactions.app',
-        created: '2022-11-29T11:13:27.374Z',
-        modified: '2022-11-29T11:13:27.374Z',
-      };
-
-      // exercise
-      instance = new User('renato@transactions.app', '123');
-      const userJson = instance.toJson();
-
-      // verify
-      expect(userJson).toStrictEqual(expectedUserJson);
-
-      // teardown
-      newDateSpy.mockRestore();
     });
   });
 });
