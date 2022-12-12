@@ -1,12 +1,11 @@
 const User = require('../../../src/models/user');
 const usersController = require('../../../src/controllers/users.js');
 
-jest.mock('../../../src/models/user');
-
 describe('Users controllers', () => {
   describe('When createUser is called', () => {
     let req;
     let res;
+    let mockConsoleLog;
 
     beforeAll(() => {
       // setup
@@ -23,24 +22,55 @@ describe('Users controllers', () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
+      mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {});
     });
 
     afterEach(() => {
       // teardown
-      User.mockClear();
       req.get.mockClear();
       res.set.mockClear();
       res.status.mockClear();
       res.json.mockClear();
+      mockConsoleLog.mockClear();
     });
 
-    it('Should create a new User', () => {
+    it('Should set an error code 500 if the user can not be created', async () => {
       // setup
-      User.create = jest.fn().mockReturnThis();
-      User.then = jest.fn().mockResolvedValue(this);
+      User.create = jest.fn().mockRejectedValueOnce(new Error('Sequelize error'));
 
       // exercise
-      usersController.createUser(req, res, null);
+      await usersController.createUser(req, res, null);
+
+      // verify
+      expect.assertions(6);
+      expect(User.create).toHaveBeenCalledTimes(1);
+      expect(User.create).toBeCalledWith({
+        email: 'renato@transactions.com',
+        password: '1234',
+      });
+      expect(res.status).toHaveBeenCalledTimes(1);
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledTimes(1);
+      expect(res.json).toHaveBeenCalledWith({ code: 500, message: 'Internal Server Error' });
+
+      // teardown
+    });
+
+    it('Should set a http status code 201 if the user is created correctly', async () => {
+      // setup
+      const mockedCreatedUser = {
+        id: 13,
+        email: 'renato@transactions.com',
+        password: '1234',
+        created: 'fake-date',
+        modified: 'faka-date',
+      };
+      User.create = jest.fn().mockResolvedValueOnce(User);
+      User.get = jest.fn().mockReturnValueOnce('13');
+      User.toJSON = jest.fn().mockReturnValueOnce(mockedCreatedUser);
+
+      // exercise
+      await usersController.createUser(req, res, null);
 
       // verify
       expect(User.create).toHaveBeenCalledTimes(1);
@@ -48,26 +78,12 @@ describe('Users controllers', () => {
         email: 'renato@transactions.com',
         password: '1234',
       });
-    });
-
-    it.skip('Should set a 201 response with location and json format if email and password are correct', async () => {
-      // setup
-      const mockResolvedObject = {
-        get: jest.fn().mockReturnValue('10'),
-      };
-      User.create = jest.fn().mockResolvedObject(Promise.resolve(mockResolvedObject));
-      // User.then = jest.fn().mockResolvedValue(mockResolvedObject);
-
-      // exercise
-      usersController.createUser(req, res, null);
-
-      // verify
       expect(res.set).toHaveBeenCalledTimes(1);
-      // expect(res.set).toHaveBeenCalledWith('Location', 'http://localhost/users/123');
-      // expect(res.status).toHaveBeenCalledWith(201);
-      // expect(res.json).toHaveBeenCalledTimes(1);
+      expect(res.set).toHaveBeenCalledWith('Location', 'http://localhost/users/13');
+      expect(res.status).toHaveBeenCalledTimes(1);
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledTimes(1);
+      expect(res.json).toHaveBeenCalledWith(mockedCreatedUser);
     });
-
-    it.skip('Should set a 500 error response if a DB error occurred on save', async () => {});
   });
 });
