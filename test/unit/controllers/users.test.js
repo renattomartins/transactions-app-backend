@@ -34,7 +34,7 @@ describe('Users controllers', () => {
       mockConsoleLog.mockClear();
     });
 
-    it('Should set an error code 500 if the user can not be created', async () => {
+    it('Should set an error code 500 if the user can not be created', async (done) => {
       // setup
       User.create = jest.fn().mockRejectedValueOnce(new Error('Sequelize error'));
 
@@ -54,9 +54,10 @@ describe('Users controllers', () => {
       expect(res.json).toHaveBeenCalledWith({ code: 500, message: 'Internal Server Error' });
 
       // teardown
+      done();
     });
 
-    it('Should set a http status code 201 if the user is created correctly', async () => {
+    it('Should set a http status code 201 if the user is created correctly', async (done) => {
       // setup
       const mockedCreatedUser = {
         id: 13,
@@ -84,6 +85,9 @@ describe('Users controllers', () => {
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledTimes(1);
       expect(res.json).toHaveBeenCalledWith(mockedCreatedUser);
+
+      // teardown
+      done();
     });
   });
 });

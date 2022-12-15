@@ -21,7 +21,20 @@ beforeAll(() => {
 });
 
 describe('Users endpoints', () => {
-  it.skip('POST /users should return a valid response with a new user resource', async (done) => {
+  it('POST /users should return a valid response with a new user resource', async (done) => {
+    // setup
+    const mockedCreatedUser = {
+      id: 13,
+      email: 'renato@transactions.com',
+      password: '1234',
+      created: 'fake-date',
+      modified: 'faka-date',
+    };
+    User.create = jest.fn().mockResolvedValueOnce(User);
+    User.get = jest.fn().mockReturnValueOnce('13');
+    User.toJSON = jest.fn().mockReturnValueOnce(mockedCreatedUser);
+    const mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {});
+
     // exercise
     const res = await request.post('/users').set('Accept', 'application/json').send({
       email: 'renato@transactions.com',
@@ -30,21 +43,13 @@ describe('Users endpoints', () => {
     });
 
     // verify
-    const mockUserInstance = User.mock.instances[0];
-    const mockStore = mockUserInstance.store;
-    const mockGetId = mockUserInstance.getId;
-    const mockToJson = mockUserInstance.toJson;
-
-    expect(User).toHaveBeenCalledTimes(1);
-    expect(mockStore).toHaveBeenCalledTimes(1);
-    expect(mockGetId).toHaveBeenCalledTimes(1);
-    expect(mockToJson).toHaveBeenCalledTimes(1);
     expect(res.status).toBe(201);
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'location')).toBe(true);
     expect(res.headers['content-type']).toMatch(/application\/json/);
 
     // teardown
+    mockConsoleLog.mockClear();
     done();
   });
 });
