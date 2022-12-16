@@ -53,7 +53,7 @@ describe('Users endpoints', () => {
       created: 'fake-date',
       modified: 'faka-date',
     };
-    expect(res.body).toMatchObject(expectedResponseWithoutPasswordField);
+    expect(res.body).toEqual(expectedResponseWithoutPasswordField);
 
     // teardown
     mockConsoleLog.mockClear();
