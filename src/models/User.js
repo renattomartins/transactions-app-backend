@@ -17,6 +17,9 @@ const User = sequelize.define(
     modified: { type: Sequelize.DATE, allowNull: false },
   },
   {
+    defaultScope: {
+      attributes: { exclude: ['password'] },
+    },
     createdAt: 'created',
     updatedAt: 'modified',
   }

@@ -3,6 +3,12 @@ const User = require('../models/user');
 const buildLocation = (req, resourceId) =>
   `${req.protocol}://${req.get('host')}/users/${resourceId}`;
 
+const removePasswordField = (userJson) => {
+  // eslint-disable-next-line no-param-reassign
+  delete userJson.password;
+  return userJson;
+};
+
 exports.createUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -14,7 +20,7 @@ exports.createUser = async (req, res) => {
     console.log(`Created User! ID: ${userId}`);
 
     res.set('Location', buildLocation(req, userId));
-    res.status(201).json(user.toJSON());
+    res.status(201).json(removePasswordField(user.toJSON()));
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(`Error! ${e}`);

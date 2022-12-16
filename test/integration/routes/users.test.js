@@ -47,6 +47,13 @@ describe('Users endpoints', () => {
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'location')).toBe(true);
     expect(res.headers['content-type']).toMatch(/application\/json/);
+    const expectedResponseWithoutPasswordField = {
+      id: 13,
+      email: 'renato@transactions.com',
+      created: 'fake-date',
+      modified: 'faka-date',
+    };
+    expect(res.body).toMatchObject(expectedResponseWithoutPasswordField);
 
     // teardown
     mockConsoleLog.mockClear();
