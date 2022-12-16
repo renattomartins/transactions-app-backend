@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const supertest = require('supertest');
 const usersRoutes = require('../../../src/routes/users.js');
-const User = require('../../../src/models/User');
+const User = require('../../../src/models/user');
 
-jest.mock('../../../src/models/User');
+jest.mock('../../../src/models/user');
 
 const prepareTestScenario = () => {
   const app = express();
