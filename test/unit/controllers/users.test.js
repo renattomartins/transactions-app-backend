@@ -1,4 +1,4 @@
-const User = require('../../../src/models/user');
+const User = require('../../../src/models/User');
 const usersController = require('../../../src/controllers/users.js');
 
 describe('Users controllers', () => {

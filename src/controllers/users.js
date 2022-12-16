@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 
 const buildLocation = (req, resourceId) =>
   `${req.protocol}://${req.get('host')}/users/${resourceId}`;
