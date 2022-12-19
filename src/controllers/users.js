@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 const buildLocation = (req, resourceId) =>
@@ -13,7 +14,8 @@ exports.createUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.create({ email, password });
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = await User.create({ email, password: hashedPassword });
     const userId = user.get('id');
 
     // eslint-disable-next-line no-console
