@@ -73,6 +73,8 @@ describe('Users controllers', () => {
       await usersController.createUser(req, res, null);
 
       // verify
+      expect.assertions(8);
+      expect(bcrypt.hash).toHaveBeenCalledTimes(1);
       expect(User.create).toHaveBeenCalledTimes(1);
       expect(User.create).toHaveBeenCalledWith({
         email: 'renato@transactions.com',
@@ -83,7 +85,6 @@ describe('Users controllers', () => {
       expect(res.status).toHaveBeenCalledTimes(1);
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledTimes(1);
-      expect(res.json).toHaveBeenCalledWith(mockedCreatedUser);
 
       // teardown
       done();
