@@ -13,15 +13,11 @@ const User = sequelize.define(
     },
     email: { type: Sequelize.STRING, allowNull: false },
     password: { type: Sequelize.STRING, allowNull: false },
-    created: { type: Sequelize.DATE, allowNull: false },
-    modified: { type: Sequelize.DATE, allowNull: false },
   },
   {
     defaultScope: {
       attributes: { exclude: ['password'] },
-    },
-    createdAt: 'created',
-    updatedAt: 'modified',
+    }
   }
 );
 

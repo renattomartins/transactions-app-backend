@@ -29,14 +29,14 @@ describe('User', () => {
       expect(instance).toHaveProperty('password');
     });
 
-    it('should have the property created', () => {
+    it('should have the property createdAt', () => {
       // verify
-      expect(instance).toHaveProperty('created');
+      expect(instance).toHaveProperty('createdAt');
     });
 
-    it('should have the property modified', () => {
+    it('should have the property updatedAt', () => {
       // verify
-      expect(instance).toHaveProperty('modified');
+      expect(instance).toHaveProperty('updatedAt');
     });
   });
 });

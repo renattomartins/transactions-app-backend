@@ -4,6 +4,10 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const sequelize = require('./util/database');
+const User = require('./models/user');
+const Account = require('./models/account');
+
 const healthRoutes = require('./routes/health.js');
 const initialRoutes = require('./routes/initial.js');
 const usersRoutes = require('./routes/users.js');
@@ -28,8 +32,13 @@ app.use(usersRoutes);
 app.use(accountsRoutes);
 app.use(transactionsRoutes);
 
+User.hasMany(Account);
+Account.belongsTo(User);
+
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(port);
+  sequelize.sync({force: true}).then(() => {
+    app.listen(port);
+  });
   // eslint-disable-next-line no-console
   console.log(`Transactions API listening at http://localhost:${port}`);
 }
