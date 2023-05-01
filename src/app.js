@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 const User = require('./models/user');
 const Account = require('./models/account');
+const Transaction = require('./models/transaction');
 
 const healthRoutes = require('./routes/health.js');
 const initialRoutes = require('./routes/initial.js');
@@ -34,11 +35,13 @@ app.use(transactionsRoutes);
 
 User.hasMany(Account, { onDelete: 'cascade' });
 Account.belongsTo(User);
+Account.hasMany(Transaction, { onDelete: 'cascade' });
+Transaction.belongsTo(Account);
 
 if (process.env.NODE_ENV !== 'test') {
-  sequelize.sync({ force: true }).then(() => {
+  // sequelize.sync({ force: true }).then(() => {
     app.listen(port);
-  });
+  // });
   // eslint-disable-next-line no-console
   console.log(`Transactions API listening at http://localhost:${port}`);
 }
