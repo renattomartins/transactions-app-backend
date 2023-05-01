@@ -39,9 +39,9 @@ describe('Account', () => {
       expect(instance).toHaveProperty('type');
     });
 
-    it('should have the property currentAmount', () => {
+    it('should have the property currentBalance', () => {
       // verify
-      expect(instance).toHaveProperty('currentAmount');
+      expect(instance).toHaveProperty('currentBalance');
     });
 
     it('should have the property activated', () => {

@@ -34,10 +34,11 @@ const Account = sequelize.define(
       defaultValue: 1,
       isIn: [1, 2, 3],
     },
-    currentAmount: {
+    currentBalance: {
       type: DataTypes.DOUBLE,
       allowNull: false,
       defaultValue: 0.0,
+      comment: 'Saldo corrente da conta.',
       validate: {
         notNull: true,
         isDecimal: true,
