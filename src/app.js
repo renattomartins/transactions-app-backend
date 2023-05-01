@@ -32,11 +32,11 @@ app.use(usersRoutes);
 app.use(accountsRoutes);
 app.use(transactionsRoutes);
 
-User.hasMany(Account);
+User.hasMany(Account, { onDelete: 'cascade' });
 Account.belongsTo(User);
 
 if (process.env.NODE_ENV !== 'test') {
-  sequelize.sync({force: true}).then(() => {
+  sequelize.sync({ force: true }).then(() => {
     app.listen(port);
   });
   // eslint-disable-next-line no-console

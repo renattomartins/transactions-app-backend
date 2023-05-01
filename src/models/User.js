@@ -11,13 +11,32 @@ const User = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    email: { type: Sequelize.STRING, allowNull: false },
-    password: { type: Sequelize.STRING, allowNull: false },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true,
+      comment: 'Email do usuário. É usado como username no sistema e precisar único.',
+      validate: {
+        isEmail: true,
+        notNull: true,
+        notEmpty: true,
+      },
+    },
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      comment: 'Hash da senha do usuário.',
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      },
+    },
   },
   {
     defaultScope: {
       attributes: { exclude: ['password'] },
-    }
+    },
+    charset: 'utf8',
   }
 );
 
