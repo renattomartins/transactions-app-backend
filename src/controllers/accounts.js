@@ -23,18 +23,57 @@ exports.createAccount = async (req, res) => {
   res.status(201).json(account);
 };
 
-exports.getAccount = (req, res) => {
+exports.getAccount = async (req, res) => {
+  const accountId = req.params.accountId;
+  const theOne = await User.findByPk(1);
+  const account = await theOne.getAccounts({ where: { id: accountId } });
 
+  if (account[0] != undefined) res.json(account[0]);
+  else res.status(404).json({ code: 404, message: 'Not found' });
 };
 
-exports.updateAccount = (req, res) => {
-  
+exports.updateAccount = async (req, res) => {
+  const accountId = req.params.accountId;
+  const theOne = await User.findByPk(1);
+  const accounts = await theOne.getAccounts({ where: { id: accountId } });
+
+  if (accounts[0] != undefined) {
+    const account = accounts[0];
+
+    account.name = req.body.name;
+    account.icon = req.body.icon;
+    account.description = req.body.description;
+    account.type = req.body.type;
+    account.currentBalance = req.body.currentBalance;
+    account.activated = req.body.activated;
+
+    try {
+      const updatedAccount = await account.save();
+
+      res.json(updatedAccount);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(`Error! ${e}`);
+
+      res.status(500).json({ code: 500, message: 'Internal Server Error' });
+    }
+  } else res.status(404).json({ code: 404, message: 'Not found' });
 };
 
-exports.partiallyUpdateAccount = (req, res) => {
-  
+exports.partiallyUpdateAccount = async (req, res) => {
+  const accountId = req.params.accountId;
+  const theOne = await User.findByPk(1);
+  const account = await theOne.getAccounts({ where: { id: accountId } });
+
+  if (account[0] != undefined) res.json(account[0]);
+  else res.status(404).json({ code: 404, message: 'Not found' });
 };
 
-exports.deleteAccount = (req, res) => {
-  
+exports.deleteAccount = async (req, res) => {
+  const accountId = req.params.accountId;
+  const theOne = await User.findByPk(1);
+  const account = await theOne.getAccounts({ where: { id: accountId } });
+
+  if (account[0] != undefined) res.json(account[0]);
+  else res.status(404).json({ code: 404, message: 'Not found' });
 };

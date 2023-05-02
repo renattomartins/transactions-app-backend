@@ -54,6 +54,9 @@ const Account = sequelize.define(
     },
   },
   {
+    defaultScope: {
+      attributes: { exclude: ['userId'] },
+    },
     charset: 'utf8',
   }
 );

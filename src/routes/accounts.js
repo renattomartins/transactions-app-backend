@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.get('/accounts', accountsController.getAccounts);
 router.post('/accounts', accountsController.createAccount);
-router.get('/accounts/3541', accountsController.getAccount);
-router.put('/accounts/3544', accountsController.updateAccount);
-router.patch('/accounts/3544', accountsController.partiallyUpdateAccount);
-router.delete('/accounts/3544', accountsController.deleteAccount);
+router.get('/accounts/:accountId', accountsController.getAccount);
+router.put('/accounts/:accountId', accountsController.updateAccount);
+router.patch('/accounts/:accountId', accountsController.partiallyUpdateAccount);
+router.delete('/accounts/:accountId', accountsController.deleteAccount);
 
 module.exports = router;
