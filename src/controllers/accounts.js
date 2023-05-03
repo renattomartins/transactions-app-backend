@@ -14,7 +14,7 @@ exports.createAccount = async (req, res) => {
     icon: req.body.icon,
     description: req.body.description,
     type: req.body.type,
-    currentBalance: req.body.currentBalance,
+    initialBalance: req.body.initialBalance,
     activated: req.body.activated,
   });
   const location = `${req.protocol}://${req.get('host')}/accounts/${account.id}`;
@@ -44,7 +44,7 @@ exports.updateAccount = async (req, res) => {
     account.icon = req.body.icon;
     account.description = req.body.description;
     account.type = req.body.type;
-    account.currentBalance = req.body.currentBalance;
+    account.initialBalance = req.body.initialBalance;
     account.activated = req.body.activated;
 
     try {

@@ -392,13 +392,13 @@ definitions:
   WelcomeResponseResources:
     type: object
     properties:
-      account_url:
+      accountUrl:
         type: string
         example: http://api.transações.io/accounts
-      transaction_url:
+      transactionUrl:
         type: string
         example: http://api.transações.io/transactions
-      user_url:
+      userUrl:
         type: string
         example: http://api.transações.io/users
   500CodeResponsePayload:
@@ -452,7 +452,7 @@ definitions:
       - name
       - icon
       - type
-      - initial_balance
+      - initialBalance
       - activated
     properties:
       id:
@@ -473,7 +473,7 @@ definitions:
           - CREDIT_CARD
           - MONEY
           - OTHER
-      initial_balance:
+      initialBalance:
         type: number
         format: double
       activated:
@@ -485,9 +485,9 @@ definitions:
       - description
       - amount
       - date
-      - is_income
-      - is_transfer
-      - account_id
+      - isIncome
+      - isTransfer
+      - accountId
     properties:
       id:
         type: integer
@@ -501,16 +501,16 @@ definitions:
         type: string
       notes:
         type: string
-      is_income:
+      isIncome:
         type: boolean
-      is_transfer:
+      isTransfer:
         type: boolean
-      account_id:
+      accountId:
         type: integer
         format: int64
       account:
         $ref: '#/definitions/Account'
-      related_transfer_id:
+      relatedTransferId:
         type: string
 externalDocs:
   description: Find out more about Transactions App
