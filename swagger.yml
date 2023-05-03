@@ -452,7 +452,7 @@ definitions:
       - name
       - icon
       - type
-      - initial_amount
+      - initial_balance
       - activated
     properties:
       id:
@@ -467,13 +467,13 @@ definitions:
       type:
         type: string
         enum:
-          - CheckingAccount
-          - SavingAccount
-          - InvestmentAccount
-          - CreditCard
-          - Money
-          - Other
-      initial_amount:
+          - CHECKING_ACCOUNT
+          - SAVING_ACCOUNT
+          - INVESTMENT_ACCOUNT
+          - CREDIT_CARD
+          - MONEY
+          - OTHER
+      initial_balance:
         type: number
         format: double
       activated:

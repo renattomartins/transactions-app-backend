@@ -2,6 +2,15 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = require('../util/database');
 
+const AccountTypes = {
+  CHECKING_ACCOUNT: 1,
+  SAVING_ACCOUNT: 2,
+  INVESTMENT_ACCOUNT: 3,
+  CREDIT_CARD: 4,
+  MONEY: 5,
+  OTHER: 6,
+};
+
 const Account = sequelize.define(
   'account',
   {
@@ -30,15 +39,15 @@ const Account = sequelize.define(
       type: DataTypes.SMALLINT, //@todo test DataType.ENUM
       allowNull: false,
       comment:
-        'Tipos possíveis de conta: 1 - Conta corrente à vista; 2 - Conta poupança; 3 - Dinheiro em espécie.',
+        'Tipos possíveis de conta: 1 - Conta corrente à vista; 2 - Conta poupança; 3 - Conta de investimento; 4 - Cartão de crédito; 5 - Dinheiro em espécie; 6 - Outros.',
       defaultValue: 1,
-      isIn: [1, 2, 3],
+      isIn: [1, 2, 3, 4, 5, 6],
     },
-    currentBalance: {
+    initialBalance: {
       type: DataTypes.DOUBLE,
       allowNull: false,
       defaultValue: 0.0,
-      comment: 'Saldo corrente da conta.',
+      comment: 'Saldo inicial da conta.',
       validate: {
         notNull: true,
         isDecimal: true,
@@ -61,4 +70,5 @@ const Account = sequelize.define(
   }
 );
 
+module.exports.AccountTypes = AccountTypes;
 module.exports = Account;
