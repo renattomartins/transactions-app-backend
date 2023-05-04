@@ -443,10 +443,10 @@ definitions:
       email:
         type: string
         example: renato@transactions.app
-      created:
+      createdAt:
         type: string
         example: '2021-07-16T08:14:34.606Z'
-      modified:
+      updatedAt:
         type: string
         example: '2021-07-16T08:14:34.606Z'
   AccountRequestPayload:
