@@ -74,7 +74,7 @@ paths:
           schema:
             $ref: '#/definitions/User'
         '500':
-          description: Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/500CodeResponsePayload'
   /accounts:
@@ -94,7 +94,7 @@ paths:
           schema:
             $ref: '#/definitions/AccountList'
         '500':
-          description: Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/500CodeResponsePayload'
     post:
@@ -120,7 +120,7 @@ paths:
           schema:
             $ref: '#/definitions/Account'
         '500':
-          description: Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/500CodeResponsePayload'
   '/accounts/{accountId}':
@@ -142,9 +142,17 @@ paths:
           schema:
             $ref: '#/definitions/Account'
         '400':
-          description: Invalid ID supplied
+          description: Bad request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
         '404':
           description: Account not found
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
     put:
       tags:
         - accounts
@@ -162,18 +170,24 @@ paths:
           description: Account object that needs to be uptaded
           required: true
           schema:
-            $ref: '#/definitions/Account'
+            $ref: '#/definitions/AccountRequestPayload'
       responses:
         '200':
           description: Ok
           schema:
             $ref: '#/definitions/Account'
         '400':
-          description: Invalid ID supplied
+          description: Bad request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
         '404':
           description: Account not found
-        '405':
-          description: Validation exception
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
     patch:
       tags:
         - accounts
@@ -191,18 +205,24 @@ paths:
           description: Account object that needs to be uptaded
           required: true
           schema:
-            $ref: '#/definitions/Account'
+            $ref: '#/definitions/AccountRequestPayload'
       responses:
         '200':
           description: Ok
           schema:
             $ref: '#/definitions/Account'
         '400':
-          description: Invalid ID supplied
+          description: Bad request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
         '404':
           description: Account not found
-        '405':
-          description: Validation exception
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
     delete:
       tags:
         - accounts
@@ -219,9 +239,17 @@ paths:
         '204':
           description: No content
         '400':
-          description: Invalid ID supplied
+          description: Bad request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
         '404':
           description: Account not found
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
   '/accounts/{accountId}/transactions':
     get:
       summary: Get a list of transactions
@@ -424,6 +452,24 @@ definitions:
       message:
         type: string
         example: 'Internal Server Error'
+  400CodeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 400
+      message:
+        type: string
+        example: 'Bad request'
+  404CodeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 404
+      message:
+        type: string
+        example: 'Not found'
   UserRequestPayload:
     type: object
     required:
