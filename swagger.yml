@@ -86,6 +86,17 @@ paths:
       responses:
         '200':
           description: Ok
+          headers:
+            X-Total-Count:
+              type: integer
+              format: int32
+              description: Number of accounts in response
+          schema:
+            $ref: '#/definitions/AccountList'
+        '500':
+          description: Error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
     post:
       tags:
         - accounts
