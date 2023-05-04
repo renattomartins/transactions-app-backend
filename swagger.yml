@@ -94,21 +94,24 @@ paths:
       operationId: addAccount
       parameters:
         - in: body
-          name: body
+          name: account
           description: Account object that needs to be added
           required: true
           schema:
-            $ref: '#/definitions/Account'
+            $ref: '#/definitions/AccountRequestPayload'
       responses:
-        '200':
-          description: Ok
+        '201':
+          description: Created
           headers:
-            X-Total-Count:
-              type: integer
-              format: int32
-              description: Number of accounts in response
-        '405':
-          description: Invalid input
+            Location:
+              type: string
+              description: The location of the new Account
+          schema:
+            $ref: '#/definitions/Account'
+        '500':
+          description: Error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
   '/accounts/{accountId}':
     get:
       tags:
@@ -446,6 +449,43 @@ definitions:
       modified:
         type: string
         example: '2021-07-16T08:14:34.606Z'
+  AccountRequestPayload:
+    type: object
+    required:
+      - name
+      - icon
+      - type
+      - initialBalance
+      - activated
+    properties:
+      name:
+        type: string
+        example: Banco Inter
+      icon:
+        type: string
+        example: icon-banco-inter
+      description:
+        type: string
+        example: Conta principal de movimento.
+      type:
+        type: string
+        enum:
+          - CHECKING_ACCOUNT
+          - SAVING_ACCOUNT
+          - INVESTMENT_ACCOUNT
+          - CREDIT_CARD
+          - MONEY
+          - OTHER
+      initialBalance:
+        type: number
+        format: double
+      activated:
+        type: boolean
+        example: true
+  AccountList:
+    type: array
+    items:
+      $ref: '#/definitions/Account'
   Account:
     type: object
     required:
@@ -464,6 +504,9 @@ definitions:
       icon:
         type: string
         example: icon-banco-inter
+      description:
+        type: string
+        example: Conta principal de movimento.
       type:
         type: string
         enum:
@@ -479,6 +522,12 @@ definitions:
       activated:
         type: boolean
         example: true
+      createdAt:
+        type: string
+        example: '2023-04-04T08:14:34.606Z'
+      updatedAt:
+        type: string
+        example: '2023-04-04T08:14:34.606Z'
   Transaction:
     type: object
     required:
