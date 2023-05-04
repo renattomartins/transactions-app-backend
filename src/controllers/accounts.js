@@ -1,4 +1,4 @@
-const User = require('./../models/user');
+const User = require('../models/user');
 
 exports.getAccounts = async (req, res) => {
   try {
@@ -20,12 +20,12 @@ exports.createAccount = async (req, res) => {
   try {
     const theOne = await User.findByPk(1);
     const account = await theOne.createAccount({
-      name: name,
-      icon: icon,
-      description: description,
-      type: type,
-      initialBalance: initialBalance,
-      activated: activated,
+      name,
+      icon,
+      description,
+      type,
+      initialBalance,
+      activated,
     });
     const location = `${req.protocol}://${req.get('host')}/accounts/${account.id}`;
 
@@ -40,13 +40,13 @@ exports.createAccount = async (req, res) => {
 };
 
 exports.getAccount = async (req, res) => {
-  const accountId = req.params.accountId;
+  const { accountId } = req.params;
 
   try {
     const theOne = await User.findByPk(1);
     const account = await theOne.getAccounts({ where: { id: accountId } });
 
-    if (account[0] != undefined) res.json(account[0]);
+    if (account[0] !== undefined) res.json(account[0]);
     else res.status(404).json({ code: 404, message: 'Not found' });
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -57,14 +57,14 @@ exports.getAccount = async (req, res) => {
 };
 
 exports.updateAccount = async (req, res) => {
-  const accountId = req.params.accountId;
+  const { accountId } = req.params;
   const { name, icon, description, type, initialBalance, activated } = req.body;
 
   try {
     const theOne = await User.findByPk(1);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
 
-    if (accounts[0] != undefined) {
+    if (accounts[0] !== undefined) {
       const account = accounts[0];
 
       account.name = name;
@@ -86,22 +86,22 @@ exports.updateAccount = async (req, res) => {
 };
 
 exports.partiallyUpdateAccount = async (req, res) => {
-  const accountId = req.params.accountId;
+  const { accountId } = req.params;
   const { name, icon, description, type, initialBalance, activated } = req.body;
 
   try {
     const theOne = await User.findByPk(1);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
 
-    if (accounts[0] != undefined) {
+    if (accounts[0] !== undefined) {
       const account = accounts[0];
 
-      account.name = name ? name : account.name;
-      account.icon = icon ? icon : account.icon;
-      account.description = description ? description : account.description;
-      account.type = type ? type : account.type;
-      account.initialBalance = initialBalance ? initialBalance : account.initialBalance;
-      account.activated = activated != undefined ? activated : account.activated;
+      account.name = name || account.name;
+      account.icon = icon || account.icon;
+      account.description = description || account.description;
+      account.type = type || account.type;
+      account.initialBalance = initialBalance || account.initialBalance;
+      account.activated = activated !== undefined ? activated : account.activated;
 
       const updatedAccount = await account.save();
       res.json(updatedAccount);
@@ -115,13 +115,13 @@ exports.partiallyUpdateAccount = async (req, res) => {
 };
 
 exports.deleteAccount = async (req, res) => {
-  const accountId = req.params.accountId;
+  const { accountId } = req.params;
 
   try {
     const theOne = await User.findByPk(1);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
 
-    if (accounts[0] != undefined) {
+    if (accounts[0] !== undefined) {
       const account = accounts[0];
 
       await account.destroy();

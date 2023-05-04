@@ -1,5 +1,5 @@
-const Account = require('../../../src/models/account');
-const accountsController = require('../../../src/controllers/accounts');
+// const Account = require('../../../src/models/account');
+// const accountsController = require('../../../src/controllers/accounts');
 
 describe.skip('Users controllers', () => {
   it('Should have unit test to getAccounts endpoint', () => {

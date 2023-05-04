@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 
 const sequelize = require('../util/database');
 
@@ -36,7 +36,7 @@ const Account = sequelize.define(
     },
     description: { type: DataTypes.STRING, allowNull: true, comment: 'Descrição longa da conta' },
     type: {
-      type: DataTypes.SMALLINT, //@todo test DataType.ENUM
+      type: DataTypes.SMALLINT, // @todo test DataType.ENUM
       allowNull: false,
       comment:
         'Tipos possíveis de conta: 1 - Conta corrente à vista; 2 - Conta poupança; 3 - Conta de investimento; 4 - Cartão de crédito; 5 - Dinheiro em espécie; 6 - Outros.',
