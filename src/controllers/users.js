@@ -7,8 +7,8 @@ const buildLocation = (req, resourceId) =>
 const mountResponse = (userJson) => ({
   id: userJson.id,
   email: userJson.email,
-  created: userJson.created,
-  modified: userJson.modified,
+  createdAt: userJson.createdAt,
+  updatedAt: userJson.updatedAt,
 });
 
 exports.createUser = async (req, res) => {

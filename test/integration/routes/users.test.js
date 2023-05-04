@@ -27,8 +27,8 @@ describe('Users endpoints', () => {
       id: 13,
       email: 'renato@transactions.com',
       password: '1234',
-      created: 'fake-date',
-      modified: 'faka-date',
+      createdAt: 'fake-date',
+      updatedAt: 'faka-date',
     };
     User.create = jest.fn().mockResolvedValueOnce(User);
     User.get = jest.fn().mockReturnValueOnce('13');
@@ -50,8 +50,8 @@ describe('Users endpoints', () => {
     const expectedResponseWithoutPasswordField = {
       id: 13,
       email: 'renato@transactions.com',
-      created: 'fake-date',
-      modified: 'faka-date',
+      createdAt: 'fake-date',
+      updatedAt: 'faka-date',
     };
     expect(res.body).toEqual(expectedResponseWithoutPasswordField);
 
