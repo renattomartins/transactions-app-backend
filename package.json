@@ -10,7 +10,9 @@
     "test:coverage": "jest --coverage --detectOpenHandles",
     "lint": "npx eslint ./src/app.js ./src ./test",
     "lint:fix": "npx eslint --fix ./src/app.js ./src ./test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:create": "sequelize-cli db:create --env development --charset utf8 --collate utf8_general_ci",
+    "db:drop": "sequelize-cli db:drop --env development"
   },
   "author": "Renato Martins",
   "license": "ISC",
@@ -37,6 +39,7 @@
     "jest": "^26.6.3",
     "nodemon": "^2.0.20",
     "prettier": "2.2.1",
+    "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3"
   }
 }
