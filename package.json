@@ -12,7 +12,10 @@
     "lint:fix": "npx eslint --fix ./src/app.js ./src ./test",
     "format": "prettier --write .",
     "db:create": "sequelize-cli db:create --env development --charset utf8 --collate utf8_general_ci",
-    "db:drop": "sequelize-cli db:drop --env development"
+    "db:drop": "sequelize-cli db:drop --env development",
+    "db:migrate": "sequelize-cli db:migrate --env development",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo --env development",
+    "db:migrate:status": "sequelize-cli db:migrate:status --env development"
   },
   "author": "Renato Martins",
   "license": "ISC",
