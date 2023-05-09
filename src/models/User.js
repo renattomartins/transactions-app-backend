@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../util/database');
 
 const User = sequelize.define(
-  'user',
+  'User',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,7 +15,6 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      comment: 'Email do usuário. É usado como username no sistema e precisar único.',
       validate: {
         isEmail: true,
         notNull: true,
@@ -25,7 +24,6 @@ const User = sequelize.define(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      comment: 'Hash da senha do usuário.',
       validate: {
         notNull: true,
         notEmpty: true,
