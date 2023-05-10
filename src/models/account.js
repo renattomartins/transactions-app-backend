@@ -12,7 +12,7 @@ const AccountTypes = {
 };
 
 const Account = sequelize.define(
-  'account',
+  'Account',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,7 +23,6 @@ const Account = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      comment: 'Nome curto da conta. É usado mais comumente na UI.',
       validate: {
         notNull: true,
         notEmpty: true,
@@ -32,22 +31,23 @@ const Account = sequelize.define(
     icon: {
       type: DataTypes.STRING,
       allowNull: false,
-      comment: 'Nome da classe CSS que representa o ícone de bancos pré-cadastrados.',
     },
-    description: { type: DataTypes.STRING, allowNull: true, comment: 'Descrição longa da conta' },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     type: {
       type: DataTypes.SMALLINT, // @todo test DataType.ENUM
       allowNull: false,
-      comment:
-        'Tipos possíveis de conta: 1 - Conta corrente à vista; 2 - Conta poupança; 3 - Conta de investimento; 4 - Cartão de crédito; 5 - Dinheiro em espécie; 6 - Outros.',
       defaultValue: 1,
-      isIn: [1, 2, 3, 4, 5, 6],
+      validate: {
+        isIn: [1, 2, 3, 4, 5, 6],
+      },
     },
     initialBalance: {
       type: DataTypes.DOUBLE,
       allowNull: false,
       defaultValue: 0.0,
-      comment: 'Saldo inicial da conta.',
       validate: {
         notNull: true,
         isDecimal: true,
@@ -56,7 +56,6 @@ const Account = sequelize.define(
     activated: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      comment: 'Indica se a conta está ativa ou inativa para lançamento de novas transações.',
       validate: {
         notNull: true,
       },

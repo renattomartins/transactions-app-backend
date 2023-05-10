@@ -6,19 +6,19 @@ module.exports = {
       'Users',
       {
         id: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.DataTypes.INTEGER,
           autoIncrement: true,
           allowNull: false,
           primaryKey: true,
         },
         email: {
-          type: Sequelize.STRING,
+          type: Sequelize.DataTypes.STRING,
           allowNull: false,
           unique: true,
           comment: 'Email do usuário. É usado como username no sistema e precisar único.',
         },
         password: {
-          type: Sequelize.STRING,
+          type: Sequelize.DataTypes.STRING,
           allowNull: false,
           comment: 'Hash da senha do usuário.',
         },
