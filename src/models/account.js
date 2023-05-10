@@ -41,7 +41,7 @@ const Account = sequelize.define(
       allowNull: false,
       defaultValue: 1,
       validate: {
-        isIn: [1, 2, 3, 4, 5, 6],
+        isIn: [[1, 2, 3, 4, 5, 6]],
       },
     },
     initialBalance: {
