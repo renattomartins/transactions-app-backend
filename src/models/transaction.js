@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../util/database');
 
 const Transaction = sequelize.define(
-  'transaction',
+  'Transaction',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -14,7 +14,6 @@ const Transaction = sequelize.define(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      comment: 'Descrição da transação.',
       validate: {
         notNull: true,
       },
@@ -22,7 +21,6 @@ const Transaction = sequelize.define(
     ammount: {
       type: DataTypes.DOUBLE,
       allowNull: false,
-      comment: 'Valor da transação, podendo conter sinal.',
       validate: {
         notNull: true,
         isDecimal: true,
@@ -32,7 +30,6 @@ const Transaction = sequelize.define(
     date: {
       type: DataTypes.DATE,
       allowNull: false,
-      comment: 'Data da transação',
       validate: {
         notNull: true,
         isDate: true,
@@ -41,7 +38,6 @@ const Transaction = sequelize.define(
     notes: {
       type: DataTypes.TEXT,
       allowNull: true,
-      comment: 'Notas livres relacionadas à transação.',
     },
     isIncome: {
       type: DataTypes.BOOLEAN,
