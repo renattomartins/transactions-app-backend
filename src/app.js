@@ -4,7 +4,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// const sequelize = require('./util/database');
 const User = require('./models/user');
 const Account = require('./models/account');
 const Transaction = require('./models/transaction');
@@ -39,9 +38,7 @@ Account.hasMany(Transaction, { onDelete: 'cascade' });
 Transaction.belongsTo(Account);
 
 if (process.env.NODE_ENV !== 'test') {
-  // sequelize.sync({ force: true }).then(() => {
   app.listen(port);
-  // });
   // eslint-disable-next-line no-console
   console.log(`Transactions API listening at http://localhost:${port}`);
 }
