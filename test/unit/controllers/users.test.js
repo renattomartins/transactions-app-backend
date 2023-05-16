@@ -6,6 +6,7 @@ describe('Users controllers', () => {
   describe('When createUser is called', () => {
     let req;
     let res;
+    let next;
     let mockConsoleLog;
 
     beforeAll(() => {
@@ -23,6 +24,7 @@ describe('Users controllers', () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
+      next = jest.fn();
       mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {});
     });
 
@@ -32,24 +34,25 @@ describe('Users controllers', () => {
       res.set.mockClear();
       res.status.mockClear();
       res.json.mockClear();
+      next.mockClear();
       mockConsoleLog.mockClear();
     });
 
-    it('Should set an error code 500 if the user can not be created', async (done) => {
+    it('Should set an error code 500 if the user can not be created due generic error', async (done) => {
       // setup
-      User.create = jest.fn().mockRejectedValueOnce(new Error('Sequelize error'));
-      bcrypt.hash = jest.fn().mockResolvedValueOnce('hash-password');
+      const error = new Error('Generic error');
+      User.create = jest.fn().mockRejectedValueOnce(error);
+      bcrypt.hash = jest.fn().mockResolvedValueOnce('hashed-password');
 
       // exercise
-      await usersController.createUser(req, res, null);
+      await usersController.createUser(req, res, next);
 
       // verify
-      expect.assertions(5);
+      expect.assertions(4);
       expect(User.create).toHaveBeenCalledTimes(1);
-      expect(res.status).toHaveBeenCalledTimes(1);
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledTimes(1);
-      expect(res.json).toHaveBeenCalledWith({ code: 500, message: 'Internal Server Error' });
+      expect(error).toHaveProperty('statusCode');
+      expect(error.statusCode).toBe(500);
+      expect(next).toHaveBeenCalledTimes(1);
 
       // teardown
       done();
@@ -67,7 +70,7 @@ describe('Users controllers', () => {
       User.create = jest.fn().mockResolvedValueOnce(User);
       User.get = jest.fn().mockReturnValueOnce('13');
       User.toJSON = jest.fn().mockReturnValueOnce(mockedCreatedUser);
-      bcrypt.hash = jest.fn().mockResolvedValueOnce('hash-password');
+      bcrypt.hash = jest.fn().mockResolvedValueOnce('hashed-password');
 
       // exercise
       await usersController.createUser(req, res, null);
@@ -78,7 +81,7 @@ describe('Users controllers', () => {
       expect(User.create).toHaveBeenCalledTimes(1);
       expect(User.create).toHaveBeenCalledWith({
         email: 'renato@transactions.com',
-        password: 'hash-password',
+        password: 'hashed-password',
       });
       expect(res.set).toHaveBeenCalledTimes(1);
       expect(res.set).toHaveBeenCalledWith('Location', 'http://localhost/users/13');

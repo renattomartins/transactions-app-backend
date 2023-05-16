@@ -32,6 +32,15 @@ app.use(usersRoutes);
 app.use(accountsRoutes);
 app.use(transactionsRoutes);
 
+app.use((error, req, res, next) => {
+  // eslint-disable-next-line no-console
+  console.log(`Error! ${error}`);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
+});
+
 User.hasMany(Account, { onDelete: 'cascade' });
 Account.belongsTo(User);
 Account.hasMany(Transaction, { onDelete: 'cascade' });

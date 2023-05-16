@@ -11,7 +11,7 @@ const mountResponse = (userJson) => ({
   updatedAt: userJson.updatedAt,
 });
 
-exports.createUser = async (req, res) => {
+exports.createUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -25,9 +25,9 @@ exports.createUser = async (req, res) => {
     res.set('Location', buildLocation(req, userId));
     res.status(201).json(mountResponse(user.toJSON()));
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(`Error! ${e}`);
-
-    res.status(500).json({ code: 500, message: 'Internal Server Error' });
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    return next(e);
   }
 };
