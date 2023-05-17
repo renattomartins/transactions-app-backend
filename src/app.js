@@ -14,6 +14,8 @@ const usersRoutes = require('./routes/users.js');
 const accountsRoutes = require('./routes/accounts.js');
 const transactionsRoutes = require('./routes/transactions.js');
 
+const errorHandler = require('./middlewares/error-handler');
+
 const app = express();
 const port = process.env.APP_PORT || 3000;
 
@@ -32,14 +34,7 @@ app.use(usersRoutes);
 app.use(accountsRoutes);
 app.use(transactionsRoutes);
 
-app.use((error, req, res, next) => {
-  // eslint-disable-next-line no-console
-  console.log(`Error! ${error}`);
-  const status = error.statusCode || 500;
-  const message = error.message;
-  const data = error.data;
-  res.status(status).json({ message: message, data: data });
-});
+app.use(errorHandler);
 
 User.hasMany(Account, { onDelete: 'cascade' });
 Account.belongsTo(User);
