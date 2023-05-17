@@ -14,19 +14,14 @@ const usersRoutes = require('./routes/users.js');
 const accountsRoutes = require('./routes/accounts.js');
 const transactionsRoutes = require('./routes/transactions.js');
 
+const cors = require('./middlewares/cors');
 const errorHandler = require('./middlewares/error-handler');
 
 const app = express();
 const port = process.env.APP_PORT || 3000;
 
 app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(cors);
 
 app.use(healthRoutes);
 app.use(initialRoutes);
