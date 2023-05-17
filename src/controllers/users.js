@@ -28,6 +28,6 @@ exports.createUser = async (req, res, next) => {
     if (!e.statusCode) {
       e.statusCode = 500;
     }
-    return next(e);
+    next(e);
   }
 };
