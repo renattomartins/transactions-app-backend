@@ -1,4 +1,4 @@
-module.exports = (error, req, res) => {
+module.exports = (error, req, res, next) => {
   // eslint-disable-next-line no-console
   console.log(`Error! ${error}`);
   const status = error.statusCode || 500;

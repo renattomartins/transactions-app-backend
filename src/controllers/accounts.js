@@ -1,6 +1,6 @@
 const User = require('../models/user');
 
-exports.getAccounts = async (req, res) => {
+exports.getAccounts = async (req, res, next) => {
   try {
     const theOne = await User.findByPk(1);
     const accounts = await theOne.getAccounts();
@@ -8,10 +8,10 @@ exports.getAccounts = async (req, res) => {
     res.set('X-Total-Count', accounts.length);
     res.json(accounts);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(`Error! ${e}`);
-
-    res.status(500).json({ code: 500, message: 'Internal Server Error' });
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
   }
 };
 
