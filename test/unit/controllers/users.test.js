@@ -42,7 +42,6 @@ describe('Users controllers', () => {
       // setup
       const error = new Error('Generic error');
       User.create = jest.fn().mockRejectedValueOnce(error);
-      bcrypt.hash = jest.fn().mockResolvedValueOnce('hashed-password');
 
       // exercise
       await usersController.createUser(req, res, next);

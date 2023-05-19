@@ -54,6 +54,26 @@ describe('Accounts controllers', () => {
       res.json.mockClear();
       done();
     });
+
+    it('Should set an error code 500 due generic error', async (done) => {
+      // setup
+      const next = jest.fn();
+      const error = new Error('Generic error');
+      User.findByPk = jest.fn().mockRejectedValueOnce(error);
+
+      // exercise
+      await accountsController.getAccounts(null, null, next);
+
+      // verify
+      expect.assertions(3);
+      expect(error).toHaveProperty('statusCode');
+      expect(error.statusCode).toBe(500);
+      expect(next).toHaveBeenCalledTimes(1);
+
+      // teardown
+      done();
+    });
+
   });
   describe.skip('Accounts controllers', () => {
     it('Should have unit test to createAccount endpoint', () => {
