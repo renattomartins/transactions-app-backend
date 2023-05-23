@@ -15,7 +15,7 @@ exports.getAccounts = async (req, res, next) => {
   }
 };
 
-exports.createAccount = async (req, res) => {
+exports.createAccount = async (req, res, next) => {
   const { name, icon, description, type, initialBalance, activated } = req.body;
   try {
     const theOne = await User.findByPk(1);
@@ -32,10 +32,10 @@ exports.createAccount = async (req, res) => {
     res.set('Location', location);
     res.status(201).json(account);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(`Error! ${e}`);
-
-    res.status(500).json({ code: 500, message: 'Internal Server Error' });
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
   }
 };
 

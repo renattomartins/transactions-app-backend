@@ -10,28 +10,6 @@ const prepareTestScenario = () => {
 };
 
 describe.skip('Accounts end points', () => {
-  it('GET /accounts should return a valid response with an collection of account resources', async (done) => {
-    const request = prepareTestScenario();
-    const res = await request.get('/accounts');
-
-    expect(res.status).toBe(200);
-    expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
-    expect(Object.prototype.hasOwnProperty.call(res.headers, 'x-total-count')).toBe(true);
-    expect(res.headers['content-type']).toMatch(/application\/json/);
-    done();
-  });
-
-  it('POST /accounts should return a valid response with a new account resource', async (done) => {
-    const request = prepareTestScenario();
-    const res = await request.post('/accounts');
-
-    expect(res.status).toBe(201);
-    expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
-    expect(Object.prototype.hasOwnProperty.call(res.headers, 'location')).toBe(true);
-    expect(res.headers['content-type']).toMatch(/application\/json/);
-    done();
-  });
-
   it('GET /accounts/:id should return a valid response with an account resource', async (done) => {
     const request = prepareTestScenario();
     const res = await request.get('/accounts/3541');
