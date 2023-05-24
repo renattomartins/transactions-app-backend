@@ -44,15 +44,16 @@ exports.getAccount = async (req, res, next) => {
 
   try {
     const theOne = await User.findByPk(1);
-    const account = await theOne.getAccounts({ where: { id: accountId } });
+    const accounts = await theOne.getAccounts({ where: { id: accountId } });
+    const account = accounts[0];
 
-    if (!account[0]) {
+    if (!account) {
       const error = new Error('Not found');
       error.statusCode = 404;
       throw error;
     }
 
-    res.json(account[0]);
+    res.json(account);
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;
@@ -61,32 +62,35 @@ exports.getAccount = async (req, res, next) => {
   }
 };
 
-exports.updateAccount = async (req, res) => {
+exports.updateAccount = async (req, res, next) => {
   const { accountId } = req.params;
   const { name, icon, description, type, initialBalance, activated } = req.body;
 
   try {
     const theOne = await User.findByPk(1);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
+    const account = accounts[0];
 
-    if (accounts[0] !== undefined) {
-      const account = accounts[0];
+    if (!account) {
+      const error = new Error('Not found');
+      error.statusCode = 404;
+      throw error;
+    }
 
-      account.name = name;
-      account.icon = icon;
-      account.description = description;
-      account.type = type;
-      account.initialBalance = initialBalance;
-      account.activated = activated;
+    account.name = name;
+    account.icon = icon;
+    account.description = description;
+    account.type = type;
+    account.initialBalance = initialBalance;
+    account.activated = activated;
 
-      const updatedAccount = await account.save();
-      res.json(updatedAccount);
-    } else res.status(404).json({ code: 404, message: 'Not found' });
+    const updatedAccount = await account.save();
+    res.json(updatedAccount);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(`Error! ${e}`);
-
-    res.status(500).json({ code: 500, message: 'Internal Server Error' });
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
   }
 };
 
