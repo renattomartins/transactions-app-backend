@@ -10,16 +10,6 @@ const prepareTestScenario = () => {
 };
 
 describe.skip('Accounts end points', () => {
-  it('GET /accounts/:id should return a valid response with an account resource', async (done) => {
-    const request = prepareTestScenario();
-    const res = await request.get('/accounts/3541');
-
-    expect(res.status).toBe(200);
-    expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
-    expect(res.headers['content-type']).toMatch(/application\/json/);
-    done();
-  });
-
   it('PUT /accounts/:id should return a valid response with a changed account resource', async (done) => {
     const request = prepareTestScenario();
     const res = await request.put('/accounts/3544');

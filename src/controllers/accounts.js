@@ -39,20 +39,25 @@ exports.createAccount = async (req, res, next) => {
   }
 };
 
-exports.getAccount = async (req, res) => {
+exports.getAccount = async (req, res, next) => {
   const { accountId } = req.params;
 
   try {
     const theOne = await User.findByPk(1);
     const account = await theOne.getAccounts({ where: { id: accountId } });
 
-    if (account[0] !== undefined) res.json(account[0]);
-    else res.status(404).json({ code: 404, message: 'Not found' });
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(`Error! ${e}`);
+    if (!account[0]) {
+      const error = new Error('Not found');
+      error.statusCode = 404;
+      throw error;
+    }
 
-    res.status(500).json({ code: 500, message: 'Internal Server Error' });
+    res.json(account[0]);
+  } catch (e) {
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
   }
 };
 
