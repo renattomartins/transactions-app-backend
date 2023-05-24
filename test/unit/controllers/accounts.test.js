@@ -501,11 +501,106 @@ describe('Accounts controllers', () => {
     });
   });
 
-  describe.skip('Accounts controllers', () => {
+  describe('When deleteAccount is called', () => {
+    let res;
+    let next;
 
-    it('Should have unit test to deleteAccount endpoint', () => {
-      // @todo
-      // res.sendStatus(204);
+    beforeAll(() => {
+      // setup
+      res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      };
+      next = jest.fn();
+    });
+
+    afterEach(() => {
+      // teardown
+      res.status.mockClear();
+      res.send.mockClear();
+      next.mockClear();
+    });
+
+    it('Should destroy an Account and send response with HTTP Status Code 204', async (done) => {
+      // setup
+      const req = {
+        params: {
+          accountId: 1,
+        },
+      };
+      const mockedAccount = [
+        {
+          destroy: jest.fn().mockResolvedValueOnce(true),
+        },
+      ];
+
+      User.findByPk = jest.fn().mockResolvedValueOnce(Account);
+      Account.getAccounts = jest.fn().mockResolvedValueOnce(mockedAccount);
+
+      // exercise
+      await accountsController.deleteAccount(req, res, null);
+
+      // verify
+      expect.assertions(6);
+      expect(User.findByPk).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledWith({ where: { id: req.params.accountId } });
+      expect(res.status).toHaveBeenCalledTimes(1);
+      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.send).toHaveBeenCalledTimes(1);
+
+      // teardown
+      done();
+    });
+
+    it('Should set an error code 404 (not found) if the account ID does not exist', async (done) => {
+      // setup
+      const req = {
+        params: {
+          accountId: 1000,
+        },
+      };
+      const error = new Error('Not found');
+
+      User.findByPk = jest.fn().mockResolvedValueOnce(Account);
+      Account.getAccounts = jest.fn().mockResolvedValueOnce([]);
+
+      // exercise
+      await accountsController.deleteAccount(req, null, next);
+
+      // verify
+      expect.assertions(5);
+      expect(User.findByPk).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledWith({ where: { id: req.params.accountId } });
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledWith(error);
+
+      // teardown
+      done();
+    });
+
+    it('Should set an error code 500 due generic error', async (done) => {
+      // setup
+      const req = {
+        params: {
+          accountId: 1,
+        },
+      };
+      const error = new Error('Generic error');
+      User.findByPk = jest.fn().mockRejectedValueOnce(error);
+
+      // exercise
+      await accountsController.deleteAccount(req, null, next);
+
+      // verify
+      expect.assertions(3);
+      expect(error).toHaveProperty('statusCode');
+      expect(error.statusCode).toBe(500);
+      expect(next).toHaveBeenCalledTimes(1);
+
+      // teardown
+      done();
     });
   });
 });
