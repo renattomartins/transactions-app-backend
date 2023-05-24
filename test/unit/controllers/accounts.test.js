@@ -396,22 +396,112 @@ describe('Accounts controllers', () => {
     });
   });
 
-  describe.skip('Accounts controllers', () => {
-    it('Should have unit test to partiallyUpdateAccount endpoint', () => {
-      // @todo
-      // res.json({
-      //   id: 3544,
-      //   name: 'Banco Intermedium, C/C',
-      //   icon: 'icon-inter',
-      //   description: 'Banco para investimentos e reserva de emergência',
-      //   type: 1,
-      //   initialBalance: 10000.0,
-      //   activated: false,
-      //   created: '2021-04-09 08:13:15',
-      //   modified: '2021-04-09 08:37:36',
-      //   accountUrl: `${req.protocol}://${req.get('host')}/accounts/3544`,
-      // });
+  describe('When partiallyUpdateAccount is called', () => {
+    let req;
+    let res;
+    let next;
+
+    beforeAll(() => {
+      // setup
+      req = {
+        body: {
+          activated: true,
+        },
+      };
+      res = {
+        json: jest.fn(),
+      };
+      next = jest.fn();
     });
+
+    afterEach(() => {
+      // teardown
+      res.json.mockClear();
+      next.mockClear();
+    });
+
+    it('Should set a response with updated account ', async (done) => {
+      // setup
+      req.params = { accountId: 1 };
+      const mockedAccount = [
+        {
+          id: 1,
+          name: 'Banco Inter, C/C',
+          icon: 'icon-inter',
+          description: '',
+          type: 1,
+          initialBalance: 1200.3,
+          activated: true,
+          createdAt: '2023-05-10T17:10:34.000Z',
+          updatedAt: '2023-05-10T17:10:34.000Z',
+          UserId: 1,
+        },
+      ];
+      mockedAccount[0].save = jest.fn().mockResolvedValueOnce(mockedAccount[0]);
+
+      User.findByPk = jest.fn().mockResolvedValueOnce(Account);
+      Account.getAccounts = jest.fn().mockResolvedValueOnce(mockedAccount);
+
+      // exercise
+      await accountsController.partiallyUpdateAccount(req, res, null);
+
+      // verify
+      expect.assertions(6);
+      expect(User.findByPk).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledWith({ where: { id: req.params.accountId } });
+      expect(mockedAccount[0].save).toHaveBeenCalledTimes(1);
+      expect(res.json).toHaveBeenCalledTimes(1);
+      expect(res.json).toHaveBeenCalledWith(mockedAccount[0]);
+
+      // teardown
+      done();
+    });
+
+    it('Should set an error code 404 (not found) if the account ID does not exist', async (done) => {
+      // setup
+      req.params = { accountId: 1000 };
+      const error = new Error('Not found');
+
+      User.findByPk = jest.fn().mockResolvedValueOnce(Account);
+      Account.getAccounts = jest.fn().mockResolvedValueOnce([]);
+
+      // exercise
+      await accountsController.partiallyUpdateAccount(req, null, next);
+
+      // verify
+      expect.assertions(5);
+      expect(User.findByPk).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledTimes(1);
+      expect(Account.getAccounts).toHaveBeenCalledWith({ where: { id: req.params.accountId } });
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledWith(error);
+
+      // teardown
+      done();
+    });
+
+    it('Should set an error code 500 due generic error', async (done) => {
+      // setup
+      req.params = { accountId: 1 };
+      const error = new Error('Generic error');
+      User.findByPk = jest.fn().mockRejectedValueOnce(error);
+
+      // exercise
+      await accountsController.partiallyUpdateAccount(req, null, next);
+
+      // verify
+      expect.assertions(3);
+      expect(error).toHaveProperty('statusCode');
+      expect(error.statusCode).toBe(500);
+      expect(next).toHaveBeenCalledTimes(1);
+
+      // teardown
+      done();
+    });
+  });
+
+  describe.skip('Accounts controllers', () => {
 
     it('Should have unit test to deleteAccount endpoint', () => {
       // @todo
