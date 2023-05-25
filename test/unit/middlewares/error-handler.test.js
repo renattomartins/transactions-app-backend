@@ -28,7 +28,7 @@ describe('Error handler', () => {
       const mockedError = {
         statusCode: 404,
         message: 'Not found',
-        data: 'User does not exist',
+        details: 'User does not exist',
       };
 
       // exersice
@@ -39,14 +39,17 @@ describe('Error handler', () => {
       // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledTimes(1);
       expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Not found', data: 'User does not exist' });
+      expect(res.json).toHaveBeenCalledWith({
+        code: 404,
+        message: 'Not found',
+        details: 'User does not exist',
+      });
     });
 
     it('Should return a json response with 500 http error status code as default', () => {
       // setup
       const mockedError = {
-        message: 'Mocked error message',
-        data: 'Mocked error data',
+        details: 'Mocked error details',
       };
 
       // exersice
@@ -58,8 +61,9 @@ describe('Error handler', () => {
       expect(console.log).toHaveBeenCalledTimes(1);
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Mocked error message',
-        data: 'Mocked error data',
+        code: 500,
+        message: 'Internal Server Error',
+        details: 'Mocked error details',
       });
     });
   });
