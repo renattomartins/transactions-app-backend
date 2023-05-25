@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
+const expressValidator = require('express-validator');
 const User = require('../../../src/models/user');
 const usersController = require('../../../src/controllers/users.js');
+
+jest.mock('express-validator');
 
 describe('Users controllers', () => {
   describe('When createUser is called', () => {
@@ -25,6 +28,18 @@ describe('Users controllers', () => {
         json: jest.fn(),
       };
       next = jest.fn();
+
+      expressValidator.validationResult.mockReturnValue(expressValidator.Result);
+      expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
+      expressValidator.Result.array = jest.fn().mockReturnValue([
+        {
+          type: 'field',
+          msg: 'invalid field',
+          path: 'email',
+          location: 'body',
+        },
+      ]);
+
       mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {});
     });
 
@@ -35,26 +50,12 @@ describe('Users controllers', () => {
       res.status.mockClear();
       res.json.mockClear();
       next.mockClear();
+
+      expressValidator.validationResult.mockClear();
+      expressValidator.Result.isEmpty.mockClear();
+      expressValidator.Result.array.mockClear();
+
       mockConsoleLog.mockClear();
-    });
-
-    it('Should set an error code 500 if the user can not be created due generic error', async (done) => {
-      // setup
-      const error = new Error('Generic error');
-      User.create = jest.fn().mockRejectedValueOnce(error);
-
-      // exercise
-      await usersController.createUser(req, res, next);
-
-      // verify
-      expect.assertions(4);
-      expect(User.create).toHaveBeenCalledTimes(1);
-      expect(error).toHaveProperty('statusCode');
-      expect(error.statusCode).toBe(500);
-      expect(next).toHaveBeenCalledTimes(1);
-
-      // teardown
-      done();
     });
 
     it('Should set a http status code 201 if the user is created correctly', async (done) => {
@@ -75,7 +76,9 @@ describe('Users controllers', () => {
       await usersController.createUser(req, res, null);
 
       // verify
-      expect.assertions(8);
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(bcrypt.hash).toHaveBeenCalledTimes(1);
       expect(User.create).toHaveBeenCalledTimes(1);
       expect(User.create).toHaveBeenCalledWith({
@@ -87,6 +90,48 @@ describe('Users controllers', () => {
       expect(res.status).toHaveBeenCalledTimes(1);
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledTimes(1);
+
+      // teardown
+      User.create.mockClear();
+      User.get.mockClear();
+      User.toJSON.mockClear();
+      done();
+    });
+
+    it('Should set an error code 422 if any entry is invalid', async (done) => {
+      // setup
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      User.create = jest.fn();
+
+      // exercise
+      await usersController.createUser(req, res, next);
+
+      // verify
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(User.create).toHaveBeenCalledTimes(0);
+
+      // teardown
+      done();
+    });
+
+    it('Should set an error code 500 if the user can not be created due generic error', async (done) => {
+      // setup
+      const error = new Error('Generic error');
+      User.create = jest.fn().mockRejectedValueOnce(error);
+
+      // exercise
+      await usersController.createUser(req, res, next);
+
+      // verify
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
+      expect(User.create).toHaveBeenCalledTimes(1);
+      expect(error).toHaveProperty('statusCode');
+      expect(error.statusCode).toBe(500);
+      expect(next).toHaveBeenCalledTimes(1);
 
       // teardown
       done();

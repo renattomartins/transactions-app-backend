@@ -73,8 +73,16 @@ paths:
               description: The location of the new User
           schema:
             $ref: '#/definitions/User'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
+        '422':
+          description: 'Unprocessable Entity'
+          schema:
+            $ref: '#/definitions/422CodeResponsePayload'
         '500':
-          description: Internal server error
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/500CodeResponsePayload'
   /accounts:
@@ -470,6 +478,32 @@ definitions:
       message:
         type: string
         example: 'Not found'
+  422CodeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 422
+      message:
+        type: string
+        example: 'Unprocessable Entity'
+      details:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              example: 'field'
+            msg:
+              type: string
+              example: 'invalid field'
+            path:
+              type: string
+              example: 'email'
+            location:
+              type: string
+              example: 'body'
   UserRequestPayload:
     type: object
     required:

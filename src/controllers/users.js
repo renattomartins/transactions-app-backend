@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const { validationResult } = require('express-validator');
 const User = require('../models/user');
 
 const buildLocation = (req, resourceId) =>
@@ -13,8 +14,16 @@ const mountResponse = (userJson) => ({
 
 exports.createUser = async (req, res, next) => {
   const { email, password } = req.body;
+  const validationErrors = validationResult(req);
 
   try {
+    if (!validationErrors.isEmpty()) {
+      const error = new Error('Unprocessable Entity');
+      error.statusCode = 422;
+      error.details = validationErrors.array();
+      throw error;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User.create({ email, password: hashedPassword });
     const userId = user.get('id');
