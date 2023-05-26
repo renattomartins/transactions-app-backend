@@ -77,6 +77,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/400CodeResponsePayload'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/409CodeResponsePayload'
         '422':
           description: 'Unprocessable Entity'
           schema:
@@ -478,6 +482,35 @@ definitions:
       message:
         type: string
         example: 'Not found'
+  409CodeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 409
+      message:
+        type: string
+        example: 'Conflict'
+      details:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              example: 'unique violation'
+            value:
+              type: string
+              example: 'test@test.com'
+            msg:
+              type: string
+              example: 'email must be unique'
+            path:
+              type: string
+              example: 'email'
+            location:
+              type: string
+              example: 'DB'
   422CodeResponsePayload:
     type: object
     properties:
