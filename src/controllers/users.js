@@ -34,6 +34,18 @@ exports.createUser = async (req, res, next) => {
     res.set('Location', buildLocation(req, userId));
     res.status(201).json(mountResponse(user.toJSON()));
   } catch (e) {
+    if (e.name === 'SequelizeUniqueConstraintError') {
+      e.statusCode = 409;
+      e.details = [
+        {
+          type: e.errors[0].type,
+          value: e.errors[0].value,
+          msg: e.errors[0].message,
+          path: e.errors[0].path,
+          location: e.errors[0].origin,
+        },
+      ];
+    }
     if (!e.statusCode) {
       e.statusCode = 500;
     }

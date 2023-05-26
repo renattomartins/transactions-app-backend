@@ -98,6 +98,31 @@ describe('Users controllers', () => {
       done();
     });
 
+    it('Should set an error code 409 if email already exists', async (done) => {
+      // setup
+      const error = new Error('Validation error');
+      error.name = 'SequelizeUniqueConstraintError';
+      error.errors = [
+        { type: 'mock', value: 'mock', message: 'mock', path: 'mock', origin: 'mock' },
+      ];
+      User.create = jest.fn().mockRejectedValueOnce(error);
+
+      // exercise
+      await usersController.createUser(req, res, next);
+
+      // verify
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
+      expect(User.create).toHaveBeenCalledTimes(1);
+      expect(error).toHaveProperty('statusCode');
+      expect(error.statusCode).toBe(409);
+      expect(next).toHaveBeenCalledTimes(1);
+
+      // teardown
+      done();
+    });
+
     it('Should set an error code 422 if any entry is invalid', async (done) => {
       // setup
       expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
