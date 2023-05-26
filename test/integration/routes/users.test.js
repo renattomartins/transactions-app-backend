@@ -28,7 +28,7 @@ describe('Users endpoints', () => {
     const mockedCreatedUser = {
       id: 13,
       email: 'renato@transactions.com',
-      password: '1234',
+      password: '12345678a',
       createdAt: 'fake-date',
       updatedAt: 'faka-date',
     };
@@ -40,8 +40,8 @@ describe('Users endpoints', () => {
     // exercise
     const res = await request.post('/users').set('Accept', 'application/json').send({
       email: 'renato@transactions.com',
-      password: '1234',
-      passwordVerification: '1234',
+      password: '12345678a',
+      passwordVerification: '12345678a',
     });
 
     // verify
@@ -78,12 +78,6 @@ describe('Users endpoints', () => {
           type: 'field',
           msg: 'Invalid value',
           path: 'password',
-          location: 'body',
-        },
-        {
-          type: 'field',
-          msg: 'Invalid value',
-          path: 'passwordVerification',
           location: 'body',
         },
         {

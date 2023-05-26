@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.post(
   '/users',
-  body('email').exists().notEmpty(),
-  body('password').exists().notEmpty(),
-  body('passwordVerification').exists().notEmpty().custom(passVerification),
+  body('email').exists().notEmpty().isEmail().normalizeEmail(),
+  body('password').exists().isLength({ min: 8 }),
+  body('passwordVerification').exists().custom(passVerification),
   usersController.createUser
 );
 
