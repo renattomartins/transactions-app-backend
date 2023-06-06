@@ -8,8 +8,8 @@ const router = express.Router();
 
 router.post(
   '/users',
-  body('email').exists().notEmpty().isEmail().normalizeEmail(),
-  body('password').exists().isLength({ min: 8 }),
+  body('email').exists().notEmpty().isEmail().withMessage('Invalid email format').normalizeEmail(),
+  body('password').exists().isLength({ min: 8 }).withMessage('Minimum size of 8 characters'),
   body('passwordVerification').exists().custom(passVerification),
   usersController.createUser
 );

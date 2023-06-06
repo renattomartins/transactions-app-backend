@@ -76,7 +76,7 @@ describe('Users endpoints', () => {
         },
         {
           type: 'field',
-          msg: 'Invalid value',
+          msg: 'Minimum size of 8 characters',
           path: 'password',
           location: 'body',
         },
