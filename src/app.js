@@ -11,6 +11,7 @@ const Transaction = require('./models/transaction');
 const healthRoutes = require('./routes/health.js');
 const initialRoutes = require('./routes/initial.js');
 const usersRoutes = require('./routes/users.js');
+const authRoutes = require('./routes/auth.js');
 const accountsRoutes = require('./routes/accounts.js');
 const transactionsRoutes = require('./routes/transactions.js');
 
@@ -26,6 +27,7 @@ app.use(cors);
 app.use(healthRoutes);
 app.use(initialRoutes);
 app.use(usersRoutes);
+app.use(authRoutes);
 app.use(accountsRoutes);
 app.use(transactionsRoutes);
 
