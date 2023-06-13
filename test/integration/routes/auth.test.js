@@ -22,6 +22,7 @@ beforeAll(() => {
 describe('Auth endpoints', () => {
   it('POST /login should return a valid response with a token to log in', async (done) => {
     // setup
+    // ... mockedAuthData
 
     // exercise
     const res = await request.post('/login').set('Accept', 'application/json').send({
