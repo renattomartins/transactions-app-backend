@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const supertest = require('supertest');
+const User = require('../../../src/models/user');
 const authRoutes = require('../../../src/routes/auth.js');
 const errorHandler = require('../../../src/middlewares/error-handler.js');
+
+jest.mock('../../../src/models/user');
 
 const prepareTestScenario = () => {
   const app = express();
@@ -23,6 +26,7 @@ describe('Auth endpoints', () => {
   it('POST /login should return a valid response with a token to log in', async (done) => {
     // setup
     // ... mockedAuthData
+    User.findOne = jest.fn().mockResolvedValueOnce(User);
 
     // exercise
     const res = await request.post('/login').set('Accept', 'application/json').send({
