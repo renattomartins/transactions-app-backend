@@ -14,6 +14,8 @@ basePath: /v1
 tags:
   - name: base
     description: Initial endpoints
+  - name: auth
+    description: Authentication operations
   - name: accounts
     description: All your financial accounts
   - name: transactions
@@ -50,6 +52,37 @@ paths:
       responses:
         '200':
           description: Ok
+  /login:
+    post:
+      summary: Log in an user
+      description: ''
+      tags:
+        - auth
+      operationId: login
+      parameters:
+        - in: body
+          name: authData
+          description: Authentication data
+          required: true
+          schema:
+            $ref: '#/definitions/AuthRequestPayload'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/AuthResponsePayload'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
+        '422':
+          description: 'Unprocessable Entity'
+          schema:
+            $ref: '#/definitions/422CodeResponsePayload'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
   /users:
     post:
       summary: Sign up new users
@@ -537,6 +570,30 @@ definitions:
             location:
               type: string
               example: 'body'
+  AuthRequestPayload:
+    type: object
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: string
+        example: renato@transactions.app
+      password:
+        type: string
+        example: 12345
+  AuthResponsePayload:
+    type: object
+    required:
+      - token
+      - userId
+    properties:
+      token:
+        type: string
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      userId:
+        type: string
+        example: 1301
   UserRequestPayload:
     type: object
     required:
