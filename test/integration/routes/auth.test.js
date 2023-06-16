@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const supertest = require('supertest');
+const bcrypt = require('bcryptjs');
 const User = require('../../../src/models/user');
 const authRoutes = require('../../../src/routes/auth.js');
 const errorHandler = require('../../../src/middlewares/error-handler.js');
@@ -26,7 +27,9 @@ describe('Auth endpoints', () => {
   it('POST /login should return a valid response with a token to log in', async (done) => {
     // setup
     // ... mockedAuthData
+    User.scope = jest.fn().mockReturnThis();
     User.findOne = jest.fn().mockResolvedValueOnce(User);
+    bcrypt.compare = jest.fn().mockResolvedValueOnce(true);
 
     // exercise
     const res = await request.post('/login').set('Accept', 'application/json').send({
@@ -38,6 +41,7 @@ describe('Auth endpoints', () => {
     expect(res.status).toBe(200);
 
     // teardown
+    User.scope.mockClear();
     done();
   });
 });

@@ -34,6 +34,11 @@ const User = sequelize.define(
     defaultScope: {
       attributes: { exclude: ['password'] },
     },
+    scopes: {
+      comparePassword: {
+        attributes: { include: ['password'] },
+      },
+    },
     charset: 'utf8',
   }
 );
