@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 exports.login = async (req, res, next) => {
@@ -19,7 +20,15 @@ exports.login = async (req, res, next) => {
       throw error;
     }
 
-    res.status(200).json({ ok: 'ok' });
+    const token = jwt.sign(
+      { email: loadedUser.email, userId: loadedUser.id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '1h',
+      }
+    );
+
+    res.status(200).json({ token, userId: loadedUser.id });
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;
