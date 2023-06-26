@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 exports.getAccounts = async (req, res, next) => {
   try {
-    const theOne = await User.findByPk(1);
+    const theOne = await User.findByPk(req.userId);
     const accounts = await theOne.getAccounts();
 
     res.set('X-Total-Count', accounts.length);
@@ -18,7 +18,7 @@ exports.getAccounts = async (req, res, next) => {
 exports.createAccount = async (req, res, next) => {
   const { name, icon, description, type, initialBalance, activated } = req.body;
   try {
-    const theOne = await User.findByPk(1);
+    const theOne = await User.findByPk(req.userId);
     const account = await theOne.createAccount({
       name,
       icon,
@@ -43,7 +43,7 @@ exports.getAccount = async (req, res, next) => {
   const { accountId } = req.params;
 
   try {
-    const theOne = await User.findByPk(1);
+    const theOne = await User.findByPk(req.userId);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
     const account = accounts[0];
 
@@ -67,7 +67,7 @@ exports.updateAccount = async (req, res, next) => {
   const { name, icon, description, type, initialBalance, activated } = req.body;
 
   try {
-    const theOne = await User.findByPk(1);
+    const theOne = await User.findByPk(req.userId);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
     const account = accounts[0];
 
@@ -99,7 +99,7 @@ exports.partiallyUpdateAccount = async (req, res, next) => {
   const { name, icon, description, type, initialBalance, activated } = req.body;
 
   try {
-    const theOne = await User.findByPk(1);
+    const theOne = await User.findByPk(req.userId);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
     const account = accounts[0];
 
@@ -130,7 +130,7 @@ exports.deleteAccount = async (req, res, next) => {
   const { accountId } = req.params;
 
   try {
-    const theOne = await User.findByPk(1);
+    const theOne = await User.findByPk(req.userId);
     const accounts = await theOne.getAccounts({ where: { id: accountId } });
     const account = accounts[0];
 

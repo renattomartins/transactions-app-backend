@@ -6,6 +6,7 @@ describe('Accounts controllers', () => {
   describe('When getAccounts is called', () => {
     it('Should set a response with a list of accounts and X-Total-Count HTTP header', async (done) => {
       // setup
+      const req = { userId: 123 };
       const res = {
         set: jest.fn(),
         json: jest.fn(),
@@ -40,7 +41,7 @@ describe('Accounts controllers', () => {
       Account.getAccounts = jest.fn().mockReturnValueOnce(mockedAccountsList);
 
       // exercise
-      await accountsController.getAccounts(null, res, null);
+      await accountsController.getAccounts(req, res, null);
 
       // verify
       expect.assertions(4);
@@ -57,12 +58,13 @@ describe('Accounts controllers', () => {
 
     it('Should set an error code 500 due generic error', async (done) => {
       // setup
+      const req = { userId: 123 };
       const next = jest.fn();
       const error = new Error('Generic error');
       User.findByPk = jest.fn().mockRejectedValueOnce(error);
 
       // exercise
-      await accountsController.getAccounts(null, null, next);
+      await accountsController.getAccounts(req, null, next);
 
       // verify
       expect.assertions(3);
@@ -92,6 +94,7 @@ describe('Accounts controllers', () => {
           initialBalance: 142.41,
           activated: true,
         },
+        userId: 123,
         get: jest.fn().mockReturnValue('localhost'),
       };
       res = {
@@ -201,6 +204,7 @@ describe('Accounts controllers', () => {
         params: {
           accountId: 1,
         },
+        userId: 123,
       };
 
       const mockedAccount = [
@@ -241,6 +245,7 @@ describe('Accounts controllers', () => {
         params: {
           accountId: 1000,
         },
+        userId: 123,
       };
       const error = new Error('Not found');
 
@@ -268,6 +273,7 @@ describe('Accounts controllers', () => {
         params: {
           accountId: 1,
         },
+        userId: 123,
       };
       const error = new Error('Generic error');
       User.findByPk = jest.fn().mockRejectedValueOnce(error);
@@ -302,6 +308,7 @@ describe('Accounts controllers', () => {
           initialBalance: 1200.3,
           activated: true,
         },
+        userId: 123,
       };
       res = {
         json: jest.fn(),
@@ -407,6 +414,7 @@ describe('Accounts controllers', () => {
         body: {
           activated: true,
         },
+        userId: 123,
       };
       res = {
         json: jest.fn(),
@@ -527,6 +535,7 @@ describe('Accounts controllers', () => {
         params: {
           accountId: 1,
         },
+        userId: 123,
       };
       const mockedAccount = [
         {
@@ -559,6 +568,7 @@ describe('Accounts controllers', () => {
         params: {
           accountId: 1000,
         },
+        userId: 123,
       };
       const error = new Error('Not found');
 
@@ -586,6 +596,7 @@ describe('Accounts controllers', () => {
         params: {
           accountId: 1,
         },
+        userId: 123,
       };
       const error = new Error('Generic error');
       User.findByPk = jest.fn().mockRejectedValueOnce(error);
