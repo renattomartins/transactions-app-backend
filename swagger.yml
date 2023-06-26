@@ -75,6 +75,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/400CodeResponsePayload'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
         '422':
           description: 'Unprocessable Entity'
           schema:
@@ -745,3 +749,4 @@ definitions:
 externalDocs:
   description: Find out more about Transactions App
   url: 'https://transações.io'
+  
