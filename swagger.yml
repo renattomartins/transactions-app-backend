@@ -75,6 +75,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/400CodeResponsePayload'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/401CodeResponsePayload'
         '404':
           description: Not found
           schema:
@@ -510,6 +514,15 @@ definitions:
       message:
         type: string
         example: 'Bad request'
+  401CodeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 401
+      message:
+        type: string
+        example: 'Unauthorized'
   404CodeResponsePayload:
     type: object
     properties:
