@@ -319,6 +319,25 @@ paths:
       responses:
         '200':
           description: Ok
+          headers:
+            X-Total-Count:
+              type: integer
+              format: int32
+              description: Number of transactions in response
+          schema:
+            $ref: '#/definitions/TransactionList'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/401CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
     post:
       tags:
         - transactions
@@ -726,6 +745,10 @@ definitions:
       updatedAt:
         type: string
         example: '2023-04-04T08:14:34.606Z'
+  TransactionList:
+    type: array
+    items:
+      $ref: '#/definitions/Transaction'
   Transaction:
     type: object
     required:
@@ -739,26 +762,32 @@ definitions:
       id:
         type: integer
         format: int64
+        example: 1254
       description:
         type: string
+        example: Conta de água
       amount:
         type: number
         format: double
+        example: 128.32
       date:
         type: string
+        example: "2023-04-04T08:14:34.606Z"
       notes:
         type: string
+        example: "Conta referente ao mês jul/2023"
       isIncome:
         type: boolean
-      isTransfer:
-        type: boolean
+      createdAt:
+        type: string
+        example: '2023-04-04T08:14:34.606Z'
+      updatedAt:
+        type: string
+        example: '2023-04-04T08:14:34.606Z'
       accountId:
         type: integer
         format: int64
-      account:
-        $ref: '#/definitions/Account'
-      relatedTransferId:
-        type: string
+        example: 4
 externalDocs:
   description: Find out more about Transactions App
   url: 'https://transações.io'
