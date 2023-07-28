@@ -5,7 +5,8 @@ const transactionsController = require('../controllers/transactions');
 
 const router = express.Router();
 
-router.get('/accounts/3544/transactions', isAuth, transactionsController.getTransactions);
+router.get('/accounts/:accountId/transactions', isAuth, transactionsController.getTransactions);
+
 router.post('/accounts/3544/transactions', isAuth, transactionsController.createTransaction);
 router.get('/accounts/3544/transactions/12944', isAuth, transactionsController.getTransaction);
 router.put('/accounts/3544/transactions/12944', isAuth, transactionsController.updateTransaction);
