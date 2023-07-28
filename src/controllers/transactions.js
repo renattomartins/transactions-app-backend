@@ -1,5 +1,5 @@
 exports.getTransactions = async (req, res, next) => {
-  // get accountId param
+  // const { accountId } = req.params;
 
   try {
     // find account by accountId and req.userId
