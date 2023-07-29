@@ -1,8 +1,11 @@
 const express = require('express');
 const supertest = require('supertest');
 const jwt = require('jsonwebtoken');
+const Account = require('../../../src/models/account');
 const transactionsRouter = require('../../../src/routes/transactions.js');
 const errorHandler = require('../../../src/middlewares/error-handler.js');
+
+jest.mock('../../../src/models/account');
 
 const prepareTestScenario = () => {
   const app = express();
@@ -14,11 +17,19 @@ const prepareTestScenario = () => {
 
 describe('Transactions end points', () => {
   beforeAll(() => {
-    jwt.verify = jest.fn().mockReturnValue({ user: 123, token: 'abc' });
+    jwt.verify = jest.fn().mockReturnValue({ userId: 123, token: 'abc' });
   });
 
-  it.skip('GET /accounts/:id/transactions should return a valid response with an collection of transaction resources', async (done) => {
+  it('GET /accounts/:id/transactions should return a valid response with an collection of transaction resources', async (done) => {
     const request = prepareTestScenario();
+    const mockedTransactionsList = [];
+    const mockedAccountModel = {
+      UserId: 123,
+      getTransactions: jest.fn().mockResolvedValueOnce(mockedTransactionsList),
+    };
+
+    Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
     const res = await request
       .get('/accounts/3544/transactions')
       .set({ Authorization: 'Bearer abc' });
