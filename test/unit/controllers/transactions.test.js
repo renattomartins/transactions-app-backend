@@ -30,14 +30,21 @@ describe('Transactions controllers', () => {
           updatedAt: '2013-08-02 07:48:37',
         },
       ];
-
-      Account.findByPk = jest.fn().mockResolvedValueOnce({
+      const mockedAccountModel = {
         UserId: 10,
         getTransactions: jest.fn().mockResolvedValueOnce(mockedTransactionsList),
-      });
+      };
+
+      Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
 
       await transactionsController.getTransactions(req, res, null);
 
+      const expectedTransactionsOrderConfig = { order: [['date', 'DESC']] };
+      expect(Account.findByPk).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledWith(
+        expectedTransactionsOrderConfig
+      );
       expect(res.set).toHaveBeenCalledWith('X-Total-Count', mockedTransactionsList.length);
       expect(res.json).toHaveBeenCalledWith(mockedTransactionsList);
 

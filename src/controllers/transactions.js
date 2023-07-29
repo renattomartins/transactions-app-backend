@@ -18,16 +18,8 @@ exports.getTransactions = async (req, res, next) => {
       throw error;
     }
 
-    const transactions = await account.getTransactions();
-    // Account.getTransactions order by date DESC
+    const transactions = await account.getTransactions({ order: [['date', 'DESC']] });
 
-    // set total-count header
-    // set json response
-
-    // Error scenarios:
-    //  - invalid accountId (400)
-    //  - account and user not found (404)
-    //  - other (500)
     res.set('X-Total-Count', transactions.length);
     res.json(transactions);
   } catch (e) {
