@@ -1,8 +1,23 @@
+const Account = require('../models/account');
+
 exports.getTransactions = async (req, res, next) => {
-  // const { accountId } = req.params;
+  const { accountId } = req.params;
 
   try {
-    // find account by accountId and req.userId
+    const account = await Account.findByPk(accountId);
+
+    if (!account) {
+      const error = new Error('Account not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (account.UserId !== req.userId) {
+      const error = new Error('Forbidden');
+      error.statusCode = 403;
+      throw error;
+    }
+
     // Account.getTransactions order by date DESC
 
     // set total-count header
