@@ -334,6 +334,14 @@ paths:
           description: Unauthorized
           schema:
             $ref: '#/definitions/401CodeResponsePayload'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403CodeResponsePayload'
+        '404':
+          description: Account not found
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
         '500':
           description: Internal server error
           schema:
@@ -542,6 +550,15 @@ definitions:
       message:
         type: string
         example: 'Unauthorized'
+  403CodeResponsePayload:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 403
+      message:
+        type: string
+        example: 'Forbidden'
   404CodeResponsePayload:
     type: object
     properties:
@@ -784,7 +801,7 @@ definitions:
       updatedAt:
         type: string
         example: '2023-04-04T08:14:34.606Z'
-      accountId:
+      AccountId:
         type: integer
         format: int64
         example: 4
