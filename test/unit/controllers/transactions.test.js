@@ -6,12 +6,40 @@ describe('Transactions controllers', () => {
     it('Should set a response with a list of transactions and X-Total-Count HTTP header', async (done) => {
       const req = { params: { accountId: 123 }, userId: 10 };
       const res = { set: jest.fn(), json: jest.fn() };
-      Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 10 });
+      const mockedTransactionsList = [
+        {
+          id: 12943,
+          description: 'Transferência para Cartão Master 5384',
+          amount: -159.9,
+          date: '2013-08-02 10:05:00',
+          notes: '',
+          isIncome: false,
+          AccountId: 3544,
+          createdAt: '2013-08-02 07:48:37',
+          updatedAt: '2013-08-02 07:48:37',
+        },
+        {
+          id: 12944,
+          description: 'Lazer',
+          amount: -27.0,
+          date: '2013-08-02 11:50:00',
+          notes: '',
+          isIncome: false,
+          AccountId: 3544,
+          createdAt: '2013-08-02 07:48:37',
+          updatedAt: '2013-08-02 07:48:37',
+        },
+      ];
+
+      Account.findByPk = jest.fn().mockResolvedValueOnce({
+        UserId: 10,
+        getTransactions: jest.fn().mockResolvedValueOnce(mockedTransactionsList),
+      });
 
       await transactionsController.getTransactions(req, res, null);
 
-      expect(res.set).toHaveBeenCalledWith('X-Total-Count', 0);
-      expect(res.json).toHaveBeenCalledWith([]);
+      expect(res.set).toHaveBeenCalledWith('X-Total-Count', mockedTransactionsList.length);
+      expect(res.json).toHaveBeenCalledWith(mockedTransactionsList);
 
       done();
     });

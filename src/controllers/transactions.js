@@ -18,6 +18,7 @@ exports.getTransactions = async (req, res, next) => {
       throw error;
     }
 
+    const transactions = await account.getTransactions();
     // Account.getTransactions order by date DESC
 
     // set total-count header
@@ -27,8 +28,8 @@ exports.getTransactions = async (req, res, next) => {
     //  - invalid accountId (400)
     //  - account and user not found (404)
     //  - other (500)
-    res.set('X-Total-Count', 0);
-    res.json([]);
+    res.set('X-Total-Count', transactions.length);
+    res.json(transactions);
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;
