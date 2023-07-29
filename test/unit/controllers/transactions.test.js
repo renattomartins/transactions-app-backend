@@ -1,8 +1,31 @@
+const expressValidator = require('express-validator');
 const transactionsController = require('../../../src/controllers/transactions');
 const Account = require('../../../src/models/account');
 
+jest.mock('express-validator');
+
 describe('Transactions controllers', () => {
   describe('When getTransactions is called', () => {
+    beforeAll(() => {
+      expressValidator.validationResult.mockReturnValue(expressValidator.Result);
+      expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
+      expressValidator.Result.array = jest.fn().mockReturnValue([
+        {
+          type: 'field',
+          value: 'a23',
+          msg: 'Account ID must be numeric',
+          path: 'accountId',
+          location: 'params',
+        },
+      ]);
+    });
+
+    afterEach(() => {
+      expressValidator.validationResult.mockClear();
+      expressValidator.Result.isEmpty.mockClear();
+      expressValidator.Result.array.mockClear();
+    });
+
     it('Should set a response with a list of transactions and X-Total-Count HTTP header', async (done) => {
       const req = { params: { accountId: 123 }, userId: 10 };
       const res = { set: jest.fn(), json: jest.fn() };
@@ -47,6 +70,20 @@ describe('Transactions controllers', () => {
       );
       expect(res.set).toHaveBeenCalledWith('X-Total-Count', mockedTransactionsList.length);
       expect(res.json).toHaveBeenCalledWith(mockedTransactionsList);
+
+      done();
+    });
+
+    it('Should set an error code 400 if account id is not numeric', async (done) => {
+      const req = { params: { accountId: 'abc' } };
+      const next = jest.fn();
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+
+      await transactionsController.getTransactions(req, null, next);
+
+      const badRequestError = new Error('Bad request');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(badRequestError);
 
       done();
     });
