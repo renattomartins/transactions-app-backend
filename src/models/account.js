@@ -69,5 +69,5 @@ const Account = sequelize.define(
   }
 );
 
-module.exports.AccountTypes = AccountTypes;
 module.exports = Account;
+module.exports.AccountTypes = AccountTypes;
