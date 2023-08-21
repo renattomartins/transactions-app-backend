@@ -60,3 +60,19 @@ describe('Account', () => {
     });
   });
 });
+
+describe('AccountTypes', () => {
+  it('should exist 6 account types in Account module', () => {
+    // setup
+    const types = {
+      CHECKING_ACCOUNT: 1,
+      SAVING_ACCOUNT: 2,
+      INVESTMENT_ACCOUNT: 3,
+      CREDIT_CARD: 4,
+      MONEY: 5,
+      OTHER: 6,
+    };
+    // verify
+    expect(Account.AccountTypes).toEqual(types);
+  });
+});
