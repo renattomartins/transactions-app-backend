@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const User = require('../models/user');
+const { defaultFirstAccount } = require('../models/account');
 
 const buildLocation = (req, resourceId) =>
   `${req.protocol}://${req.get('host')}/users/${resourceId}`;
@@ -25,7 +26,16 @@ exports.createUser = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = await User.create({ email, password: hashedPassword });
+    const user = await User.create(
+      {
+        email,
+        password: hashedPassword,
+        Accounts: [defaultFirstAccount],
+      },
+      {
+        include: [User.associations.Accounts],
+      }
+    );
     const userId = user.get('id');
 
     // eslint-disable-next-line no-console

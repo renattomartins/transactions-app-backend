@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const expressValidator = require('express-validator');
 const User = require('../../../src/models/user');
+const { defaultFirstAccount } = require('../../../src/models/account');
 const usersController = require('../../../src/controllers/users.js');
 
 jest.mock('express-validator');
@@ -68,6 +69,7 @@ describe('Users controllers', () => {
         updatedAt: 'faka-date',
       };
       User.create = jest.fn().mockResolvedValueOnce(User);
+      User.associations.Accounts = jest.fn();
       User.get = jest.fn().mockReturnValueOnce('13');
       User.toJSON = jest.fn().mockReturnValueOnce(mockedCreatedUser);
       bcrypt.hash = jest.fn().mockResolvedValueOnce('hashed-password');
@@ -81,10 +83,14 @@ describe('Users controllers', () => {
       expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(bcrypt.hash).toHaveBeenCalledTimes(1);
       expect(User.create).toHaveBeenCalledTimes(1);
-      expect(User.create).toHaveBeenCalledWith({
-        email: 'renato@transactions.com',
-        password: 'hashed-password',
-      });
+      expect(User.create).toHaveBeenCalledWith(
+        {
+          email: 'renato@transactions.com',
+          password: 'hashed-password',
+          Accounts: [defaultFirstAccount],
+        },
+        { include: [User.associations.Accounts] }
+      );
       expect(res.set).toHaveBeenCalledTimes(1);
       expect(res.set).toHaveBeenCalledWith('Location', 'http://localhost/users/13');
       expect(res.status).toHaveBeenCalledTimes(1);
