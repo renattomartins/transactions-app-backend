@@ -11,6 +11,14 @@ const AccountTypes = {
   OTHER: 6,
 };
 
+const defaultFirstAccount = {
+  name: 'Carteira',
+  icon: 'icon-wallet',
+  type: AccountTypes.MONEY,
+  initialBalance: 0,
+  activated: true,
+};
+
 const Account = sequelize.define(
   'Account',
   {
@@ -71,3 +79,4 @@ const Account = sequelize.define(
 
 module.exports = Account;
 module.exports.AccountTypes = AccountTypes;
+module.exports.defaultFirstAccount = defaultFirstAccount;

@@ -59,20 +59,35 @@ describe('Account', () => {
       expect(instance).toHaveProperty('updatedAt');
     });
   });
-});
 
-describe('AccountTypes', () => {
-  it('should exist 6 account types in Account module', () => {
-    // setup
-    const types = {
-      CHECKING_ACCOUNT: 1,
-      SAVING_ACCOUNT: 2,
-      INVESTMENT_ACCOUNT: 3,
-      CREDIT_CARD: 4,
-      MONEY: 5,
-      OTHER: 6,
-    };
-    // verify
-    expect(Account.AccountTypes).toEqual(types);
+  describe('AccountTypes', () => {
+    it('should exist 6 account types', () => {
+      // setup
+      const types = {
+        CHECKING_ACCOUNT: 1,
+        SAVING_ACCOUNT: 2,
+        INVESTMENT_ACCOUNT: 3,
+        CREDIT_CARD: 4,
+        MONEY: 5,
+        OTHER: 6,
+      };
+      // verify
+      expect(Account.AccountTypes).toEqual(types);
+    });
+  });
+
+  describe('defaultFirstAccount', () => {
+    it('should have correct initial attributes', () => {
+      // setup
+      const mockedDefaultFirstAccount = {
+        name: 'Carteira',
+        icon: 'icon-wallet',
+        type: Account.AccountTypes.MONEY,
+        initialBalance: 0,
+        activated: true,
+      };
+      // verify
+      expect(Account.defaultFirstAccount).toEqual(mockedDefaultFirstAccount);
+    });
   });
 });
