@@ -364,17 +364,36 @@ paths:
           description: Transaction object that needs to be added
           required: true
           schema:
-            $ref: '#/definitions/Transaction'
+            $ref: '#/definitions/TransactionRequestPayload'
       responses:
         '200':
           description: Ok
-          headers:
-            X-Total-Count:
-              type: integer
-              format: int32
-              description: Number of transactions in response
-        '405':
-          description: Invalid input
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/401CodeResponsePayload'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403CodeResponsePayload'
+        '404':
+          description: Account not found
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
+        '422':
+          description: 'Unprocessable Entity'
+          schema:
+            $ref: '#/definitions/422CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
   '/accounts/{accountId}/transactions/{transactionId}':
     get:
       tags:
@@ -619,7 +638,7 @@ definitions:
               example: 'invalid field'
             path:
               type: string
-              example: 'email'
+              example: '<field_name>'
             location:
               type: string
               example: 'body'
@@ -762,6 +781,29 @@ definitions:
       updatedAt:
         type: string
         example: '2023-04-04T08:14:34.606Z'
+  TransactionRequestPayload:
+    type: object
+    required:
+      - description
+      - amount
+      - date
+      - isIncome
+    properties:
+      description:
+        type: string
+        example: Conta de água
+      amount:
+        type: number
+        format: double
+        example: 128.32
+      date:
+        type: string
+        example: "2023-04-04T08:14:34.606Z"
+      notes:
+        type: string
+        example: "Conta referente ao mês jul/2023"
+      isIncome:
+        type: boolean
   TransactionList:
     type: array
     items:
