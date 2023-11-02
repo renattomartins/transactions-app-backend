@@ -368,6 +368,10 @@ paths:
       responses:
         '200':
           description: Ok
+          headers:
+            Location:
+              type: string
+              description: The location of the new Transaction
           schema:
             $ref: '#/definitions/Transaction'
         '400':
