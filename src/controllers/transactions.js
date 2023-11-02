@@ -51,7 +51,12 @@ exports.createTransaction = async (req, res, next) => {
       throw error;
     }
 
-    // Valiadr se a conta pertence ao usuário logado (403)
+    if (account.UserId !== req.userId) {
+      const error = new Error('Forbidden');
+      error.statusCode = 403;
+      throw error;
+    }
+
     // Criar a transação (201)
     // Retornar a transação criada
     // Tratar erros de validação (400 ou 422)

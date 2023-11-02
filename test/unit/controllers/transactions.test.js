@@ -143,6 +143,16 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 403 if account id does not belongs to logged user', async (done) => {
+      const req = { params: { accountId: 123 }, userId: 10 };
+      const next = jest.fn();
+      Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
+
+      await transactionsController.createTransaction(req, null, next);
+
+      const forbiddenError = new Error('Forbidden');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(forbiddenError);
+
       done();
     });
 
