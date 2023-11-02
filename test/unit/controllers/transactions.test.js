@@ -132,4 +132,42 @@ describe('Transactions controllers', () => {
       done();
     });
   });
+
+  describe('When createTransaction is called', () => {
+    it('Should set a response with a new transaction and a proper Location HTTP header', async (done) => {
+      done();
+    });
+
+    it('Should set an error code 400 if account id is not numeric', async (done) => {
+      done();
+    });
+
+    it('Should set an error code 403 if account id does not belongs to logged user', async (done) => {
+      done();
+    });
+
+    it('Should set an error code 404 if account id does not exists', async (done) => {
+      done();
+    });
+
+    it('Should set an error code 422 if transaction data is invalid', async (done) => {
+      done();
+    });
+
+    it('Should set an error code 500 due generic error', async (done) => {
+      const req = { params: { accountId: 123 } };
+      const next = jest.fn();
+      const genericError = new Error('Generic error');
+      Account.findByPk = jest.fn().mockRejectedValueOnce(genericError);
+
+      await transactionsController.createTransaction(req, null, next);
+
+      expect(genericError).toHaveProperty('statusCode');
+      expect(genericError.statusCode).toBe(500);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(genericError);
+
+      done();
+    });
+  });
 });

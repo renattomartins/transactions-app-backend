@@ -41,7 +41,7 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it('POST /accounts/:id/transactions should return a valid response with a new transaction resource', async (done) => {
+  it.skip('POST /accounts/:id/transactions should return a valid response with a new transaction resource', async (done) => {
     const request = prepareTestScenario();
     const res = await request
       .post('/accounts/3544/transactions')

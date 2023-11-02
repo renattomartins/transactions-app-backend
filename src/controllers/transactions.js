@@ -39,21 +39,23 @@ exports.getTransactions = async (req, res, next) => {
   }
 };
 
-exports.createTransaction = (req, res) => {
-  const location = `${req.protocol}://${req.get('host')}/accounts//3544/transactions/13004`;
+exports.createTransaction = async (req, res, next) => {
+  const { accountId } = req.params;
 
-  res.set('Location', location);
-  res.status(201).json({
-    id: 13004,
-    description: 'Lazer',
-    amount: -127.0,
-    date: '2021-04-23',
-    notes: '',
-    isIncome: false,
-    createdAt: '2021-04-23 08:27:37',
-    updatedAt: '2021-04-23 08:27:37',
-    accountId: 3544,
-  });
+  try {
+    const account = await Account.findByPk(accountId);
+    // Validar a existência da conta (404)
+    // Valiadr se a conta pertence ao usuário logado (403)
+    // Criar a transação (201)
+    // Retornar a transação criada
+    // Tratar erros de validação (400 ou 422)
+    // Retornar o header Location com a URL da transação criada
+  } catch (e) {
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
+  }
 };
 
 exports.getTransaction = (req, res) => {
