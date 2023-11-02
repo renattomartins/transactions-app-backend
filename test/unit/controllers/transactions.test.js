@@ -147,6 +147,16 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 404 if account id does not exists', async (done) => {
+      const req = { params: { accountId: 123 } };
+      const next = jest.fn();
+      Account.findByPk = jest.fn().mockResolvedValueOnce(null);
+
+      await transactionsController.createTransaction(req, null, next);
+
+      const notFoundError = new Error('Account not found');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(notFoundError);
+
       done();
     });
 

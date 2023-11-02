@@ -44,7 +44,13 @@ exports.createTransaction = async (req, res, next) => {
 
   try {
     const account = await Account.findByPk(accountId);
-    // Validar a existência da conta (404)
+
+    if (!account) {
+      const error = new Error('Account not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
     // Valiadr se a conta pertence ao usuário logado (403)
     // Criar a transação (201)
     // Retornar a transação criada
