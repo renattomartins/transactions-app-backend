@@ -183,6 +183,16 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 400 if account id is not numeric', async (done) => {
+      const req = { params: { accountId: 'abc' } };
+      const next = jest.fn();
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+
+      await transactionsController.createTransaction(req, null, next);
+
+      const badRequestError = new Error('Bad request');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(badRequestError);
+
       done();
     });
 

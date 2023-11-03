@@ -44,8 +44,16 @@ exports.getTransactions = async (req, res, next) => {
 
 exports.createTransaction = async (req, res, next) => {
   const { accountId } = req.params;
+  const validationErrors = validationResult(req);
 
   try {
+    if (!validationErrors.isEmpty()) {
+      const error = new Error('Bad request');
+      error.statusCode = 400;
+      error.details = validationErrors.array();
+      throw error;
+    }
+
     const account = await Account.findByPk(accountId);
 
     if (!account) {
