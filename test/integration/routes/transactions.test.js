@@ -41,11 +41,35 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it.skip('POST /accounts/:id/transactions should return a valid response with a new transaction resource', async (done) => {
+  it('POST /accounts/:id/transactions should return a valid response with a new transaction resource', async (done) => {
     const request = prepareTestScenario();
+    const mockedRequestBodyPayload = {
+      description: 'Conta de água',
+      amount: 128.32,
+      date: '2023-04-04T08:14:34.606Z',
+      notes: 'Conta referente ao mês jul/2023',
+      isIncome: true,
+    };
+    const mockedResponseBodyPayload = {
+      id: 1254,
+      description: 'Conta de água',
+      amount: 128.32,
+      date: '2023-04-04T08:14:34.606Z',
+      notes: 'Conta referente ao mês jul/2023',
+      isIncome: true,
+      createdAt: '2023-04-04T08:14:34.606Z',
+      updatedAt: '2023-04-04T08:14:34.606Z',
+      AccountId: 3544,
+    };
+    const createTransactionMock = jest.fn().mockResolvedValueOnce(mockedResponseBodyPayload);
+    Account.findByPk = jest.fn().mockResolvedValueOnce({
+      UserId: 123,
+      createTransaction: createTransactionMock,
+    });
     const res = await request
       .post('/accounts/3544/transactions')
-      .set({ Authorization: 'Bearer abc' });
+      .set({ Authorization: 'Bearer abc' })
+      .send(mockedRequestBodyPayload);
 
     expect(res.status).toBe(201);
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
