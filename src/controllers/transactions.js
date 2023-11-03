@@ -57,8 +57,9 @@ exports.createTransaction = async (req, res, next) => {
       throw error;
     }
 
-    // Criar a transação (201)
-    // Retornar a transação criada
+    const transaction = await account.createTransaction(req.body);
+    res.status(201).json(transaction);
+
     // Tratar erros de validação (400 ou 422)
     // Retornar o header Location com a URL da transação criada
   } catch (e) {
