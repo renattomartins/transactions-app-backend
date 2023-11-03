@@ -1,6 +1,9 @@
 const { validationResult } = require('express-validator');
 const Account = require('../models/account');
 
+const buildLocation = (req, accountIdId, resourceId) =>
+  `${req.protocol}://${req.get('host')}/accounts/${accountIdId}/transactions/${resourceId}`;
+
 exports.getTransactions = async (req, res, next) => {
   const { accountId } = req.params;
   const validationErrors = validationResult(req);
@@ -58,10 +61,11 @@ exports.createTransaction = async (req, res, next) => {
     }
 
     const transaction = await account.createTransaction(req.body);
+
+    res.set('Location', buildLocation(req, accountId, transaction.id));
     res.status(201).json(transaction);
 
     // Tratar erros de validação (400 ou 422)
-    // Retornar o header Location com a URL da transação criada
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;

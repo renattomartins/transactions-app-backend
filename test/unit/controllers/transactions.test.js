@@ -153,8 +153,14 @@ describe('Transactions controllers', () => {
         updatedAt: '2023-04-04T08:14:34.606Z',
         AccountId: 123,
       };
-      const req = { params: { accountId: 123 }, userId: 10, body: mockedRequestBodyPayload };
-      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+      const req = {
+        protocol: 'http',
+        params: { accountId: 123 },
+        userId: 10,
+        body: mockedRequestBodyPayload,
+        get: jest.fn().mockReturnValue('localhost'),
+      };
+      const res = { set: jest.fn(), status: jest.fn().mockReturnThis(), json: jest.fn() };
       const createTransactionMock = jest.fn().mockResolvedValueOnce(mockedResponseBodyPayload);
       Account.findByPk = jest.fn().mockResolvedValueOnce({
         UserId: 10,
@@ -168,6 +174,10 @@ describe('Transactions controllers', () => {
       expect(createTransactionMock).toBeCalledWith(mockedRequestBodyPayload);
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith(mockedResponseBodyPayload);
+      expect(res.set).toHaveBeenCalledWith(
+        'Location',
+        'http://localhost/accounts/123/transactions/1254'
+      );
 
       done();
     });
