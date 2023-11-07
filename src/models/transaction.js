@@ -18,7 +18,7 @@ const Transaction = sequelize.define(
         notNull: true,
       },
     },
-    ammount: {
+    amount: {
       type: DataTypes.DOUBLE,
       allowNull: false,
       validate: {

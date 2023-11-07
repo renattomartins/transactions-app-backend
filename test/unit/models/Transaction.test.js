@@ -26,7 +26,7 @@ describe('Transaction', () => {
 
     it('should have the property ammount', () => {
       // verify
-      expect(instance).toHaveProperty('ammount');
+      expect(instance).toHaveProperty('amount');
     });
 
     it('should have the property date', () => {
