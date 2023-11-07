@@ -72,8 +72,6 @@ exports.createTransaction = async (req, res, next) => {
 
     res.set('Location', buildLocation(req, accountId, transaction.id));
     res.status(201).json(transaction);
-
-    // Tratar erros de validação (400 ou 422)
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;

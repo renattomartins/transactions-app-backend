@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const supertest = require('supertest');
 const jwt = require('jsonwebtoken');
 const Account = require('../../../src/models/account');
@@ -9,6 +10,7 @@ jest.mock('../../../src/models/account');
 
 const prepareTestScenario = () => {
   const app = express();
+  app.use(bodyParser.json());
   app.use(transactionsRouter);
   app.use(errorHandler);
 

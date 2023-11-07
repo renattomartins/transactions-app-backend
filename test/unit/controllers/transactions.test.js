@@ -134,6 +134,15 @@ describe('Transactions controllers', () => {
   });
 
   describe('When createTransaction is called', () => {
+    beforeAll(() => {
+      expressValidator.validationResult.mockReturnValue(expressValidator.Result);
+      expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
+    });
+
+    afterEach(() => {
+      expressValidator.validationResult.mockClear();
+      expressValidator.Result.isEmpty.mockClear();
+    });
     it('Should set a response with a new transaction and a proper Location HTTP header', async (done) => {
       const mockedRequestBodyPayload = {
         description: 'Conta de água',
