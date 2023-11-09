@@ -152,11 +152,21 @@ describe('Transactions controllers', () => {
     beforeAll(() => {
       expressValidator.validationResult.mockReturnValue(expressValidator.Result);
       expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
+      expressValidator.Result.array = jest.fn().mockReturnValue([
+        {
+          type: 'field',
+          value: 'a23',
+          msg: 'Account ID must be numeric',
+          path: 'accountId',
+          location: 'params',
+        },
+      ]);
     });
 
     afterEach(() => {
       expressValidator.validationResult.mockClear();
       expressValidator.Result.isEmpty.mockClear();
+      expressValidator.Result.array.mockClear();
     });
     it('Should set a response with a new transaction and a proper Location HTTP header', async (done) => {
       const mockedRequestBodyPayload = {
@@ -193,6 +203,9 @@ describe('Transactions controllers', () => {
 
       await transactionsController.createTransaction(req, res, null);
 
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(Account.findByPk).toHaveBeenCalledTimes(1);
       expect(Account.findByPk).toBeCalledWith(123);
       expect(createTransactionMock).toBeCalledWith(mockedRequestBodyPayload);
@@ -214,6 +227,9 @@ describe('Transactions controllers', () => {
       await transactionsController.createTransaction(req, null, next);
 
       const badRequestError = new Error('Bad request');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(badRequestError);
 
@@ -228,6 +244,9 @@ describe('Transactions controllers', () => {
       await transactionsController.createTransaction(req, null, next);
 
       const forbiddenError = new Error('Forbidden');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(forbiddenError);
 
@@ -242,6 +261,9 @@ describe('Transactions controllers', () => {
       await transactionsController.createTransaction(req, null, next);
 
       const notFoundError = new Error('Account not found');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(notFoundError);
 
@@ -260,6 +282,9 @@ describe('Transactions controllers', () => {
 
       await transactionsController.createTransaction(req, null, next);
 
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(genericError).toHaveProperty('statusCode');
       expect(genericError.statusCode).toBe(500);
       expect(next).toHaveBeenCalledTimes(1);
