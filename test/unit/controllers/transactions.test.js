@@ -63,6 +63,9 @@ describe('Transactions controllers', () => {
       await transactionsController.getTransactions(req, res, null);
 
       const expectedTransactionsOrderConfig = { order: [['date', 'DESC']] };
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(Account.findByPk).toHaveBeenCalledTimes(1);
       expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
       expect(mockedAccountModel.getTransactions).toHaveBeenCalledWith(
@@ -82,6 +85,9 @@ describe('Transactions controllers', () => {
       await transactionsController.getTransactions(req, null, next);
 
       const badRequestError = new Error('Bad request');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(badRequestError);
 
@@ -96,6 +102,9 @@ describe('Transactions controllers', () => {
       await transactionsController.getTransactions(req, null, next);
 
       const forbiddenError = new Error('Forbidden');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(forbiddenError);
 
@@ -110,6 +119,9 @@ describe('Transactions controllers', () => {
       await transactionsController.getTransactions(req, null, next);
 
       const notFoundError = new Error('Account not found');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(notFoundError);
 
@@ -124,6 +136,9 @@ describe('Transactions controllers', () => {
 
       await transactionsController.getTransactions(req, null, next);
 
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(genericError).toHaveProperty('statusCode');
       expect(genericError.statusCode).toBe(500);
       expect(next).toHaveBeenCalledTimes(1);
