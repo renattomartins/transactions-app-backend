@@ -152,15 +152,7 @@ describe('Transactions controllers', () => {
     beforeAll(() => {
       expressValidator.validationResult.mockReturnValue(expressValidator.Result);
       expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
-      expressValidator.Result.array = jest.fn().mockReturnValue([
-        {
-          type: 'field',
-          value: 'a23',
-          msg: 'Account ID must be numeric',
-          path: 'accountId',
-          location: 'params',
-        },
-      ]);
+      expressValidator.Result.array = jest.fn();
     });
 
     afterEach(() => {
@@ -220,9 +212,18 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 400 if account id is not numeric', async (done) => {
-      const req = { params: { accountId: 'abc' } };
+      const req = { params: { accountId: '2a2' } };
       const next = jest.fn();
       expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      expressValidator.Result.array.mockImplementationOnce(() => [
+        {
+          type: 'field',
+          value: '2a2',
+          msg: 'Account ID must be numeric',
+          path: 'accountId',
+          location: 'params',
+        },
+      ]);
 
       await transactionsController.createTransaction(req, null, next);
 
@@ -271,6 +272,27 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 422 if transaction data is invalid', async (done) => {
+      const req = { params: { accountId: '123' } };
+      const next = jest.fn();
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      expressValidator.Result.array.mockImplementationOnce(() => [
+        {
+          type: 'field',
+          msg: 'Field must not be empty',
+          path: 'description',
+          location: 'body',
+        },
+      ]);
+
+      await transactionsController.createTransaction(req, null, next);
+
+      const unprocessableEntityError = new Error('Unprocessable Entity');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(unprocessableEntityError);
+
       done();
     });
 
