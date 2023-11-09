@@ -366,8 +366,8 @@ paths:
           schema:
             $ref: '#/definitions/TransactionRequestPayload'
       responses:
-        '200':
-          description: Ok
+        '201':
+          description: Created
           headers:
             Location:
               type: string
