@@ -17,12 +17,12 @@ router.post(
   '/accounts/:accountId/transactions',
   param('accountId').isNumeric().withMessage('Account ID must be numeric'),
   body('description')
-    .exists()
-    .withMessage('Required key')
-    .notEmpty()
-    .withMessage('Field must not be empty')
-    .isLength({ max: 255 })
+    .isLength({ min: 1, max: 255 })
     .withMessage('Field must have length between 1-255 characteres'),
+  body('amount').isNumeric().withMessage('Value must be a number'),
+  body('date').isISO8601().withMessage('Value must be a valid date (ISO8601)'),
+  body('notes').isLength({ max: 1000 }).withMessage('Length limit of 1000 characteres'),
+  body('isIncome').isBoolean(),
   isAuth,
   transactionsController.createTransaction
 );
