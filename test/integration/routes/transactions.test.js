@@ -87,19 +87,19 @@ describe('Transactions end points', () => {
       details: [
         {
           type: 'field',
-          msg: 'Field must have length between 1-255 characteres',
+          msg: 'Invalid value',
           path: 'description',
           location: 'body',
         },
         {
           type: 'field',
-          msg: 'Value must be a number',
+          msg: 'Must be a number',
           path: 'amount',
           location: 'body',
         },
         {
           type: 'field',
-          msg: 'Value must be a valid date (ISO8601)',
+          msg: 'Must be a valid date',
           path: 'date',
           location: 'body',
         },

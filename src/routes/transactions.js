@@ -16,12 +16,10 @@ router.get(
 router.post(
   '/accounts/:accountId/transactions',
   param('accountId').isNumeric().withMessage('Account ID must be numeric'),
-  body('description')
-    .isLength({ min: 1, max: 255 })
-    .withMessage('Field must have length between 1-255 characteres'),
-  body('amount').isNumeric().withMessage('Value must be a number'),
-  body('date').isISO8601().withMessage('Value must be a valid date (ISO8601)'),
-  body('notes').isLength({ max: 1000 }).withMessage('Length limit of 1000 characteres'),
+  body('description').notEmpty().isLength({ max: 255 }).withMessage('Max size of 255 characters'),
+  body('amount').isNumeric().withMessage('Must be a number'),
+  body('date').isISO8601().withMessage('Must be a valid date'),
+  body('notes').isLength({ max: 1000 }).withMessage('Max size of 1000 characters'),
   body('isIncome').isBoolean(),
   isAuth,
   transactionsController.createTransaction
