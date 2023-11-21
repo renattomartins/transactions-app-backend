@@ -127,7 +127,27 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it.skip('GET /accounts/:id/transactions/:id should return a valid response with a transaction resource', async (done) => {
+  it('GET /accounts/:id/transactions/:id should return a valid response with a transaction resource', async (done) => {
+    const mockedTransactionsList = [
+      {
+        id: 12944,
+        description: 'Conta de água',
+        amount: 128.32,
+        date: '2023-04-04T08:14:34.606Z',
+        notes: 'Conta referente ao mês jul/2023',
+        isIncome: true,
+        createdAt: '2023-04-04T08:14:34.606Z',
+        updatedAt: '2023-04-04T08:14:34.606Z',
+        AccountId: 3544,
+      },
+    ];
+    const mockedAccountModel = {
+      UserId: 123,
+      getTransactions: jest.fn().mockResolvedValueOnce(mockedTransactionsList),
+    };
+
+    Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
     const res = await request
       .get('/accounts/3544/transactions/12944')
       .set({ Authorization: 'Bearer abc' });

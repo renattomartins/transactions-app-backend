@@ -25,7 +25,14 @@ router.post(
   transactionsController.createTransaction
 );
 
-router.get('/accounts/3544/transactions/12944', isAuth, transactionsController.getTransaction);
+router.get(
+  '/accounts/:accountId/transactions/:transactionId',
+  isAuth,
+  param('accountId').isNumeric().withMessage('Account ID must be numeric'),
+  param('transactionId').isNumeric().withMessage('Transaction ID must be numeric'),
+  transactionsController.getTransaction
+);
+
 router.put('/accounts/3544/transactions/12944', isAuth, transactionsController.updateTransaction);
 router.patch(
   '/accounts/3544/transactions/12944',
