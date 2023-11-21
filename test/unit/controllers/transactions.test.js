@@ -431,7 +431,7 @@ describe('Transactions controllers', () => {
       const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce({
         UserId: 10,
-        getTransactions: jest.fn().mockResolvedValueOnce(null),
+        getTransactions: jest.fn().mockResolvedValueOnce([]),
       });
 
       await transactionsController.getTransaction(req, null, next);
