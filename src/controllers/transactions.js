@@ -96,18 +96,29 @@ exports.createTransaction = async (req, res, next) => {
   }
 };
 
-exports.getTransaction = (req, res) => {
-  res.json({
-    id: 12944,
-    description: 'Lazer',
-    amount: -27.0,
-    date: '2013-08-02',
-    notes: '',
-    isIncome: false,
-    createdAt: '2013-08-02 07:48:37',
-    updatedAt: '2013-08-02 07:48:37',
-    accountId: 3544,
-  });
+exports.getTransaction = async (req, res, next) => {
+  const { accountId, transactionId } = req.params;
+
+  try {
+    const account = await Account.findByPk(accountId);
+
+    res.json({
+      id: 12944,
+      description: 'Lazer',
+      amount: -27.0,
+      date: '2013-08-02',
+      notes: '',
+      isIncome: false,
+      createdAt: '2013-08-02 07:48:37',
+      updatedAt: '2013-08-02 07:48:37',
+      accountId: 3544,
+    });
+  } catch (e) {
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
+  }
 };
 
 exports.updateTransaction = (req, res) => {
