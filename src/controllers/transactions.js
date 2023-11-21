@@ -128,17 +128,7 @@ exports.getTransaction = async (req, res, next) => {
       throw error;
     }
 
-    res.json({
-      id: 12944,
-      description: 'Lazer',
-      amount: -27.0,
-      date: '2013-08-02',
-      notes: '',
-      isIncome: false,
-      createdAt: '2013-08-02 07:48:37',
-      updatedAt: '2013-08-02 07:48:37',
-      accountId: 3544,
-    });
+    res.json(transaction[0]);
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;

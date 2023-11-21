@@ -337,6 +337,45 @@ describe('Transactions controllers', () => {
       expressValidator.Result.array.mockClear();
     });
 
+    it('Should set a response with a transaction', async (done) => {
+      const req = { params: { accountId: 123, transactionId: 1001 }, userId: 10 };
+      const res = { json: jest.fn() };
+      const mockedTransactionInArray = [
+        {
+          id: 1001,
+          description: 'Conta de água',
+          amount: 128.32,
+          date: '2023-04-04T08:14:34.606Z',
+          notes: 'Conta referente ao mês jul/2023',
+          isIncome: true,
+          createdAt: '2023-04-04T08:14:34.606Z',
+          updatedAt: '2023-04-04T08:14:34.606Z',
+          AccountId: 123,
+        },
+      ];
+      const mockedAccountModel = {
+        UserId: 10,
+        getTransactions: jest.fn().mockResolvedValueOnce(mockedTransactionInArray),
+      };
+
+      Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
+      await transactionsController.getTransaction(req, res, null);
+
+      const expectedTransactionsWhereClause = { where: { id: 1001 } };
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
+      expect(Account.findByPk).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledWith(
+        expectedTransactionsWhereClause
+      );
+      expect(res.json).toHaveBeenCalledWith(mockedTransactionInArray[0]);
+
+      done();
+    });
+
     it('Should set an error code 400 if account id is not numeric', async (done) => {
       const req = { params: { accountId: 'a23' } };
       const next = jest.fn();
