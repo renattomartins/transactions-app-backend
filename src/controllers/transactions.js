@@ -107,6 +107,12 @@ exports.getTransaction = async (req, res, next) => {
       throw error;
     }
 
+    if (account.UserId !== req.userId) {
+      const error = new Error('Forbidden');
+      error.statusCode = 403;
+      throw error;
+    }
+
     const transaction = await account.getTransactions({ where: { id: transactionId } });
 
     res.json({

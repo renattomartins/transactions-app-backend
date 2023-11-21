@@ -94,7 +94,7 @@ describe('Transactions controllers', () => {
       done();
     });
 
-    it('Should set an error code 403 if account id does not belongs to logged user', async (done) => {
+    it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
       const req = { params: { accountId: 123 }, userId: 10 };
       const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
@@ -111,7 +111,7 @@ describe('Transactions controllers', () => {
       done();
     });
 
-    it('Should set an error code 404 if account id does not exists', async (done) => {
+    it('Should set an error code 404 if account id does not exist', async (done) => {
       const req = { params: { accountId: 123 } };
       const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce(null);
@@ -237,7 +237,7 @@ describe('Transactions controllers', () => {
       done();
     });
 
-    it('Should set an error code 403 if account id does not belongs to logged user', async (done) => {
+    it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
       const req = { params: { accountId: 123 }, userId: 10 };
       const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
@@ -254,7 +254,7 @@ describe('Transactions controllers', () => {
       done();
     });
 
-    it('Should set an error code 404 if account id does not exists', async (done) => {
+    it('Should set an error code 404 if account id does not exist', async (done) => {
       const req = { params: { accountId: 123 } };
       const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce(null);
@@ -317,7 +317,21 @@ describe('Transactions controllers', () => {
   });
 
   describe('When getTransaction is called', () => {
-    it('Should set an error code 404 if account id does not exists', async (done) => {
+    it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
+      const req = { params: { accountId: 123, transactionId: 1001 }, userId: 10 };
+      const next = jest.fn();
+      Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
+
+      await transactionsController.getTransaction(req, null, next);
+
+      const forbiddenError = new Error('Forbidden');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(forbiddenError);
+
+      done();
+    });
+
+    it('Should set an error code 404 if account id does not exist', async (done) => {
       const req = { params: { accountId: 123, transactionId: 1001 } };
       const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce(null);
