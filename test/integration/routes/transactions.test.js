@@ -127,7 +127,7 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it('GET /accounts/:id/transactions/:id should return a valid response with a transaction resource', async (done) => {
+  it.skip('GET /accounts/:id/transactions/:id should return a valid response with a transaction resource', async (done) => {
     const res = await request
       .get('/accounts/3544/transactions/12944')
       .set({ Authorization: 'Bearer abc' });

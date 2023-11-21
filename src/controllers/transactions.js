@@ -101,6 +101,13 @@ exports.getTransaction = async (req, res, next) => {
 
   try {
     const account = await Account.findByPk(accountId);
+    if (!account) {
+      const error = new Error('Account not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const transaction = await account.getTransactions({ where: { id: transactionId } });
 
     res.json({
       id: 12944,
