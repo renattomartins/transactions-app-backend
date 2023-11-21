@@ -114,6 +114,11 @@ exports.getTransaction = async (req, res, next) => {
     }
 
     const transaction = await account.getTransactions({ where: { id: transactionId } });
+    if (!transaction) {
+      const error = new Error('Transaction not found');
+      error.statusCode = 404;
+      throw error;
+    }
 
     res.json({
       id: 12944,
