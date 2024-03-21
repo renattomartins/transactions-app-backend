@@ -392,6 +392,7 @@ describe('Transactions controllers', () => {
 
       done();
     });
+
     it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
       const req = { params: { accountId: 123, transactionId: 1001 }, userId: 10 };
       const next = jest.fn();
