@@ -466,4 +466,20 @@ describe('Transactions controllers', () => {
       done();
     });
   });
+
+  describe('When updateTransaction is called', () => {
+    it('Should set an error code 500 due generic error', async (done) => {
+      const req = { params: { accountId: 123, transactionId: 1001 } };
+      const next = jest.fn();
+      const genericError = new Error('Generic error');
+      Account.findByPk = jest.fn().mockRejectedValueOnce(genericError);
+
+      await transactionsController.updateTransaction(req, null, next);
+
+      expect(genericError).toHaveProperty('statusCode');
+      expect(genericError.statusCode).toBe(500);
+      expect(next).toBeCalledWith(genericError);
+      done();
+    });
+  });
 });

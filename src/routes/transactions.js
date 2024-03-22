@@ -33,7 +33,11 @@ router.get(
   transactionsController.getTransaction
 );
 
-router.put('/accounts/3544/transactions/12944', isAuth, transactionsController.updateTransaction);
+router.put(
+  '/accounts/:accountId/transactions/:transactionId',
+  isAuth,
+  transactionsController.updateTransaction
+);
 router.patch(
   '/accounts/3544/transactions/12944',
   isAuth,

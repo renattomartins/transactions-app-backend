@@ -465,7 +465,7 @@ paths:
           description: Transaction object that needs to be uptaded
           required: true
           schema:
-            $ref: '#/definitions/Transaction'
+            $ref: '#/definitions/TransactionRequestPayload'
       responses:
         '200':
           description: Ok
