@@ -468,6 +468,20 @@ describe('Transactions controllers', () => {
   });
 
   describe('When updateTransaction is called', () => {
+    it('Should set an error code 404 if account id does not exist', async (done) => {
+      const req = { params: { accountId: 123, transactionId: 1001 } };
+      const next = jest.fn();
+      Account.findByPk = jest.fn().mockResolvedValueOnce(null);
+
+      await transactionsController.updateTransaction(req, null, next);
+
+      const notFoundError = new Error('Account not found');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(notFoundError);
+
+      done();
+    });
+
     it('Should set an error code 500 due generic error', async (done) => {
       const req = { params: { accountId: 123, transactionId: 1001 } };
       const next = jest.fn();
