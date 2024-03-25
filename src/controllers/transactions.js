@@ -148,6 +148,12 @@ exports.updateTransaction = async (req, res, next) => {
       throw error;
     }
 
+    if (account.UserId !== req.userId) {
+      const error = new Error('Forbidden');
+      error.statusCode = 403;
+      throw error;
+    }
+
     res.json({
       id: 12944,
       description: 'Lazer',
