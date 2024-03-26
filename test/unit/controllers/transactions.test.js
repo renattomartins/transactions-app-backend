@@ -468,9 +468,37 @@ describe('Transactions controllers', () => {
   });
 
   describe('When updateTransaction is called', () => {
+    let req;
+    let res;
+    let next;
+
+    beforeAll(() => {
+      req = {
+        params: {
+          accountId: 123,
+          transactionId: 1001,
+        },
+        body: {
+          description: 'Pix recebido',
+          amount: 100.05,
+          date: '2024-03-24T12:11:54.606Z',
+          notes: '',
+          isIncome: true,
+        },
+        userId: 10,
+      };
+      res = {
+        json: jest.fn(),
+      };
+      next = jest.fn();
+    });
+
+    afterEach(() => {
+      res.json.mockClear();
+      next.mockClear();
+    });
+
     it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
-      const req = { params: { accountId: 123, transactionId: 1001 }, userId: 10 };
-      const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
 
       await transactionsController.updateTransaction(req, null, next);
@@ -483,8 +511,6 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 404 if account id does not exist', async (done) => {
-      const req = { params: { accountId: 123, transactionId: 1001 } };
-      const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce(null);
 
       await transactionsController.updateTransaction(req, null, next);
@@ -497,8 +523,6 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 404 if transaction id does not exist', async (done) => {
-      const req = { params: { accountId: 123, transactionId: 1001 }, userId: 10 };
-      const next = jest.fn();
       Account.findByPk = jest.fn().mockResolvedValueOnce({
         UserId: 10,
         getTransactions: jest.fn().mockResolvedValueOnce([]),
@@ -514,8 +538,6 @@ describe('Transactions controllers', () => {
     });
 
     it('Should set an error code 500 due generic error', async (done) => {
-      const req = { params: { accountId: 123, transactionId: 1001 } };
-      const next = jest.fn();
       const genericError = new Error('Generic error');
       Account.findByPk = jest.fn().mockRejectedValueOnce(genericError);
 

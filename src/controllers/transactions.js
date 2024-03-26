@@ -139,6 +139,7 @@ exports.getTransaction = async (req, res, next) => {
 
 exports.updateTransaction = async (req, res, next) => {
   const { accountId, transactionId } = req.params;
+  const { description, amount, date, notes, isIncome } = req.body;
 
   try {
     const account = await Account.findByPk(accountId);
@@ -161,17 +162,25 @@ exports.updateTransaction = async (req, res, next) => {
       throw error;
     }
 
-    res.json({
-      id: 12944,
-      description: 'Lazer',
-      amount: -207.0,
-      date: '2013-08-02',
-      notes: '',
-      isIncome: false,
-      createdAt: '2013-08-02 07:48:37',
-      updatedAt: '2021-04-27 07:27:56',
-      accountId: 3544,
-    });
+    transaction.description = description;
+    transaction.amount = amount;
+    transaction.date = date;
+    transaction.notes = notes;
+    transaction.isIncome = isIncome;
+
+    const updatedTransaction = await transaction.save();
+    res.json(updatedTransaction);
+    // res.json({
+    //   id: 12944,
+    //   description: 'Lazer',
+    //   amount: -207.0,
+    //   date: '2013-08-02',
+    //   notes: '',
+    //   isIncome: false,
+    //   createdAt: '2013-08-02 07:48:37',
+    //   updatedAt: '2021-04-27 07:27:56',
+    //   accountId: 3544,
+    // });
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;
