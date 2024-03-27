@@ -155,8 +155,10 @@ exports.updateTransaction = async (req, res, next) => {
       throw error;
     }
 
-    const transaction = await account.getTransactions({ where: { id: transactionId } });
-    if (transaction.length === 0) {
+    const transactions = await account.getTransactions({ where: { id: transactionId } });
+    const transaction = transactions[0];
+
+    if (!transaction) {
       const error = new Error('Transaction not found');
       error.statusCode = 404;
       throw error;
@@ -170,17 +172,6 @@ exports.updateTransaction = async (req, res, next) => {
 
     const updatedTransaction = await transaction.save();
     res.json(updatedTransaction);
-    // res.json({
-    //   id: 12944,
-    //   description: 'Lazer',
-    //   amount: -207.0,
-    //   date: '2013-08-02',
-    //   notes: '',
-    //   isIncome: false,
-    //   createdAt: '2013-08-02 07:48:37',
-    //   updatedAt: '2021-04-27 07:27:56',
-    //   accountId: 3544,
-    // });
   } catch (e) {
     if (!e.statusCode) {
       e.statusCode = 500;

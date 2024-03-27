@@ -498,6 +498,47 @@ describe('Transactions controllers', () => {
       next.mockClear();
     });
 
+    it('Should set a response with an updated transaction', async (done) => {
+      const mockedTransactionModel = {
+        id: 1001,
+        description: 'Pix enviado',
+        amount: 200,
+        date: '2024-03-23T12:11:54.606Z',
+        notes: 'Uma nota qualquer',
+        isIncome: false,
+        createdAt: '2024-03-23T12:11:54.606Z',
+        updatedAt: '2024-03-23T12:11:54.606Z',
+        AccountId: 123,
+        save: jest.fn().mockResolvedValueOnce(),
+      };
+
+      const mockedAccountModel = {
+        UserId: 10,
+        getTransactions: jest.fn().mockResolvedValueOnce([mockedTransactionModel]),
+      };
+
+      Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
+      await transactionsController.updateTransaction(req, res, null);
+
+      const expectedTransactionsWhereClause = { where: { id: 1001 } };
+      expect(Account.findByPk).toHaveBeenCalledTimes(1);
+      expect(Account.findByPk).toBeCalledWith(123);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledWith(
+        expectedTransactionsWhereClause
+      );
+      expect(mockedTransactionModel.save).toHaveBeenCalledTimes(1);
+      expect(mockedTransactionModel.description).toBe(req.body.description);
+      expect(mockedTransactionModel.amount).toBe(req.body.amount);
+      expect(mockedTransactionModel.date).toBe(req.body.date);
+      expect(mockedTransactionModel.notes).toBe(req.body.notes);
+      expect(mockedTransactionModel.isIncome).toBe(req.body.isIncome);
+      expect(res.json).toHaveBeenCalledTimes(1);
+
+      done();
+    });
+
     it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
       Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
 
