@@ -158,14 +158,54 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it.skip('PUT /accounts/:id/transactions/:id should return a valid response with a changed transaction resource', async (done) => {
+  it('PUT /accounts/:id/transactions/:id should return a valid response with a changed transaction resource', async (done) => {
+    const mockedRequestBodyPayload = {
+      description: 'Conta de água',
+      amount: 128.32,
+      date: '2023-04-04T08:14:34.606Z',
+      notes: 'Conta referente ao mês jul/2023',
+      isIncome: true,
+    };
+    const mockedResponseBodyPayload = {
+      id: 1254,
+      description: 'Conta de água',
+      amount: 128.32,
+      date: '2023-04-04T08:14:34.606Z',
+      notes: 'Conta referente ao mês jul/2023',
+      isIncome: true,
+      createdAt: '2023-04-01T08:00:00.606Z',
+      updatedAt: '2023-04-04T08:14:34.606Z',
+      AccountId: 3544,
+    };
+    const mockedTransactionModel = {
+      id: 1254,
+      description: 'old-description',
+      amount: 0,
+      date: '2020-01-01T00:00:00.00Z',
+      notes: 'old-notes',
+      isIncome: false,
+      createdAt: '2023-04-01T08:00:00.606Z',
+      updatedAt: '2023-04-01T08:00:00.606Z',
+      AccountId: 3544,
+      save: jest.fn().mockResolvedValueOnce(mockedResponseBodyPayload),
+    };
+
+    const mockedAccountModel = {
+      UserId: 123,
+      getTransactions: jest.fn().mockResolvedValueOnce([mockedTransactionModel]),
+    };
+
+    Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
     const res = await request
-      .put('/accounts/3544/transactions/12944')
-      .set({ Authorization: 'Bearer abc' });
+      .put('/accounts/3544/transactions/1254')
+      .set({ Authorization: 'Bearer abc' })
+      .send(mockedRequestBodyPayload);
 
     expect(res.status).toBe(200);
     expect(Object.prototype.hasOwnProperty.call(res.headers, 'content-type')).toBe(true);
     expect(res.headers['content-type']).toMatch(/application\/json/);
+    expect(res.body).toEqual(mockedResponseBodyPayload);
     done();
   });
 
