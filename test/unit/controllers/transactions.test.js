@@ -491,11 +491,26 @@ describe('Transactions controllers', () => {
         json: jest.fn(),
       };
       next = jest.fn();
+
+      expressValidator.validationResult.mockReturnValue(expressValidator.Result);
+      expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
+      expressValidator.Result.array = jest.fn().mockReturnValue([
+        {
+          type: 'field',
+          value: 'a23',
+          msg: 'Account ID must be numeric',
+          path: 'accountId',
+          location: 'params',
+        },
+      ]);
     });
 
     afterEach(() => {
       res.json.mockClear();
       next.mockClear();
+      expressValidator.validationResult.mockClear();
+      expressValidator.Result.isEmpty.mockClear();
+      expressValidator.Result.array.mockClear();
     });
 
     it('Should set a response with an updated transaction', async (done) => {
@@ -522,6 +537,10 @@ describe('Transactions controllers', () => {
       await transactionsController.updateTransaction(req, res, null);
 
       const expectedTransactionsWhereClause = { where: { id: 1001 } };
+
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(Account.findByPk).toHaveBeenCalledTimes(1);
       expect(Account.findByPk).toBeCalledWith(123);
       expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
@@ -535,6 +554,21 @@ describe('Transactions controllers', () => {
       expect(mockedTransactionModel.notes).toBe(req.body.notes);
       expect(mockedTransactionModel.isIncome).toBe(req.body.isIncome);
       expect(res.json).toHaveBeenCalledTimes(1);
+
+      done();
+    });
+
+    it('Should set an error code 400 if there is an validation error', async (done) => {
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+
+      await transactionsController.updateTransaction(req, null, next);
+
+      const badRequestError = new Error('Bad request');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(badRequestError);
 
       done();
     });

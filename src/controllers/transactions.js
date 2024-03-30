@@ -140,8 +140,16 @@ exports.getTransaction = async (req, res, next) => {
 exports.updateTransaction = async (req, res, next) => {
   const { accountId, transactionId } = req.params;
   const { description, amount, date, notes, isIncome } = req.body;
+  const validationErrors = validationResult(req);
 
   try {
+    if (!validationErrors.isEmpty()) {
+      const error = new Error('Bad request');
+      error.statusCode = 400;
+      error.details = validationErrors.array();
+      throw error;
+    }
+
     const account = await Account.findByPk(accountId);
     if (!account) {
       const error = new Error('Account not found');
