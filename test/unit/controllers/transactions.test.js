@@ -612,6 +612,29 @@ describe('Transactions controllers', () => {
       done();
     });
 
+    it('Should set an error code 422 if transaction data is invalid', async (done) => {
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      expressValidator.Result.array.mockImplementationOnce(() => [
+        {
+          type: 'field',
+          msg: 'Field must not be empty',
+          path: 'description',
+          location: 'body',
+        },
+      ]);
+
+      await transactionsController.updateTransaction(req, null, next);
+
+      const unprocessableEntityError = new Error('Unprocessable Entity');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(unprocessableEntityError);
+
+      done();
+    });
+
     it('Should set an error code 500 due generic error', async (done) => {
       const genericError = new Error('Generic error');
       Account.findByPk = jest.fn().mockRejectedValueOnce(genericError);

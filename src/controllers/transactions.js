@@ -144,9 +144,25 @@ exports.updateTransaction = async (req, res, next) => {
 
   try {
     if (!validationErrors.isEmpty()) {
-      const error = new Error('Bad request');
-      error.statusCode = 400;
-      error.details = validationErrors.array();
+      const errors = validationErrors.array();
+      let error;
+
+      switch (errors[0].location) {
+        case 'body':
+          error = new Error('Unprocessable Entity');
+          error.statusCode = 422;
+          error.details = errors;
+          break;
+        case 'params':
+          error = new Error('Bad request');
+          error.statusCode = 400;
+          error.details = [errors[0]];
+          break;
+        default:
+          error = new Error('Bad request');
+          error.statusCode = 400;
+          error.details = errors;
+      }
       throw error;
     }
 

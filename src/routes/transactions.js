@@ -38,6 +38,11 @@ router.put(
   isAuth,
   param('accountId').isNumeric().withMessage('Account ID must be numeric'),
   param('transactionId').isNumeric().withMessage('Transaction ID must be numeric'),
+  body('description').notEmpty().isLength({ max: 255 }).withMessage('Max size of 255 characters'),
+  body('amount').isNumeric().withMessage('Must be a number'),
+  body('date').isISO8601().withMessage('Must be a valid date'),
+  body('notes').isLength({ max: 1000 }).withMessage('Max size of 1000 characters'),
+  body('isIncome').isBoolean(),
   transactionsController.updateTransaction
 );
 router.patch(
