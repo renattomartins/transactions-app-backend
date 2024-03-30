@@ -237,6 +237,32 @@ describe('Transactions controllers', () => {
       done();
     });
 
+    it('Should set an error code 400 if there are any other request validation error', async (done) => {
+      const req = { params: { accountId: 123 } };
+      const next = jest.fn();
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      expressValidator.Result.array.mockImplementationOnce(() => [
+        {
+          type: 'some-type',
+          value: 'some-value',
+          msg: 'Some message',
+          path: 'some-path',
+          location: 'some-location',
+        },
+      ]);
+
+      await transactionsController.createTransaction(req, null, next);
+
+      const badRequestError = new Error('Bad request');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(badRequestError);
+
+      done();
+    });
+
     it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
       const req = { params: { accountId: 123 }, userId: 10 };
       const next = jest.fn();
@@ -494,15 +520,7 @@ describe('Transactions controllers', () => {
 
       expressValidator.validationResult.mockReturnValue(expressValidator.Result);
       expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
-      expressValidator.Result.array = jest.fn().mockReturnValue([
-        {
-          type: 'field',
-          value: 'a23',
-          msg: 'Account ID must be numeric',
-          path: 'accountId',
-          location: 'params',
-        },
-      ]);
+      expressValidator.Result.array = jest.fn();
     });
 
     afterEach(() => {
@@ -558,8 +576,41 @@ describe('Transactions controllers', () => {
       done();
     });
 
-    it('Should set an error code 400 if there is an validation error', async (done) => {
+    it('Should set an error code 400 if some pathParam is invalid', async (done) => {
       expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      expressValidator.Result.array = jest.fn().mockReturnValueOnce([
+        {
+          type: 'field',
+          value: 'a23',
+          msg: 'Account ID must be numeric',
+          path: 'accountId',
+          location: 'params',
+        },
+      ]);
+
+      await transactionsController.updateTransaction(req, null, next);
+
+      const badRequestError = new Error('Bad request');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(badRequestError);
+
+      done();
+    });
+
+    it('Should set an error code 400 if there are any other request validation error', async (done) => {
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+      expressValidator.Result.array.mockReturnValueOnce([
+        {
+          type: 'some-type',
+          value: 'some-value',
+          msg: 'Some message',
+          path: 'some-path',
+          location: 'some-location',
+        },
+      ]);
 
       await transactionsController.updateTransaction(req, null, next);
 
