@@ -45,11 +45,7 @@ router.put(
   body('isIncome').isBoolean(),
   transactionsController.updateTransaction
 );
-router.patch(
-  '/accounts/3544/transactions/12944',
-  isAuth,
-  transactionsController.partiallyUpdateTransaction
-);
+
 router.delete(
   '/accounts/3544/transactions/12944',
   isAuth,
