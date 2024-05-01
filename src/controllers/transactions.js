@@ -204,20 +204,6 @@ exports.updateTransaction = async (req, res, next) => {
   }
 };
 
-exports.partiallyUpdateTransaction = (req, res) => {
-  res.json({
-    id: 12944,
-    description: 'Lazer',
-    amount: -207.0,
-    date: '2013-08-02',
-    notes: 'Uma nota sobre esse gasto',
-    isIncome: false,
-    createdAt: '2013-08-02 07:48:37',
-    updatedAt: '2021-04-27 07:35:43',
-    accountId: 3544,
-  });
-};
-
 exports.deleteTransaction = (req, res) => {
   res.sendStatus(204);
 };
