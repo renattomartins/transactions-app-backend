@@ -204,6 +204,16 @@ exports.updateTransaction = async (req, res, next) => {
   }
 };
 
-exports.deleteTransaction = (req, res) => {
-  res.sendStatus(204);
+exports.deleteTransaction = async (req, res, next) => {
+  const { accountId } = req.params;
+
+  try {
+    await Account.findByPk(accountId);
+    res.sendStatus(204);
+  } catch (e) {
+    if (!e.statusCode) {
+      e.statusCode = 500;
+    }
+    next(e);
+  }
 };

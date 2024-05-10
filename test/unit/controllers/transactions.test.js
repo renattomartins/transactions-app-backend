@@ -698,4 +698,41 @@ describe('Transactions controllers', () => {
       done();
     });
   });
+
+  describe('When deleteTransaction is called', () => {
+    let req;
+    let res;
+    let next;
+
+    beforeAll(() => {
+      req = {
+        params: {
+          accountId: 123,
+          transactionId: 1001,
+        },
+        userId: 10,
+      };
+      res = {
+        json: jest.fn(),
+      };
+      next = jest.fn();
+    });
+
+    afterEach(() => {
+      res.json.mockClear();
+      next.mockClear();
+    });
+
+    it('Should set an error code 500 due generic error', async (done) => {
+      const genericError = new Error('Generic error');
+      Account.findByPk = jest.fn().mockRejectedValueOnce(genericError);
+
+      await transactionsController.deleteTransaction(req, null, next);
+
+      expect(genericError).toHaveProperty('statusCode');
+      expect(genericError.statusCode).toBe(500);
+      expect(next).toBeCalledWith(genericError);
+      done();
+    });
+  });
 });
