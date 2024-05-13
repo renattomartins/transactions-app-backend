@@ -435,7 +435,7 @@ paths:
           schema:
             $ref: '#/definitions/403CodeResponsePayload'
         '404':
-          description: Account ou Transaction not found
+          description: Account or Transaction not found
           schema:
             $ref: '#/definitions/404CodeResponsePayload'
         '500':
@@ -484,7 +484,7 @@ paths:
           schema:
             $ref: '#/definitions/403CodeResponsePayload'
         '404':
-          description: Transaction not found
+          description: Account or Transaction not found
           schema:
             $ref: '#/definitions/404CodeResponsePayload'
         '422':
@@ -509,7 +509,7 @@ paths:
           format: int64
         - name: transactionId
           in: path
-          description: ID of transaction to return
+          description: ID of transaction to delete
           required: true
           type: integer
           format: int64
@@ -517,9 +517,25 @@ paths:
         '204':
           description: No content
         '400':
-          description: Invalid ID supplied
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/400CodeResponsePayload'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/401CodeResponsePayload'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/403CodeResponsePayload'
         '404':
-          description: Transaction not found
+          description: Account or Transaction not found
+          schema:
+            $ref: '#/definitions/404CodeResponsePayload'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/500CodeResponsePayload'
 definitions:
   WelcomeResponsePayload:
     type: object
