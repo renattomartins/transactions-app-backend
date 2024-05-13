@@ -208,7 +208,13 @@ exports.deleteTransaction = async (req, res, next) => {
   const { accountId } = req.params;
 
   try {
-    await Account.findByPk(accountId);
+    const account = await Account.findByPk(accountId);
+    if (!account) {
+      const error = new Error('Account not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
     res.sendStatus(204);
   } catch (e) {
     if (!e.statusCode) {

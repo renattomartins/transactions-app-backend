@@ -47,7 +47,7 @@ router.put(
 );
 
 router.delete(
-  '/accounts/3544/transactions/12944',
+  '/accounts/:accountId/transactions/:transactionId',
   isAuth,
   transactionsController.deleteTransaction
 );

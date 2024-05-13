@@ -723,6 +723,18 @@ describe('Transactions controllers', () => {
       next.mockClear();
     });
 
+    it('Should set an error code 404 if account id does not exist', async (done) => {
+      Account.findByPk = jest.fn().mockResolvedValueOnce(null);
+
+      await transactionsController.deleteTransaction(req, null, next);
+
+      const notFoundError = new Error('Account not found');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(notFoundError);
+
+      done();
+    });
+
     it('Should set an error code 500 due generic error', async (done) => {
       const genericError = new Error('Generic error');
       Account.findByPk = jest.fn().mockRejectedValueOnce(genericError);

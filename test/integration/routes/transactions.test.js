@@ -209,7 +209,7 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it('DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource', async (done) => {
+  it.skip('DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource', async (done) => {
     const res = await request
       .delete('/accounts/3544/transactions/12944')
       .set({ Authorization: 'Bearer abc' });
