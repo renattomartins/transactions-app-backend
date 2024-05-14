@@ -9,8 +9,14 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: transações.io
-basePath: /v1
+host: localhost:3000
+# host: transações.io
+# basePath: /v1
+securityDefinitions:
+  BearerAuth:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
 tags:
   - name: base
     description: Initial endpoints
@@ -23,8 +29,8 @@ tags:
   - name: users
     description: Operations about user
 schemes:
-  - https
   - http
+  - https
 consumes:
   - application/json
 produces:
@@ -136,6 +142,8 @@ paths:
       tags:
         - accounts
       operationId: getAccounts
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Ok
@@ -156,6 +164,8 @@ paths:
       summary: Add a new financial account
       description: ''
       operationId: addAccount
+      security:
+        - BearerAuth: []
       parameters:
         - in: body
           name: account
@@ -182,6 +192,8 @@ paths:
         - accounts
       summary: Get a financial account
       operationId: getAccount
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -211,6 +223,8 @@ paths:
         - accounts
       summary: Update an existing financial account
       operationId: updateAccount
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -246,6 +260,8 @@ paths:
         - accounts
       summary: Update parcially an existing financial account
       operationId: patchAccount
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -281,6 +297,8 @@ paths:
         - accounts
       summary: Delete an existing financial account
       operationId: deleteAccount
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -309,6 +327,8 @@ paths:
       tags:
         - transactions
       operationId: getTransactions
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -352,6 +372,8 @@ paths:
       summary: Add a new transaction
       description: ''
       operationId: addTransaction
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -404,6 +426,8 @@ paths:
         - transactions
       summary: Get a transaction
       operationId: getTransaction
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -447,6 +471,8 @@ paths:
         - transactions
       summary: Update an existing transaction
       operationId: updateTransaction
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
@@ -500,6 +526,8 @@ paths:
         - transactions
       summary: Delete an existing transaction
       operationId: deleteTransaction
+      security:
+        - BearerAuth: []
       parameters:
         - name: accountId
           in: path
