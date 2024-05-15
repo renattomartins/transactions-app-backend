@@ -714,13 +714,44 @@ describe('Transactions controllers', () => {
       };
       res = {
         json: jest.fn(),
+        sendStatus: jest.fn(),
       };
       next = jest.fn();
     });
 
     afterEach(() => {
       res.json.mockClear();
+      res.sendStatus.mockClear();
       next.mockClear();
+    });
+
+    it('Should delete transaction and set an empty response (no content) with status code 204', async (done) => {
+      const mockedTransactionsList = [
+        {
+          id: 'mock',
+          destroy: jest.fn(),
+        },
+      ];
+
+      const mockedAccountModel = {
+        UserId: 10,
+        getTransactions: jest.fn().mockResolvedValueOnce(mockedTransactionsList),
+      };
+
+      Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
+      await transactionsController.deleteTransaction(req, res, null);
+
+      const expectedTransactionsWhereClause = { where: { id: 1001 } };
+      expect(Account.findByPk).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
+      expect(mockedAccountModel.getTransactions).toHaveBeenCalledWith(
+        expectedTransactionsWhereClause
+      );
+      expect(mockedTransactionsList[0].destroy).toHaveBeenCalledTimes(1);
+      expect(res.sendStatus).toHaveBeenCalledWith(204);
+
+      done();
     });
 
     it('Should set an error code 403 if account id does not belong to logged user', async (done) => {

@@ -221,12 +221,16 @@ exports.deleteTransaction = async (req, res, next) => {
       throw error;
     }
 
-    const transaction = await account.getTransactions({ where: { id: transactionId } });
-    if (transaction.length === 0) {
+    const transactions = await account.getTransactions({ where: { id: transactionId } });
+    const transaction = transactions[0];
+
+    if (!transaction) {
       const error = new Error('Transaction not found');
       error.statusCode = 404;
       throw error;
     }
+
+    await transaction.destroy();
 
     res.sendStatus(204);
   } catch (e) {
