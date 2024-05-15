@@ -215,6 +215,12 @@ exports.deleteTransaction = async (req, res, next) => {
       throw error;
     }
 
+    if (account.UserId !== req.userId) {
+      const error = new Error('Forbidden');
+      error.statusCode = 403;
+      throw error;
+    }
+
     res.sendStatus(204);
   } catch (e) {
     if (!e.statusCode) {

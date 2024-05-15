@@ -723,6 +723,18 @@ describe('Transactions controllers', () => {
       next.mockClear();
     });
 
+    it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
+      Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
+
+      await transactionsController.deleteTransaction(req, null, next);
+
+      const forbiddenError = new Error('Forbidden');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(forbiddenError);
+
+      done();
+    });
+
     it('Should set an error code 404 if account id does not exist', async (done) => {
       Account.findByPk = jest.fn().mockResolvedValueOnce(null);
 
