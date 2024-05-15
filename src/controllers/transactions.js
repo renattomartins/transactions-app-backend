@@ -205,7 +205,7 @@ exports.updateTransaction = async (req, res, next) => {
 };
 
 exports.deleteTransaction = async (req, res, next) => {
-  const { accountId } = req.params;
+  const { accountId, transactionId } = req.params;
 
   try {
     const account = await Account.findByPk(accountId);
@@ -218,6 +218,13 @@ exports.deleteTransaction = async (req, res, next) => {
     if (account.UserId !== req.userId) {
       const error = new Error('Forbidden');
       error.statusCode = 403;
+      throw error;
+    }
+
+    const transaction = await account.getTransactions({ where: { id: transactionId } });
+    if (transaction.length === 0) {
+      const error = new Error('Transaction not found');
+      error.statusCode = 404;
       throw error;
     }
 
