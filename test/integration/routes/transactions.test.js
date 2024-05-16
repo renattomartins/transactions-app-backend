@@ -209,7 +209,27 @@ describe('Transactions end points', () => {
     done();
   });
 
-  it.skip('DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource', async (done) => {
+  it('DELETE /accounts/:id/transactions/:id should return a valid response to represent a deleted transaction resource', async (done) => {
+    const mockedTransactionModel = {
+      id: 12944,
+      description: 'mocked-description',
+      amount: 0,
+      date: '2020-01-01T00:00:00.00Z',
+      notes: 'mocked-notes',
+      isIncome: false,
+      createdAt: '2023-04-01T08:00:00.606Z',
+      updatedAt: '2023-04-01T08:00:00.606Z',
+      AccountId: 3544,
+      destroy: jest.fn(),
+    };
+
+    const mockedAccountModel = {
+      UserId: 123,
+      getTransactions: jest.fn().mockResolvedValueOnce([mockedTransactionModel]),
+    };
+
+    Account.findByPk = jest.fn().mockResolvedValueOnce(mockedAccountModel);
+
     const res = await request
       .delete('/accounts/3544/transactions/12944')
       .set({ Authorization: 'Bearer abc' });
