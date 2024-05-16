@@ -49,6 +49,8 @@ router.put(
 router.delete(
   '/accounts/:accountId/transactions/:transactionId',
   isAuth,
+  param('accountId').isNumeric().withMessage('Account ID must be numeric'),
+  param('transactionId').isNumeric().withMessage('Transaction ID must be numeric'),
   transactionsController.deleteTransaction
 );
 

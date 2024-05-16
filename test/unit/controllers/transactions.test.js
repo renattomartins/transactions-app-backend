@@ -717,12 +717,28 @@ describe('Transactions controllers', () => {
         sendStatus: jest.fn(),
       };
       next = jest.fn();
+
+      expressValidator.validationResult.mockReturnValue(expressValidator.Result);
+      expressValidator.Result.isEmpty = jest.fn().mockReturnValue(true);
+      expressValidator.Result.array = jest.fn().mockReturnValue([
+        {
+          type: 'field',
+          value: 'a23',
+          msg: 'Account ID must be numeric',
+          path: 'accountId',
+          location: 'params',
+        },
+      ]);
     });
 
     afterEach(() => {
       res.json.mockClear();
       res.sendStatus.mockClear();
       next.mockClear();
+
+      expressValidator.validationResult.mockClear();
+      expressValidator.Result.isEmpty.mockClear();
+      expressValidator.Result.array.mockClear();
     });
 
     it('Should delete transaction and set an empty response (no content) with status code 204', async (done) => {
@@ -743,6 +759,9 @@ describe('Transactions controllers', () => {
       await transactionsController.deleteTransaction(req, res, null);
 
       const expectedTransactionsWhereClause = { where: { id: 1001 } };
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(Account.findByPk).toHaveBeenCalledTimes(1);
       expect(mockedAccountModel.getTransactions).toHaveBeenCalledTimes(1);
       expect(mockedAccountModel.getTransactions).toHaveBeenCalledWith(
@@ -754,12 +773,31 @@ describe('Transactions controllers', () => {
       done();
     });
 
+    it('Should set an error code 400 if account id is not numeric', async (done) => {
+      const badParamRequest = { params: { accountId: 'a23' } };
+      expressValidator.Result.isEmpty.mockImplementationOnce(() => false);
+
+      await transactionsController.deleteTransaction(badParamRequest, null, next);
+
+      const badRequestError = new Error('Bad request');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toBeCalledWith(badRequestError);
+
+      done();
+    });
+
     it('Should set an error code 403 if account id does not belong to logged user', async (done) => {
       Account.findByPk = jest.fn().mockResolvedValueOnce({ UserId: 11 });
 
       await transactionsController.deleteTransaction(req, null, next);
 
       const forbiddenError = new Error('Forbidden');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(forbiddenError);
 
@@ -772,6 +810,9 @@ describe('Transactions controllers', () => {
       await transactionsController.deleteTransaction(req, null, next);
 
       const notFoundError = new Error('Account not found');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(notFoundError);
 
@@ -787,6 +828,9 @@ describe('Transactions controllers', () => {
       await transactionsController.deleteTransaction(req, null, next);
 
       const notFoundError = new Error('Transaction not found');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(next).toHaveBeenCalledTimes(1);
       expect(next).toBeCalledWith(notFoundError);
 
@@ -800,6 +844,9 @@ describe('Transactions controllers', () => {
       await transactionsController.deleteTransaction(req, null, next);
 
       expect(genericError).toHaveProperty('statusCode');
+      expect(expressValidator.validationResult).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.isEmpty).toHaveBeenCalledTimes(1);
+      expect(expressValidator.Result.array).toHaveBeenCalledTimes(0);
       expect(genericError.statusCode).toBe(500);
       expect(next).toBeCalledWith(genericError);
       done();
