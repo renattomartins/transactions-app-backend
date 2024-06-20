@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "A financial transactions tracking.",
   "main": "src/app.js",
+  "engines": {
+    "node": "^18.16.0"
+  },
   "scripts": {
     "start:local": "nodemon",
     "start": "NODE_ENV=production node src/app.js",
