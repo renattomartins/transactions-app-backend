@@ -19,7 +19,7 @@ const cors = require('./middlewares/cors');
 const errorHandler = require('./middlewares/error-handler');
 
 const app = express();
-const port = process.env.APP_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors);
