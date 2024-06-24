@@ -38,6 +38,9 @@ Account.belongsTo(User);
 Account.hasMany(Transaction, { onDelete: 'cascade' });
 Transaction.belongsTo(Account);
 
+console.log(process.env); // Testar local e em PRD
+// @todo testar incluir as env vars HOST e PROTOCOL para ter um log mais interessante
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port);
   // eslint-disable-next-line no-console
