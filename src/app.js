@@ -38,13 +38,13 @@ Account.belongsTo(User);
 Account.hasMany(Transaction, { onDelete: 'cascade' });
 Transaction.belongsTo(Account);
 
-console.log(process.env); // Testar local e em PRD
-// @todo testar incluir as env vars HOST e PROTOCOL para ter um log mais interessante
-
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(port);
+  const server = app.listen(port);
+
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const host = server.address().address === '::' ? 'localhost' : server.address().address;
   // eslint-disable-next-line no-console
-  console.log(`Transactions API listening at http://localhost:${port}`);
+  console.log(`Transactions API is running on ${protocol}://${host}:${port}`);
 }
 
 module.exports = app;
