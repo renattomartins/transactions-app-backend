@@ -39,12 +39,10 @@ Account.hasMany(Transaction, { onDelete: 'cascade' });
 Transaction.belongsTo(Account);
 
 if (process.env.NODE_ENV !== 'test') {
-  const server = app.listen(port);
+  app.listen(port);
 
-  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-  const host = server.address().address === '::' ? 'localhost' : server.address().address;
   // eslint-disable-next-line no-console
-  console.log(`Transactions API is running on ${protocol}://${host}:${port}`);
+  console.log(`Transactions API is running on port ${port}`);
 }
 
 module.exports = app;
