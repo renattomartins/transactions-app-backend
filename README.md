@@ -19,3 +19,4 @@ Feel free to explore package.json dependencies and devDependencies to learn more
 
 - The core objects is represented with Domain model pattern
 - For object relational mapping was chose... TBD.
+
