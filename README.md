@@ -18,5 +18,23 @@ Feel free to explore package.json dependencies and devDependencies to learn more
 ## Design patterns covered
 
 - The core objects is represented with Domain model pattern
-- For object relational mapping was chose... TBD.
+- For object relational mapping was chose Sequelize ORM
+- The application is organized in layer (routes, controller, models)
+
+## Installation
+
+### Local environment - Database
+Considering MAC OS, you may use homebrew do install a local Mysql Server:
+
+// Commands:
+// $ brew install mysql
+// $ brew services start mysql (Mac will re-start it at reboot)
+// $ mysql_secure_installation
+// $ brew services stop mysql
+// $ mysql.server start (Mac will not re-start it at reboot)
+// $ mysql.server status
+// $ mysql.server stop
+// $ mysql -u root -p
+// $ mysql -uroot
+
 
