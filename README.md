@@ -21,9 +21,23 @@ Feel free to explore package.json dependencies and devDependencies to learn more
 - For object relational mapping was chose Sequelize ORM
 - The application is organized in layer (routes, controller, models)
 
-## Installation
+## Install and run
 
-### Local environment - Database
+### Server
+```
+$ nvm use
+$ npm i
+$ npm run start:local
+```
+
+For tests:
+```
+$ npm run test
+$ npm run test:watch
+$ npm run test:coverage
+```
+
+### Database
 Considering MAC OS, you may use homebrew do install a local Mysql Server and then opt to start server as a service or manually.
 
 Commands:
@@ -39,3 +53,10 @@ $ mysql -u root -p (to login on Mysql server with password)
 $ mysql -uroot
 ```
 
+### Migrations
+
+```
+$ npm run db:create
+$ npm run db:migrate
+$ npm run db:migrate:status
+```
