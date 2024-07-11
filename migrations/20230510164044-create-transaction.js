@@ -51,7 +51,7 @@ module.exports = {
           allowNull: false,
           references: {
             model: {
-              tableName: 'accounts',
+              tableName: 'Accounts',
             },
             key: 'id',
           },
@@ -64,7 +64,7 @@ module.exports = {
       }
     );
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Transactions');
   },
 };
