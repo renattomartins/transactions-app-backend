@@ -23,7 +23,7 @@ Feel free to explore package.json dependencies and devDependencies to learn more
 
 ## Install and run
 
-### Server
+### Application Server
 ```
 $ nvm use
 $ npm i
@@ -37,24 +37,37 @@ $ npm run test:watch
 $ npm run test:coverage
 ```
 
-### Database
-Considering MAC OS, you may use homebrew do install a local Mysql Server and then opt to start server as a service or manually.
+### Database Server
+Considering MAC OS, you may use homebrew to install a local Mysql Server and then opt to start server as a service or manually.
 
-Commands:
+Installation and some security configurations:
 ```
 $ brew install mysql
-$ brew services start mysql (Mac will re-start it at reboot)
-$ mysql_secure_installation (some security configurations)
+$ mysql_secure_installation
+```
+
+Start Mysql server (Mac will re-start it at reboot)
+```
+$ brew services start mysql
 $ brew services stop mysql
-$ mysql.server start (Mac will not re-start it at reboot)
+```
+
+Start Mysql server (Mac will not re-start it at reboot)
+```
+$ mysql.server start
 $ mysql.server status
 $ mysql.server stop
-$ mysql -u root -p (to login on Mysql server with password)
+```
+
+To login on Mysql server with/without password
+```
+$ mysql -u root -p
 $ mysql -uroot
 ```
 
 ### Migrations
 
+To create database and schema:
 ```
 $ npm run db:create
 $ npm run db:migrate
