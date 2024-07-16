@@ -1,12 +1,15 @@
-# Transaction App Backend
+# Transactions App Backend
 
-**Transaction App** is a simple Financial tracking tool made with love from Belo Horizonte, Brazil. It is **not** a complete application and it has the objetive to be an instructional repository to learn and teach backend development with JavaScript technologies, design patterns and clean architecture principles.
+**Transactions App** is a simple Financial tracking tool made with love from Belo Horizonte, Brazil. It is **not** a complete application and it has the objetive to be an instructional repository to learn and teach backend development with JavaScript technologies, design patterns and clean architecture principles.
 
 Related repositories:
 
-- [Transaction App Frontend (Mobile)](https://github.com/renattomartins/transactions-app-frontend-mobile)
+- [Transactions App Frontend (Mobile)](https://github.com/renattomartins/transactions-app-frontend-mobile)
 
-## About the development environment and technologies
+### Diagram
+TBD
+
+## Technologies
 
 Feel free to explore package.json dependencies and devDependencies to learn more. But in summary we have:
 
@@ -15,17 +18,30 @@ Feel free to explore package.json dependencies and devDependencies to learn more
 - MySQL with Sequelize at persistence layer
 - And more
 
-## Design patterns covered
+### Design patterns covered
 
 - The core objects is represented with Domain model pattern
 - For object relational mapping was chose Sequelize ORM
-- The application is organized in layer (routes, controller, models)
+- The application is organized in layers (routes, controller, models)
 
-## Install and run
+## Before you start
+Before you starting clone this repository, make sure that you've already done the following steps:
 
-### Application Server
+1. Install [nvm](https://github.com/nvm-sh/nvm):
+
+   ```bash
+   $ brew install nvm
+   ```
+
+2. After **nvm** installation, use it to install the proper version of **node.js**:
+
+   ```bash
+   $ nvm use
+   ```
+
+### Running the app locally
+Install dependencies:
 ```
-$ nvm use
 $ npm i
 $ npm run start:local
 ```
