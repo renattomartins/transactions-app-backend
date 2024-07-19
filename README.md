@@ -39,47 +39,53 @@ Before you starting clone this repository, make sure that you've already done th
    $ nvm use
    ```
 
-### Running the app locally
-Install dependencies:
-```
-$ npm i
-$ npm run start:local
-```
+3. Considering MAC OS, you may use homebrew to install a local Mysql Server and then opt to start server as a service or manually. Installation and some security configurations:
 
-For tests:
-```
-$ npm run test
-$ npm run test:watch
-$ npm run test:coverage
-```
+   ```
+   $ brew install mysql
+   $ mysql_secure_installation
+   ```
 
-### Database Server
-Considering MAC OS, you may use homebrew to install a local Mysql Server and then opt to start server as a service or manually.
+## Running the app locally
 
-Installation and some security configurations:
-```
-$ brew install mysql
-$ mysql_secure_installation
-```
+1. Install dependencies:
 
-Start Mysql server (Mac will re-start it at reboot)
-```
-$ brew services start mysql
-$ brew services stop mysql
-```
+   ```
+   $ npm i
+   ```
 
-Start Mysql server (Mac will not re-start it at reboot)
-```
-$ mysql.server start
-$ mysql.server status
-$ mysql.server stop
-```
+2. Create a `.env` file (you can duplicate `.env.sample`) and configure your local dev environment varaibles. Remember that you should never commit this file.
 
-To login on Mysql server with/without password
-```
-$ mysql -u root -p
-$ mysql -uroot
-```
+3. Execute the project:
+
+   ```
+   $ npm run start:local
+   ```
+
+4. You can access the API in: http://localhost:3000/
+
+_Ps. The first time you run, make sure your database server is running and that all the migrations are up. More info bellow._
+
+### Database server
+
+   Start Mysql server (Mac will re-start it at reboot)
+   ```
+   $ brew services start mysql
+   $ brew services stop mysql
+   ```
+
+   Start Mysql server (Mac will not re-start it at reboot)
+   ```
+   $ mysql.server start
+   $ mysql.server status
+   $ mysql.server stop
+   ```
+
+   To login on Mysql server with/without password
+   ```
+   $ mysql -u root -p
+   $ mysql -uroot
+   ```
 
 ### Migrations
 
@@ -88,4 +94,18 @@ To create database and schema:
 $ npm run db:create
 $ npm run db:migrate
 $ npm run db:migrate:status
+```
+
+
+
+## Test
+To execut all unit tests:
+```
+$ npm run test
+$ npm run test:watch
+```
+
+To execute all unit tests with coverage:
+```
+$ npm run test:coverage
 ```
