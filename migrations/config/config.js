@@ -7,7 +7,7 @@ module.exports = {
     password: process.env.DB_MIGRATION_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'mariadb',
+    dialect: 'mysql',
     logging: true,
   },
   test: {
@@ -15,13 +15,13 @@ module.exports = {
     password: process.env.DB_MIGRATION_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'mariadb',
+    dialect: 'mysql',
   },
   production: {
     username: process.env.DB_MIGRATION_USER,
     password: process.env.DB_MIGRATION_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'mariadb',
+    dialect: 'mysql',
   },
 };
