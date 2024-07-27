@@ -1,6 +1,6 @@
 {
   "name": "transactions-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A financial transactions tracking.",
   "main": "src/app.js",
   "engines": {
