@@ -26,7 +26,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors);
 app.use(helmet());
-app.use(morgan('combined'));
+app.use(morgan('tiny'));
 
 app.use(healthRoutes);
 app.use(initialRoutes);
