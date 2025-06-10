@@ -15,7 +15,7 @@ Feel free to explore package.json dependencies and devDependencies to learn more
 
 - Node.js, Express.js as core tecnologies
 - Jest and Supertest for testing
-- MariaDB (MySQL) with Sequelize at persistence layer
+- MySQL with Sequelize at persistence layer
 - And more
 
 ### Design patterns covered
@@ -39,10 +39,10 @@ Before you starting clone this repository, make sure that you've already done th
    $ nvm use
    ```
 
-3. Considering MAC OS, you may use homebrew to install a local MariaDB Server (Mysql) and then opt to start server as a service or manually. Installation and some security configurations:
+3. Considering MAC OS, you may use homebrew to install a local MySQL Server and then opt to start server as a service or manually. Installation and some security configurations:
 
    ```
-   $ brew install mariadb
+   $ brew install mysql
    $ mysql_secure_installation
    ```
 
@@ -68,21 +68,21 @@ _Ps. The first time you run, make sure your database server is running and that 
 
 ### Database server
 
-   Start MariaDB server (Mac will re-start it at reboot)
+   Start MySQL server (Mac will re-start it at reboot)
    ```
-   $ brew services start mariadb
-   $ brew service list
-   $ brew services stop mariadb
+   $ brew services start mysql
+   $ brew services list
+   $ brew services stop mysql
    ```
 
-   Start MariaDB server (Mac will not re-start it at reboot)
+   Start MySQL server (Mac will not re-start it at reboot)
    ```
    $ mysql.server start
    $ mysql.server status
    $ mysql.server stop
    ```
 
-   To login on MariaDB server with/without password
+   To login on MySQL server with/without password
    ```
    $ mysql -u root -p
    $ mysql -uroot
